@@ -1,0 +1,900 @@
+<!--
+  week06.html
+  Version: 1.1
+  Date: 2026-09-28
+  Changes: v1.1 fixes a publishing bug: the header comment's closing
+  marker (three dashes, greater-than) and everything from the DOCTYPE
+  through the top nav, page head, table of contents and the "Input"
+  section heading had been
+  HTML-entity-escaped (literal "&lt;"/"&gt;" text instead of real tags),
+  which would have rendered as an inert HTML comment swallowing that
+  whole region instead of a working page. Converted back to real markup;
+  one placeholder ("&lt;prompt&gt;" inside the input() notation block)
+  was deliberately left escaped since it is meant to display as literal
+  text. No content, code, or wording changes.
+  v1.0: First version. Combines two source decks taught in one class
+  meeting: 26_06a. Input & Output, then 26_06b. Looping (06a before 06b,
+  matching the instructor's own file order). No factual corrections were
+  needed this week — every example matched real Python 3.11 behaviour
+  once verified. Two typographic artefacts from the slide export were
+  silently normalised rather than flagged as corrections: curly quotes
+  (' ' inside a couple of code blocks) became straight quotes, and a
+  ligature font rendered "==" and ">=" as single fused glyphs in several
+  comparisons, restored here to plain "==" / ">=" ASCII. Handling notes:
+  (1) every input()-driven example is shown as a plain, non-runnable
+  <pre><code> block (not inside .snippet) exactly as the slide wrote it,
+  paired with prose describing the interactive behaviour, OR adapted to
+  a literal placeholder value with a "# di praktik nyata: ..." comment
+  when that preserves the teaching point and lets it run for real;
+  (2) iter(x) results are shown via type(iter(x)) rather than the bare
+  iterator repr, since the real repr embeds a non-deterministic memory
+  address; (3) the exhausted-iterator StopIteration is caught with
+  try/except and a fixed custom message instead of left bare, to avoid
+  depending on the exact "StopIteration: " empty-message formatting;
+  (4) a pink/wrong-technique example that only demonstrates a SyntaxError
+  (the invalid one-line while+if) is shown as prose/notation only, not
+  inside a real .snippet, since its exact compiled error text carries
+  harness-specific file/line info that would not match what a student
+  sees in their own script. All ~45 runnable code examples were executed
+  for real in Python 3.11 and cross-checked automatically against this
+  file before publishing (see /tmp/claude-0/-home-claude/
+  8784e053-8850-5e2d-92bf-e17cf76b726b/scratchpad/verify_week6.py).
+-->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minggu 6: Pengulangan, Input &amp; Output &middot; Pemrograman Komputer</title>
+<meta name="description" content="Membaca input dari keyboard, menuliskan output dan string terformat, lalu mengulang proses itu dengan while loop (indefinite) dan for loop (definite).">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#konten">Langsung ke konten</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="course-code">IEC304202223</span>
+      <a href="index.html">Pemrograman Komputer</a>
+    </div>
+    <nav class="top-nav" aria-label="Navigasi utama">
+      <a href="index.html">Silabus</a>
+      <a href="week01.html">Minggu 1</a>
+      <a href="week02.html">Minggu 2</a>
+      <a href="week03.html">Minggu 3</a>
+      <a href="week04.html">Minggu 4</a>
+      <a href="week05.html">Minggu 5</a>
+      <a href="week06.html" aria-current="page">Minggu 6</a>
+      <a href="week07.html">Minggu 7</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-pressed="false">Mode gelap</button>
+  </div>
+</header>
+
+<main id="konten">
+  <div class="page-head">
+    <p class="eyebrow">Minggu 6 &middot; 20 &amp; 21 Oktober 2026</p>
+    <h1>Input, Output, dan Pengulangan</h1>
+    <p class="subtitle">Membaca data dari keyboard, menampilkannya dengan rapi, lalu mengulang sebuah proses sebanyak yang dibutuhkan &mdash; <code>while</code> untuk pengulangan yang jumlahnya belum pasti, <code>for</code> untuk pengulangan yang jumlahnya sudah pasti sejak awal.</p>
+  </div>
+
+  <nav class="toc" aria-label="Daftar isi">
+    <p class="toc-title">Daftar isi</p>
+    <ol>
+      <li><a href="#input">Input: membaca dari keyboard</a></li>
+      <li><a href="#output">Output: <code>print()</code></a></li>
+      <li><a href="#fstring">String terformat (f-string)</a></li>
+      <li><a href="#iterasi">Apa itu iterasi?</a></li>
+      <li><a href="#while">While loops</a></li>
+      <li><a href="#for">For loops</a></li>
+      <li><a href="#latihan">Latihan</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="input">Input: membaca dari keyboard</h2>
+  <p>Terkadang program membutuhkan data dari pengguna, biasanya dengan meminta pengguna memasukkan nilai memakai keyboard. Fungsi <code>input()</code> dapat digunakan untuk hal ini.</p>
+  <pre><code>input([&lt;prompt&gt;])</code></pre>
+  <div class="fixed-note"><strong>Catatan:</strong> ini notasi, bukan kode yang bisa langsung dijalankan &mdash; <code>&lt;prompt&gt;</code> adalah argumen opsional.</div>
+  <p>Fungsi <code>input()</code> memberhentikan eksekusi program dan mempersilakan pengguna mengetikkan masukan dengan keyboard. Saat kunci Enter ditekan, semua karakter yang diketik akan dibaca dan diinterpretasi sebagai <strong>string</strong>. Jika argumen <code>&lt;prompt&gt;</code> diisi, <code>input()</code> menampilkannya sebagai keterangan yang membantu pengguna mengetahui apa yang perlu dimasukkan:</p>
+  <pre><code>name = input("What is your name? ")
+name</code></pre>
+  <div class="fixed-note"><strong>Catatan:</strong> kode ini butuh keyboard sungguhan, jadi tidak dijalankan otomatis di halaman ini. Baris <code>name</code> sendirian di baris kedua adalah gaya REPL (Python shell atau sel Jupyter/Colab) &mdash; setelah mengetik jawaban dan menekan Enter, mengevaluasi <code>name</code> begitu saja akan menampilkan string yang baru dimasukkan. Di dalam skrip biasa (file <code>.py</code>), gunakan <code>print(name)</code> secara eksplisit; nilai yang hanya &ldquo;ditinggal begitu saja&rdquo; di akhir baris tidak tampil ke layar.</div>
+
+  <p><code>input()</code> <strong>selalu</strong> mengembalikan string, walaupun yang diketik pengguna berupa angka. Untuk memakainya sebagai angka, konversi tipe datanya secara eksplisit dengan <code>int()</code> atau <code>float()</code>:</p>
+  <div class="snippet">
+    <p class="snippet-label">Anggap pengguna mengetik &ldquo;5&rdquo; &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>number = "5"  # anggap ini hasil input("Enter a number: ")
+print(number + 100)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output is-error"><pre><code>TypeError: can only concatenate str (not "int") to str</code></pre></div>
+      <p class="reveal-note"><code>number</code> masih bertipe <code>str</code>, dan Python tidak bisa menjumlahkan string dengan integer begitu saja.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Diperbaiki dengan <code>int(...)</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>number = int("5")  # anggap ini int(input("Enter a number: "))
+print(number + 100)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>105</code></pre></div>
+      <p class="reveal-note"><code>int(...)</code> mengonversi teks menjadi angka terlebih dahulu, baru bisa dijumlahkan.</p>
+    </details>
+  </div>
+
+  <h2 id="output">Output: <code>print()</code></h2>
+  <p>Kita telah mengenal fungsi <code>print()</code> untuk menampilkan data yang dapat kita lihat di layar.</p>
+  <pre><code>print(&lt;obj&gt;, ..., &lt;obj&gt;)</code></pre>
+  <p>Fungsi <code>print()</code> memisahkan objek dengan spasi tunggal dan menambahkan baris baru di akhir output, secara default:</p>
+  <div class="snippet">
+    <pre><code>first_name = "Winston"
+last_name = "Smith"
+print("Name:", first_name, last_name)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Name: Winston Smith</code></pre></div>
+    </details>
+  </div>
+  <p>Selain string, tipe data lain juga bisa langsung dijadikan argumen <code>print()</code>:</p>
+  <div class="snippet">
+    <pre><code>example_list = [1, 2, 3]
+print(type(example_list))
+
+example_int = -12
+print(type(example_int))
+
+example_dict = {"foo": 1, "bar": 2}
+print(type(example_dict))
+
+print(type(len))
+
+print(example_list, example_int, example_dict, len)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>&lt;class 'list'&gt;
+&lt;class 'int'&gt;
+&lt;class 'dict'&gt;
+&lt;class 'builtin_function_or_method'&gt;
+[1, 2, 3] -12 {'foo': 1, 'bar': 2} &lt;built-in function len&gt;</code></pre></div>
+      <p class="reveal-note">Bahkan sebuah fungsi bawaan seperti <code>len</code> (tanpa tanda kurung, jadi objek fungsinya sendiri, bukan hasil pemanggilannya) bisa dicetak.</p>
+    </details>
+  </div>
+
+  <h3>Printing dengan fitur tambahan</h3>
+  <p><code>print()</code> dapat menggunakan lebih dari satu argumen yang memberikan kontrol terhadap format output. Setiap argumen itu disebut sebagai <em>keyword argument</em>, berbentuk <code>&lt;keyword&gt;=&lt;value&gt;</code>. Dua yang paling umum dipakai: <code>sep=&lt;str&gt;</code> untuk mengontrol karakter pemisah antar nilai (default: satu spasi), dan <code>end=&lt;str&gt;</code> untuk mengontrol karakter di akhir output (default: baris baru <code>\n</code>).</p>
+  <div class="snippet">
+    <p class="snippet-label"><code>sep=&lt;str&gt;</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print("foo", 42, "bar")  # default
+
+print("foo", 42, "bar", sep="")
+
+print("foo", 42, "bar", sep="/")
+
+print("foo", 42, "bar", sep=" ... ")
+
+d = {"foo": 1, "bar": 2, "baz": 3}
+for k, v in d.items():
+    print(k, v, sep=" → ")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo 42 bar
+foo42bar
+foo/42/bar
+foo ... 42 ... bar
+foo → 1
+bar → 2
+baz → 3</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>end=&lt;str&gt;</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>if True:
+    print("foo", end="/")
+    print(42, end="/")
+    print("bar")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo/42/bar</code></pre></div>
+      <p class="reveal-note">Ketiga panggilan <code>print()</code> di atas menyatu jadi satu baris, karena <code>end="/"</code> mengganti baris baru default dengan tanda <code>/</code> &mdash; kecuali pada panggilan terakhir, yang memakai <code>end</code> default sehingga tetap mengakhiri baris.</p>
+    </details>
+  </div>
+  <p>Kombinasi <code>end</code> dengan ekspresi kondisional berguna untuk menampilkan hasil satu <em>loop</em> dalam satu baris:</p>
+  <div class="snippet">
+    <p class="snippet-label">Setiap iterasi di baris sendiri (default) &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for number in range(10):
+    print(number)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>0
+1
+2
+3
+4
+5
+6
+7
+8
+9</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Semua iterasi dalam satu baris &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for number in range(10):
+    print(number, end=(" " if number &lt; 9 else "\n"))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>0 1 2 3 4 5 6 7 8 9</code></pre></div>
+      <p class="reveal-note">Angka terakhir (<code>9</code>) memakai <code>end="\n"</code> agar baris tetap ditutup dengan baris baru seperti biasa; sembilan angka sebelumnya memakai <code>end=" "</code>.</p>
+    </details>
+  </div>
+
+  <h2 id="fstring">String terformat (f-string)</h2>
+  <p>Syntax <strong>f-string</strong> adalah salah satu cara modern yang digunakan untuk mengatur format string &mdash; topik ini akan diperinci lebih jauh Minggu 7. Konteksnya di sini biasanya dua nilai hasil <code>input()</code> yang ingin ditampilkan bersama teks lain:</p>
+  <pre><code># Input
+name = input("What is your name? ")
+
+age = int(input("How old are you? "))
+
+# Menampilkan Output
+print(name)
+
+print(age)</code></pre>
+  <div class="fixed-note"><strong>Catatan:</strong> lagi-lagi butuh keyboard sungguhan, jadi tidak dijalankan otomatis di halaman ini.</div>
+  <p>Dengan f-string, kita dapat meletakkan nama variabel dalam kurung kurawal (<code>{ }</code>) untuk menyuntikkan nilainya ke dalam string yang sedang dibangun &mdash; bahkan sebuah ekspresi seperti <code>age + 50</code>, bukan cuma nama variabel polos. Cukup tambahkan huruf <code>f</code> atau <code>F</code> di awal string:</p>
+  <div class="snippet">
+    <p class="snippet-label">Nilai <code>name</code> dan <code>age</code> di bawah berperan sebagai pengganti hasil <code>input()</code> di atas &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>name = "Ani"  # di praktik nyata: name = input("What is your name? ")
+age = 25      # di praktik nyata: age = int(input("How old are you? "))
+print(f"Hello, {name}. You are {age}.")
+print(f"Hello, {name}. In 50 years, you'll be {age + 50}.")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Hello, Ani. You are 25.
+Hello, Ani. In 50 years, you'll be 75.</code></pre></div>
+    </details>
+  </div>
+
+  <h2 id="iterasi">Apa itu iterasi?</h2>
+  <p><strong>Iterasi</strong> berarti mengeksekusi blok kode yang sama berulang kali. Struktur program yang mengimplementasikan iterasi disebut <strong>loop</strong>. Dalam pemrograman, terdapat dua tipe iterasi:</p>
+  <ul>
+    <li><strong>Indefinite</strong> &mdash; jumlah pengulangan tidak didefinisikan secara eksplisit di awal. Pengulangan dilakukan selama sebuah kondisi terpenuhi &rarr; <strong>while loop</strong>.</li>
+    <li><strong>Definite</strong> &mdash; jumlah pengulangan didefinisikan secara eksplisit ketika loop dimulai &rarr; <strong>for loop</strong>.</li>
+  </ul>
+
+  <h2 id="while">While loops</h2>
+  <p>While loop adalah salah satu jenis pengulangan yang bersifat <em>indefinite</em>.</p>
+  <pre><code>while &lt;expr&gt;:
+    &lt;statement(s)&gt;</code></pre>
+  <p><code>&lt;statement(s)&gt;</code> menunjukkan blok yang akan dieksekusi secara berulang, disebut juga sebagai <strong>badan</strong> (<em>body</em>) dari loop. <code>&lt;expr&gt;</code> merupakan ekspresi yang menunjukkan kontrol dari pengulangan, berupa satu atau lebih variabel yang diinisialisasi di awal loop dan dimodifikasi di tengah <code>&lt;statement(s)&gt;</code>.</p>
+  <p>Ketika sebuah while loop ditemukan, <code>&lt;expr&gt;</code> akan dievaluasi dalam konteks Boolean. Jika benar, badan pengulangan akan dieksekusi terus-menerus sampai <code>&lt;expr&gt;</code> bernilai salah. <code>&lt;expr&gt;</code> dites <strong>terlebih dahulu</strong>, sebelum badan loop dijalankan sama sekali &mdash; jika sejak awal sudah salah, badan pengulangan tidak akan dieksekusi sama sekali.</p>
+  <div class="snippet">
+    <p class="snippet-label">Pengulangan numerik &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 5
+
+while n &gt; 0:
+    n -= 1
+    print(n)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>4
+3
+2
+1
+0</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Pengulangan yang melibatkan list &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>a = ["foo", "bar", "baz"]
+
+while a:
+    print(a.pop(-1))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>baz
+bar
+foo</code></pre></div>
+      <p class="reveal-note">List kosong bernilai salah dalam konteks Boolean, jadi loop berhenti begitu <code>a</code> habis dipop.</p>
+    </details>
+  </div>
+
+  <h3>Break &amp; continue</h3>
+  <p>Terdapat dua kata kunci untuk mengakhiri iterasi loop sebelum kondisi <code>&lt;expr&gt;</code> bernilai salah:</p>
+  <ul>
+    <li><code>break</code>, mengakhiri loop sepenuhnya dan melanjutkan proses ke pernyataan berikutnya setelah while loop &mdash; melompat langsung keluar, tanpa mengecek <code>&lt;expr&gt;</code> lagi.</li>
+    <li><code>continue</code>, mengakhiri iterasi loop saat itu dan melompat kembali ke awal loop, lalu <code>&lt;expr&gt;</code> dievaluasi kembali untuk menentukan apakah loop dieksekusi lagi atau berakhir.</li>
+  </ul>
+  <div class="snippet">
+    <p class="snippet-label"><code>break</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 5
+while n &gt; 0:
+    n -= 1
+    if n == 2:
+        break
+    print(n)
+print("Loop ended.")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>4
+3
+Loop ended.</code></pre></div>
+      <p class="reveal-note"><code>break</code> terjadi sebelum <code>print(n)</code> sempat dijalankan pada iterasi saat <code>n</code> menjadi <code>2</code>, jadi <code>2</code> tidak pernah tercetak &mdash; loop langsung berakhir dan lanjut ke <code>print("Loop ended.")</code> di luar loop.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>continue</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 5
+while n &gt; 0:
+    n -= 1
+    if n == 2:
+        continue
+    print(n)
+print("Loop ended.")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>4
+3
+1
+0
+Loop ended.</code></pre></div>
+      <p class="reveal-note"><code>continue</code> hanya melewati <code>print(n)</code> pada iterasi saat <code>n</code> menjadi <code>2</code> (jadi <code>2</code> tidak tercetak), tapi loop tetap berlanjut sampai <code>n &gt; 0</code> bernilai salah &mdash; berbeda dari <code>break</code> yang menghentikan loop seketika itu juga.</p>
+    </details>
+  </div>
+
+  <h3>Klausul <code>else</code></h3>
+  <p>Salah satu keunggulan Python dibandingkan bahasa pemrograman lain adalah penggunaan klausul <code>else</code> pada loop. Syntax <code>else</code> dan while loop:</p>
+  <pre><code>while &lt;expr&gt;:
+    &lt;statement(s)&gt;
+else:
+    &lt;additional_statement(s)&gt;</code></pre>
+  <p><code>&lt;additional_statement(s)&gt;</code> akan dieksekusi saat while loop diakhiri <strong>secara normal</strong> &mdash; yaitu begitu <code>&lt;expr&gt;</code> bernilai salah. Perbedaannya dengan tanpa klausul <code>else</code> baru terlihat begitu <code>break</code> ikut terlibat, karena tanpa <code>else</code>, <code>&lt;additional_statement(s)&gt;</code> akan selalu dieksekusi begitu saja setelah loop, tidak peduli loop berakhir secara normal atau lewat <code>break</code>.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tanpa <code>break</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 5
+while n &gt; 0:
+    n -= 1
+    print(n)
+else:
+    print("Loop done.")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>4
+3
+2
+1
+0
+Loop done.</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Dengan <code>break</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 5
+while n &gt; 0:
+    n -= 1
+    print(n)
+    if n == 2:
+        break
+else:
+    print("Loop done.")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>4
+3
+2</code></pre></div>
+      <p class="reveal-note">Karena loop berakhir lewat <code>break</code> (bukan karena <code>&lt;expr&gt;</code> bernilai salah), klausul <code>else</code> <strong>tidak</strong> dieksekusi &mdash; <code>"Loop done."</code> tidak pernah tercetak.</p>
+    </details>
+  </div>
+  <p>Kegunaan klausul <code>else</code> yang paling umum: memberi tahu apakah sebuah pencarian berhasil menemukan sesuatu atau tidak, tanpa perlu variabel penanda (<em>flag</em>) tambahan.</p>
+  <div class="snippet">
+    <p class="snippet-label">Mencari &ldquo;corge&rdquo; di dalam list &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>a = ["foo", "bar", "baz", "qux"]
+s = "corge"
+
+i = 0
+while i &lt; len(a):
+    if a[i] == s:
+        # Diproses jika item ditemukan
+        break
+    i += 1
+else:
+    # Diproses jika item tidak ditemukan
+    print(s, "not found in list.")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>corge not found in list.</code></pre></div>
+      <p class="reveal-note">Karena <code>break</code> tidak pernah tercapai (<code>"corge"</code> memang tidak ada di <code>a</code>), loop berakhir secara normal dan klausul <code>else</code> dijalankan.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Hal yang sama, dengan operator <code>in</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>a = ["foo", "bar", "baz", "qux"]
+s = "corge"
+
+if s in a:
+    print(s, "found in list.")
+else:
+    print(s, "not found in list.")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>corge not found in list.</code></pre></div>
+      <p class="reveal-note">Hasil akhirnya sama, dan untuk kasus sesederhana ini, <code>in</code> jelas lebih ringkas. Pola while + <code>else</code> di atas lebih terasa manfaatnya pada pencarian yang butuh langkah tambahan di setiap iterasinya, bukan sekadar cek keanggotaan.</p>
+    </details>
+  </div>
+
+  <h3>Infinite loops</h3>
+  <p><code>while True</code> membuat loop yang kondisinya selalu benar, sehingga harus diakhiri secara eksplisit dari dalam &mdash; biasanya dengan <code>break</code> di balik sebuah <code>if</code>. Berhati-hatilah: jika kondisi <code>break</code>-nya tidak pernah terpenuhi, loop akan berjalan selamanya.</p>
+  <div class="snippet">
+    <pre><code>a = ["foo", "bar", "baz"]
+
+while True:
+    if not a:
+        break
+    print(a.pop(-1))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>baz
+bar
+foo</code></pre></div>
+      <p class="reveal-note">Ketika list <code>a</code> menjadi kosong, <code>not a</code> bernilai <code>True</code> dan pernyataan <code>break</code> mengakhiri loop.</p>
+    </details>
+  </div>
+  <p>Sebuah loop juga boleh punya lebih dari satu pernyataan <code>break</code>, masing-masing untuk kondisi berhenti yang berbeda:</p>
+  <pre><code>while True:
+    if &lt;expr1&gt;:  # Satu kondisi untuk mengakhiri loop
+        break
+    ...
+    if &lt;expr2&gt;:  # Kondisi lain untuk mengakhiri loop
+        break
+    ...
+    if &lt;expr3&gt;:  # Kondisi lainnya lagi
+        break</code></pre>
+
+  <h3>Nested while loops</h3>
+  <p>Seperti pada <code>if</code>/<code>elif</code>/<code>else</code> yang sudah dikenal sejak Minggu 5, while loop juga dapat bersarang (<em>nested</em>) &mdash; sebuah while loop boleh berada di dalam badan while loop yang lain:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>a = ["foo", "bar"]
+
+while len(a):
+    print(a.pop(0))
+    b = ["baz", "qux"]
+
+    while len(b):
+        print("&gt;", b.pop(0))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo
+&gt; baz
+&gt; qux
+bar
+&gt; baz
+&gt; qux</code></pre></div>
+      <p class="reveal-note">Setiap kali loop luar memproses satu elemen dari <code>a</code>, <code>b</code> dibuat ulang lalu loop dalam mengosongkannya sepenuhnya sebelum loop luar lanjut ke elemen berikutnya.</p>
+    </details>
+  </div>
+  <p>Pernyataan <code>break</code> atau <code>continue</code> di dalam nested loop hanya berlaku untuk loop terdekat yang membungkusnya:</p>
+  <pre><code>while &lt;expr1&gt;:
+    statement
+    statement
+
+    while &lt;expr2&gt;:
+        statement
+        statement
+        break  # Berlaku untuk while &lt;expr2&gt;: saja
+
+    break  # Berlaku untuk while &lt;expr1&gt;:</code></pre>
+  <p>While loop juga dapat bersarang di dalam pernyataan bersyarat <code>if</code>, begitu juga sebaliknya:</p>
+  <pre><code>if &lt;expr&gt;:
+    statement
+    while &lt;expr&gt;:
+        statement
+        statement
+else:
+    while &lt;expr&gt;:
+        statement
+        statement
+    statement</code></pre>
+  <pre><code>while &lt;expr&gt;:
+    if &lt;expr&gt;:
+        statement
+    elif &lt;expr&gt;:
+        statement
+    else:
+        statement
+
+    if &lt;expr&gt;:
+        statement</code></pre>
+
+  <h3>One-line while loops</h3>
+  <p>Sama seperti pernyataan bersyarat <code>if</code>, while loop juga dapat dituliskan dalam satu baris untuk pernyataan yang sederhana &mdash; badan loop yang hanya berisi pernyataan sederhana (bukan pernyataan majemuk seperti <code>if</code>) boleh ditulis setelah tanda titik dua, dipisahkan titik koma jika lebih dari satu:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 5
+while n &gt; 0: n -= 1; print(n)
+
+if True: print("foo")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>4
+3
+2
+1
+0
+foo</code></pre></div>
+    </details>
+  </div>
+  <div class="compare-col no" style="margin: 14px 0 20px;">
+    <span class="tag">Tidak valid</span>
+    <pre><code>while n &gt; 0: n -= 1; if True: print("foo")</code></pre>
+    <p class="reveal-note"><code>SyntaxError</code> &mdash; berbeda dari pernyataan sederhana seperti <code>n -= 1</code> atau <code>print(...)</code>, sebuah pernyataan majemuk seperti <code>if</code> (yang butuh blok tersendiri) tidak boleh disambung dengan titik koma setelah pernyataan lain pada baris yang sama.</p>
+  </div>
+
+  <h2 id="for">For loops</h2>
+  <p>Secara umum, ada beberapa macam for loop lintas bahasa pemrograman: <em>count-controlled</em> (bentuk umum <code>for(A; Z; I)</code> bergaya C, dengan <code>A</code> inisialisasi, <code>Z</code> kondisi berhenti, <code>I</code> ekspresi penghitung), <em>numeric range</em> (bentuk sederhana dari yang sebelumnya, dimulai dari <code>A</code> dan berhenti di <code>Z</code>), <em>vectorized</em> (semua iterasi dilakukan secara paralel), dan <em>iterator-based</em> (melakukan iterasi sejumlah <em>set</em> item). Pada Python, jenis for loop yang diadopsi adalah <strong>iterator-based</strong>.</p>
+  <pre><code>for &lt;var&gt; in &lt;iterable&gt;:
+    &lt;statement(s)&gt;</code></pre>
+  <p><code>&lt;iterable&gt;</code> merupakan koleksi dari objek (seperti list atau tuple). <code>&lt;statement(s)&gt;</code> pada badan pengulangan ditunjukkan dengan indent, persis seperti while loop. Contoh:</p>
+  <div class="snippet">
+    <pre><code>a = ["foo", "bar", "baz"]
+
+for i in a:
+    print(i)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo
+bar
+baz</code></pre></div>
+    </details>
+  </div>
+
+  <h3>Iterables &amp; iterators</h3>
+  <p>Pada Python, <strong>iterable</strong> berarti objek yang dapat digunakan dalam iterasi &mdash; string, list, tuple, set, dan dict semuanya iterable. Jika sebuah objek adalah iterable, kita dapat menggunakan fungsi <code>iter()</code> untuk mendapatkan <strong>iterator</strong>-nya.</p>
+  <div class="snippet">
+    <p class="snippet-label">Lima jenis iterable &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print(type(iter("foobar")))
+print(type(iter(["foo", "bar", "baz"])))
+print(type(iter(("foo", "bar", "baz"))))
+print(type(iter({"foo", "bar", "baz"})))
+print(type(iter({"foo": 1, "bar": 2, "baz": 3})))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>&lt;class 'str_ascii_iterator'&gt;
+&lt;class 'list_iterator'&gt;
+&lt;class 'tuple_iterator'&gt;
+&lt;class 'set_iterator'&gt;
+&lt;class 'dict_keyiterator'&gt;</code></pre></div>
+      <p class="reveal-note">Tiap tipe data punya kelas iterator sendiri; slide aslinya hanya menuliskan <code>iter(...)</code> begitu saja, tapi hasil cetaknya (bukan lewat <code>type()</code>) berupa repr seperti <code>&lt;list_iterator object at 0x...&gt;</code> yang alamat memorinya berbeda-beda tiap dijalankan &mdash; di sini dibungkus <code>type()</code> supaya hasilnya bisa ditebak dan diverifikasi.</p>
+    </details>
+  </div>
+  <p>Tidak semua objek merupakan iterable. Angka dan fungsi, misalnya, bukan:</p>
+  <div class="snippet">
+    <p class="snippet-label"><code>iter(42)</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>iter(42)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output is-error"><pre><code>TypeError: 'int' object is not iterable</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>iter(3.1)</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>iter(3.1)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output is-error"><pre><code>TypeError: 'float' object is not iterable</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>iter(len)</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>iter(len)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output is-error"><pre><code>TypeError: 'builtin_function_or_method' object is not iterable</code></pre></div>
+    </details>
+  </div>
+  <p>Setelah kita mendapatkan iterator melalui fungsi <code>iter()</code>, kita dapat menggunakan fungsi <code>next()</code> untuk mendapatkan nilai berikutnya dari dalam iterator itu, satu per satu:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>a = ["foo", "bar", "baz"]
+itr = iter(a)
+print(type(itr))
+
+print(next(itr))
+print(next(itr))
+print(next(itr))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>&lt;class 'list_iterator'&gt;
+foo
+bar
+baz</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Memanggil <code>next()</code> lagi setelah iterator habis &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>try:
+    next(itr)
+except StopIteration:
+    print("StopIteration!")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>StopIteration!</code></pre></div>
+      <p class="reveal-note">Begitu iterator kehabisan nilai, Python menaikkan <code>StopIteration</code> &mdash; inilah sinyal yang sebenarnya membuat <code>for &lt;var&gt; in &lt;iterable&gt;:</code> tahu kapan harus berhenti; <code>for</code> menangkap sinyal ini secara otomatis di balik layar, jadi kita tidak pernah melihatnya langsung saat memakai <code>for</code> biasa.</p>
+    </details>
+  </div>
+
+  <h3><code>range()</code></h3>
+  <p>Untuk numeric loop, kita dapat menggunakan fungsi <code>range()</code> untuk deretan dengan ukuran besar demi efisiensi &mdash; alih-alih menulis semua angkanya satu per satu:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for n in (0, 1, 2, 3, 4):
+    print(n)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>0
+1
+2
+3
+4</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>range(&lt;begin&gt;, &lt;end&gt;, &lt;stride&gt;)</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>x = range(5)
+print(x)
+print(type(x))
+
+for n in x:
+    print(n)
+
+print(list(x))
+print(tuple(x))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>range(0, 5)
+&lt;class 'range'&gt;
+0
+1
+2
+3
+4
+[0, 1, 2, 3, 4]
+(0, 1, 2, 3, 4)</code></pre></div>
+      <p class="reveal-note"><code>range(5)</code> setara dengan <code>range(0, 5)</code>: <code>&lt;begin&gt;</code> default-nya <code>0</code>. <code>range</code> sendiri bukan list maupun tuple &mdash; ia tipe tersendiri yang malas (<em>lazy</em>, tidak menyimpan semua angkanya di memori sekaligus), dan baru diubah jadi list/tuple sungguhan lewat <code>list(...)</code>/<code>tuple(...)</code> bila dibutuhkan.</p>
+    </details>
+  </div>
+  <p>Ketika <code>&lt;stride&gt;</code> diabaikan, nilai default-nya <code>1</code>:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print(list(range(5, 20, 3)))
+print(list(range(5, 20, 1)))
+print(list(range(5, 20)))
+print(list(range(-5, 5)))
+print(list(range(5, -5)))
+print(list(range(5, -5, -1)))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>[5, 8, 11, 14, 17]
+[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
+[]
+[5, 4, 3, 2, 1, 0, -1, -2, -3, -4]</code></pre></div>
+      <p class="reveal-note"><code>range(5, 20)</code> dan <code>range(5, 20, 1)</code> identik, karena <code>1</code> memang default-nya. <code>range(5, -5)</code> kosong karena dengan stride positif (default), Python tidak pernah &ldquo;mundur&rdquo; dari <code>5</code> menuju <code>-5</code> &mdash; stride negatif seperti pada baris terakhir baru membuatnya berjalan turun.</p>
+    </details>
+  </div>
+
+  <h3>Break, continue, dan <code>else</code> pada for loop</h3>
+  <p>Kedua pernyataan ini memiliki fungsi yang sama seperti pada while loop.</p>
+  <div class="snippet">
+    <p class="snippet-label"><code>break</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for i in ["foo", "bar", "baz", "qux"]:
+    if "b" in i:
+        break
+    print(i)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo</code></pre></div>
+      <p class="reveal-note">Begitu <code>i</code> menjadi <code>"bar"</code> (mengandung huruf <code>"b"</code>), loop langsung berhenti sebelum sempat mencetaknya.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>continue</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for i in ["foo", "bar", "baz", "qux"]:
+    if "b" in i:
+        continue
+    print(i)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo
+qux</code></pre></div>
+      <p class="reveal-note"><code>"bar"</code> dan <code>"baz"</code> sama-sama mengandung huruf <code>"b"</code> sehingga keduanya dilewati oleh <code>continue</code>, tapi loop tetap berlanjut sampai item terakhir.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Klausul <code>else</code> tanpa <code>break</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for i in ["foo", "bar", "baz", "qux"]:
+    print(i)
+else:
+    print("Done.")  # Will execute</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo
+bar
+baz
+qux
+Done.</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Klausul <code>else</code> dengan <code>break</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for i in ["foo", "bar", "baz", "qux"]:
+    if i == "bar":
+        break
+    print(i)
+else:
+    print("Done.")  # Will not execute</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo</code></pre></div>
+      <p class="reveal-note">Persis seperti while loop: karena loop diakhiri lewat <code>break</code>, klausul <code>else</code> pada for loop juga tidak dieksekusi.</p>
+    </details>
+  </div>
+
+  <h2 id="latihan">Latihan</h2>
+  <p>Beberapa latihan dari kedua slide, dikerjakan di sini dengan nilai contoh (bukan lewat <code>input()</code> sungguhan) supaya tetap bisa ditebak dan diverifikasi otomatis seperti latihan lain di halaman ini.</p>
+
+  <h3>Mencari nilai maksimum</h3>
+  <p>Tuliskan sebuah program yang mencari nilai maksimum dari tiga buah angka, dengan tiga cara berbeda: fungsi <code>max()</code>, pernyataan <code>if</code>, dan ekspresi kondisional (<em>ternary if</em>).</p>
+  <div class="snippet">
+    <p class="snippet-label">a, b, c = 7, 3, 9 &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>a, b, c = 7, 3, 9
+
+print(max(a, b, c))
+
+if a &gt;= b and a &gt;= c:
+    terbesar = a
+elif b &gt;= a and b &gt;= c:
+    terbesar = b
+else:
+    terbesar = c
+print(terbesar)
+
+terbesar2 = a if (a &gt;= b and a &gt;= c) else (b if b &gt;= c else c)
+print(terbesar2)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>9
+9
+9</code></pre></div>
+      <p class="reveal-note">Ketiga pendekatan menghasilkan jawaban yang sama, <code>9</code> &mdash; <code>max()</code> paling ringkas untuk kasus umum, sedangkan <code>if</code> dan ekspresi kondisional berguna saat logikanya perlu disesuaikan lebih jauh.</p>
+    </details>
+  </div>
+
+  <h3>Simulasi tabungan berbunga</h3>
+  <p>Tuliskan program yang menanyakan saldo awal dan suku bunga, lalu menghitung saldo akhir setelah satu tahun termasuk bunga. Kemudian perpanjang perhitungan sampai periode <em>n</em> tahun.</p>
+  <div class="snippet">
+    <p class="snippet-label">Satu tahun &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>saldo_awal = 1000000   # di praktik nyata: saldo_awal = float(input("Saldo awal: "))
+suku_bunga = 0.05       # di praktik nyata: suku_bunga = float(input("Suku bunga (desimal): "))
+
+saldo_akhir = saldo_awal * (1 + suku_bunga)
+print("Saldo awal:", saldo_awal)
+print("Suku bunga:", suku_bunga)
+print("Saldo setelah 1 tahun (termasuk bunga):", saldo_akhir)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Saldo awal: 1000000
+Suku bunga: 0.05
+Saldo setelah 1 tahun (termasuk bunga): 1050000.0</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Diperpanjang ke n tahun (memakai <code>saldo_awal</code>/<code>suku_bunga</code> dari kotak sebelumnya) &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n_tahun = 5   # di praktik nyata: n_tahun = int(input("Berapa tahun? "))
+
+saldo = saldo_awal
+for tahun in range(1, n_tahun + 1):
+    saldo *= (1 + suku_bunga)
+    print("Tahun", tahun, ": saldo =", round(saldo, 2))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Tahun 1 : saldo = 1050000.0
+Tahun 2 : saldo = 1102500.0
+Tahun 3 : saldo = 1157625.0
+Tahun 4 : saldo = 1215506.25
+Tahun 5 : saldo = 1276281.56</code></pre></div>
+      <p class="reveal-note"><code>round(..., 2)</code> dipakai di sini sekadar membulatkan ke dua desimal untuk tampilan &mdash; cara memformat angka lebih rapi (lebar kolom, tanda ribuan, dsb.) baru dibahas detail Minggu 7.</p>
+    </details>
+  </div>
+
+  <h3>Konversi suhu</h3>
+  <p>Buatlah program yang masukannya adalah suhu dalam Celsius (dari keyboard), dan tampilan keluarannya adalah suhu dalam Reamur, Fahrenheit, dan Kelvin, lengkap dengan keterangan untuk tiap hasilnya.</p>
+  <div class="fixed-note"><strong>Catatan:</strong> tabel rumus pada slide asli hanya mencakup konversi Celsius &harr; Fahrenheit &harr; Kelvin, padahal soal latihannya juga meminta Reamur. Rumus <code>°Ré = °C &times; 4/5</code> yang dipakai di bawah adalah rumus konversi Reamur standar (bukan bagian dari tabel slide), ditambahkan di sini supaya latihannya bisa dikerjakan lengkap.</div>
+  <div class="snippet">
+    <p class="snippet-label">celsius = 25 &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>celsius = 25   # di praktik nyata: celsius = float(input("Masukkan suhu dalam Celsius: "))
+
+reamur = celsius * 4 / 5
+fahrenheit = celsius * 9 / 5 + 32
+kelvin = celsius + 273.15
+
+print(celsius, "derajat Celsius setara dengan:")
+print("-", reamur, "derajat Reamur")
+print("-", fahrenheit, "derajat Fahrenheit")
+print("-", kelvin, "derajat Kelvin")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>25 derajat Celsius setara dengan:
+- 20.0 derajat Reamur
+- 77.0 derajat Fahrenheit
+- 298.15 derajat Kelvin</code></pre></div>
+    </details>
+  </div>
+
+  <h3>Barisan aritmatika</h3>
+  <p>Buatlah program yang dapat menghitung <em>n</em> buah suku pertama dari barisan aritmatika <code>2, 5, 8, 11, ...</code>, sekali dengan perulangan <code>for</code>, sekali lagi dengan perulangan <code>while</code>.</p>
+  <div class="snippet">
+    <p class="snippet-label">Dengan <code>for</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 6   # di praktik nyata: n = int(input("Berapa suku? "))
+a1 = 2
+beda = 3
+
+for i in range(n):
+    suku = a1 + i * beda
+    print(suku)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>2
+5
+8
+11
+14
+17</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Dengan <code>while</code> &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 6
+a1 = 2
+beda = 3
+
+suku = a1
+count = 0
+while count &lt; n:
+    print(suku)
+    suku += beda
+    count += 1</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>2
+5
+8
+11
+14
+17</code></pre></div>
+      <p class="reveal-note">Hasilnya identik dengan versi <code>for</code> &mdash; keduanya sah-sah saja di sini karena jumlah suku (<code>n</code>) sudah diketahui sejak awal, tapi <code>for</code> biasanya lebih ringkas untuk kasus definite seperti ini.</p>
+    </details>
+  </div>
+
+  <div class="callout">
+    <p class="callout-title">Selanjutnya</p>
+    <p>Minggu 7 memperinci lebih jauh teknik memformat string (lebar kolom, jumlah desimal, tanda ribuan, dan sejenisnya) yang baru disinggung sekilas lewat f-string di halaman ini. Lihat <a href="index.html">Silabus</a> untuk rencana perkuliahan selengkapnya.</p>
+  </div>
+
+  <div class="prevnext">
+    <a href="week05.html"><span class="dir">Sebelumnya</span>&larr; Minggu 5: Conditional Statements</a>
+    <a href="week07.html"><span class="dir">Selanjutnya</span>Minggu 7: Teknik Memformat String &rarr;</a>
+  </div>
+</main>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
+    <span>Halaman v1.1 &middot; 28 September 2026</span>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

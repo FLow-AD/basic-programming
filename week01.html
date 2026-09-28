@@ -1,0 +1,575 @@
+<!--
+  week01.html
+  Version: 1.2
+  Date: 2026-09-28
+  Changes: v1.2 adds Minggu 4-7 links to the top nav (no content
+  changes).
+  v1.1: adds a Minggu 3 link to the top nav (no content changes).
+  v1.0: First version. Covers the three Minggu 1 decks (Intro to
+  Programming & Python, Basics, Python Style Rules), with corrections
+  applied: 0**0 and pow(x,y) at x=y=0 both equal 1 (not 0); float max is
+  about 1.8e308, not 1.8e208; enumerate() returns an iterator, not a list;
+  c.conjugate() is the conjugate, not an addition; isinstance() spelling;
+  pip search is retired; print-statement/urllib Python-2 examples updated
+  to Python 3; class example no longer requires explicit (object).
+-->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minggu 1: Pendahuluan &amp; Dasar &middot; Pemrograman Komputer</title>
+<meta name="description" content="Pengenalan pemrograman dan Python, instalasi, tipe data dasar, variabel, dan Python Style Rules.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#konten">Langsung ke konten</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="course-code">IEC304202223</span>
+      <a href="index.html">Pemrograman Komputer</a>
+    </div>
+    <nav class="top-nav" aria-label="Navigasi utama">
+      <a href="index.html">Silabus</a>
+      <a href="week01.html" aria-current="page">Minggu 1</a>
+      <a href="week02.html">Minggu 2</a>
+      <a href="week03.html">Minggu 3</a>
+      <a href="week04.html">Minggu 4</a>
+      <a href="week05.html">Minggu 5</a>
+      <a href="week06.html">Minggu 6</a>
+      <a href="week07.html">Minggu 7</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-pressed="false">Mode gelap</button>
+  </div>
+</header>
+
+<main id="konten">
+  <div class="page-head">
+    <p class="eyebrow">Minggu 1 &middot; 15 &amp; 16 September 2026</p>
+    <h1>Pendahuluan &amp; Dasar</h1>
+    <p class="subtitle">Apa itu pemrograman, kenapa Python, cara instalasi, tipe data dasar, variabel, dan aturan gaya penulisan kode.</p>
+  </div>
+
+  <nav class="toc" aria-label="Daftar isi">
+    <p class="toc-title">Daftar isi</p>
+    <ol>
+      <li><a href="#pemrograman">Apa itu pemrograman?</a></li>
+      <li><a href="#python">Kenapa Python?</a></li>
+      <li><a href="#instalasi">Instalasi</a></li>
+      <li><a href="#notebook">Jupyter Notebook &amp; Colab</a></li>
+      <li><a href="#tipe-data">Tipe data dasar</a></li>
+      <li><a href="#builtin">Fungsi bawaan (referensi)</a></li>
+      <li><a href="#variabel">Variabel</a></li>
+      <li><a href="#style">Python Style Rules</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="pemrograman">Apa itu pemrograman?</h2>
+  <p>Programming adalah usaha membuat komputer melakukan dan menyelesaikan sebuah tugas spesifik tanpa melakukan kesalahan. Komputer sendiri tidak pintar &mdash; ia menjadi berguna karena diprogram oleh manusia.</p>
+  <p>Komputer hanya benar-benar mengerti kode mesin: rangkaian angka 1 dan 0 (biner). Bahasa pemrograman seperti Python berperan sebagai penerjemah antara cara berpikir manusia dan bahasa yang dimengerti komputer, sehingga menulis program jauh lebih praktis daripada menulis biner langsung.</p>
+  <p>Setiap bahasa punya aturan penulisannya sendiri (<em>syntax</em>). Melanggar aturan ini menghasilkan error &mdash; sama seperti kalimat &ldquo;Let&rsquo;s eat, Grandma!&rdquo; berubah makna total tanpa tanda koma.</p>
+
+  <h2 id="python">Kenapa Python?</h2>
+  <p>Python dipilih karena mudah dipelajari, high-level (tidak perlu mengelola memori secara manual), gratis dan open source, portable ke berbagai platform, serta punya <em>standard library</em> yang luas (filosofi &ldquo;batteries included&rdquo;).</p>
+  <p>Python juga populer sebagai &ldquo;bahasa perekat&rdquo;: mudah diintegrasikan dengan C, C++, dan FORTRAN, sehingga riset dan prototipe (biasanya di MATLAB atau R) bisa langsung ditransfer menjadi sistem produksi tanpa berpindah bahasa. Sebagian besar AI, machine learning, dan big data memakai Python.</p>
+
+  <div class="compare-grid">
+    <div class="compare-col yes">
+      <span class="tag">Kelebihan</span>
+      <p>Sederhana, mudah dibaca, extensible, embeddable, komunitas besar, cocok untuk web, data, otomasi, hingga AI.</p>
+    </div>
+    <div class="compare-col no">
+      <span class="tag">Batasan</span>
+      <p>Interpreted, sehingga umumnya lebih lambat dari bahasa compiled seperti C/C++ (bisa diatasi dengan Cython). Kurang ideal untuk komputasi paralel dan multithread yang berat.</p>
+    </div>
+  </div>
+
+  <p>Gunakan Python 3.x. Python 2.7 sudah tidak didukung sejak 2020 dan tidak kompatibel dengan Python 3.x.</p>
+
+  <h2 id="instalasi">Instalasi</h2>
+  <ol>
+    <li><strong>Python</strong> &mdash; unduh dari <a href="https://python.org/downloads" rel="noopener">python.org/downloads</a>, pilih versi 3.10 ke atas. Saat menjalankan installer, centang &ldquo;Add python.exe to PATH&rdquo; sebelum klik &ldquo;Install Now&rdquo;.</li>
+    <li><strong>Verifikasi</strong> &mdash; buka Command Prompt (<code>cmd</code>) dan jalankan <code>python --version</code>. Jika muncul nomor versi, instalasi dan PATH sudah benar.</li>
+    <li><strong>VS Code</strong> &mdash; unduh dari <a href="https://code.visualstudio.com" rel="noopener">code.visualstudio.com</a>, lalu saat instalasi centang keempat opsi tambahan (desktop icon, dua opsi &ldquo;Open with Code&rdquo;, dan Add to PATH).</li>
+    <li><strong>Ekstensi Python</strong> &mdash; di VS Code, buka Extensions (<code>Ctrl+Shift+X</code>), cari &ldquo;Python&rdquo;, pasang ekstensi resmi dari Microsoft (<code>ms-python.python</code>).</li>
+    <li><strong>Hubungkan interpreter</strong> &mdash; <code>Ctrl+Shift+P</code> &rarr; ketik &ldquo;Python: Select Interpreter&rdquo; &rarr; pilih Python yang baru diinstal.</li>
+  </ol>
+
+  <div class="callout">
+    <p class="callout-title">pip</p>
+    <p><code>pip install &lt;nama-paket&gt;</code> memasang paket, <code>pip uninstall &lt;nama-paket&gt;</code> mencopotnya, <code>pip list</code> menampilkan paket yang terpasang, dan <code>pip install --upgrade pip</code> memperbarui pip itu sendiri.</p>
+    <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> <code>pip search</code> pernah ada tapi <strong>dinonaktifkan PyPI sejak 2021</strong> karena beban server, jadi perintah ini sekarang gagal. Cari paket langsung di <a href="https://pypi.org" rel="noopener">pypi.org</a>.</div>
+  </div>
+
+  <h2 id="notebook">Jupyter Notebook &amp; Google Colab</h2>
+  <p>Jupyter Notebook adalah <em>interactive computing environment</em>: kode, teks naratif, dan hasil (termasuk plot) berdampingan dalam satu dokumen <code>.ipynb</code>. Sebuah notebook terdiri dari sel-sel: <strong>code cells</strong> untuk kode, dan <strong>markdown cells</strong> untuk teks berformat (Markdown adalah superset dari HTML yang ditulis lebih ringkas, misalnya <code>## Judul</code> untuk heading level 2).</p>
+  <p>Jalankan dari terminal dengan <code>python -m notebook</code>, atau gunakan <strong>Google Colab</strong> (<a href="https://colab.research.google.com" rel="noopener">colab.research.google.com</a>) &mdash; versi Jupyter Notebook gratis yang berjalan sepenuhnya di cloud Google, tanpa setup, dan menyediakan GPU gratis. File Colab tersimpan di Google Drive, folder <code>Colab Notebooks</code>.</p>
+  <p>Di Colab, perintah shell apa pun bisa dijalankan dengan awalan <code>!</code> (misalnya <code>!pip install namapaket</code> atau <code>!ls</code>), dan Google Drive dihubungkan dengan:</p>
+  <div class="snippet">
+    <pre><code>from google.colab import drive
+drive.mount('/content/drive/')</code></pre>
+  </div>
+
+  <h2 id="tipe-data">Tipe data dasar</h2>
+  <p>Python punya empat tipe data dasar: <strong>Numeric</strong> (angka), <strong>String</strong> (teks), <strong>Boolean</strong> (logika), dan <strong>Function</strong> (untuk mentransformasi data-data di atas). Cek tipe data apa pun dengan <code>type(...)</code>.</p>
+
+  <h3>Numeric &mdash; integer</h3>
+  <p>Python 3 tidak membatasi seberapa besar nilai integer, hanya dibatasi memori komputer. Selain basis 10 (desimal), integer bisa ditulis dengan prefiks basis lain: <code>0b</code>/<code>0B</code> untuk biner, <code>0o</code>/<code>0O</code> untuk oktal, <code>0x</code>/<code>0X</code> untuk heksadesimal &mdash; semuanya tetap dikategorikan bertipe <code>int</code>.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print(0o10)
+print(0x10)
+print(0b10)
+print(type(0o10))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>8
+16
+2
+&lt;class 'int'&gt;</code></pre></div>
+    </details>
+  </div>
+
+  <h3>Numeric &mdash; floating point</h3>
+  <p>Tipe <code>float</code> merepresentasikan angka desimal, memakai standar IEEE 754 &ldquo;double precision&rdquo; 64-bit. Karakter <code>e</code>/<code>E</code> diikuti integer menyatakan notasi ilmiah.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print(4.2)
+print(.4e7)
+print(4.2e-4)
+print(1.79e308)
+print(1.8e308)
+print(5e-324)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>4.2
+4000000.0
+0.00042
+1.79e+308
+inf
+5e-324</code></pre></div>
+      <p class="reveal-note">Melebihi batas atas float menghasilkan <code>inf</code> (infinity), bukan error.</p>
+    </details>
+  </div>
+  <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> nilai float maksimum yang bisa diproses Python sekitar <strong>1.8 &times; 10<sup>308</sup></strong> (bukan 10<sup>208</sup>), dan nilai positif terkecil sekitar 5.0 &times; 10<sup>&minus;324</sup>. Sesuai <a href="https://docs.python.org/3/tutorial/floatingpoint.html" rel="noopener">docs.python.org</a> dan diverifikasi langsung dengan menjalankan kodenya.</div>
+
+  <h3>Numeric &mdash; bilangan kompleks</h3>
+  <p>Ditulis <code>&lt;bagian riil&gt;+&lt;bagian imajiner&gt;j</code>.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>z = 2 + 3j
+print(z, type(z))
+print(z.conjugate())</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>(2+3j) &lt;class 'complex'&gt;
+(2-3j)</code></pre></div>
+    </details>
+  </div>
+  <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> <code>c.conjugate()</code> mengembalikan <strong>konjugat</strong> dari bilangan kompleks <code>c</code> (bagian imajiner dibalik tandanya), bukan &ldquo;menambahkan&rdquo; bilangan kompleks.</div>
+
+  <h3>Operasi numerik</h3>
+  <table>
+    <caption>Operator aritmetika utama</caption>
+    <thead><tr><th>Operator</th><th>Arti</th><th>Catatan</th></tr></thead>
+    <tbody>
+      <tr><td><code>x + y</code>, <code>x - y</code>, <code>x * y</code>, <code>x / y</code></td><td>Tambah, kurang, kali, bagi</td><td><code>/</code> selalu menghasilkan <code>float</code></td></tr>
+      <tr><td><code>x // y</code></td><td>Pembagian bulat ke bawah</td><td>Bukan untuk bilangan kompleks</td></tr>
+      <tr><td><code>x % y</code></td><td>Sisa bagi</td><td>&nbsp;</td></tr>
+      <tr><td><code>abs(x)</code></td><td>Nilai absolut</td><td>&nbsp;</td></tr>
+      <tr><td><code>divmod(x, y)</code></td><td>Pasangan <code>(x // y, x % y)</code></td><td>&nbsp;</td></tr>
+      <tr><td><code>x ** y</code>, <code>pow(x, y)</code></td><td>Pangkat</td><td><code>0 ** 0</code> bernilai <code>1</code></td></tr>
+      <tr><td><code>round(x[, n])</code></td><td>Pembulatan ke <em>n</em> digit</td><td>&nbsp;</td></tr>
+    </tbody>
+  </table>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print(1 // 2, (-1) // 2, 1 // (-2), (-1) // (-2))
+print(0 ** 0, pow(0, 0))
+print(divmod(7, 2))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>0 -1 -1 0
+1 1
+(3, 1)</code></pre></div>
+    </details>
+  </div>
+  <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> slide menulis &ldquo;<code>0 ** 0 = 0</code>&rdquo; dan &ldquo;<code>pow(x, y) = 0</code>&rdquo;. Keduanya salah &mdash; <code>0 ** 0</code> dan <code>pow(0, 0)</code> sama-sama bernilai <strong>1</strong> di Python (dan secara matematis merupakan konvensi umum).</div>
+
+  <h3>String</h3>
+  <p>String ditulis dengan tanda petik tunggal atau ganda &mdash; keduanya setara. Karakter <code>\</code> membuat <em>escape sequence</em> untuk karakter khusus. String diawali prefiks <code>r</code>/<code>R</code> (raw string) menonaktifkan escape sequence, dan petik tiga (<code>'''</code> atau <code>"""</code>) memungkinkan string multi-baris tanpa perlu meng-escape petik di dalamnya.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print('This string contains a single quote (\') character.')
+print('foo\tbar')
+print('foo\\bar')
+r = r'foo\nbar'
+print(r)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>This string contains a single quote (') character.
+foo	bar
+foo\bar
+foo\nbar</code></pre></div>
+    </details>
+  </div>
+  <table>
+    <caption>Operasi pada string</caption>
+    <thead><tr><th>Operator</th><th>Hasil</th></tr></thead>
+    <tbody>
+      <tr><td><code>x + y</code></td><td>Penggabungan string <code>x</code> dan <code>y</code></td></tr>
+      <tr><td><code>x * n</code></td><td>Pengulangan string <code>x</code> sebanyak <code>n</code> kali</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Boolean dan perbandingan</h3>
+  <p>Tipe <code>bool</code> hanya bernilai <code>True</code> atau <code>False</code>.</p>
+  <table>
+    <caption>Operator logika (dari prioritas rendah ke tinggi) dan perbandingan</caption>
+    <thead><tr><th>Operator</th><th>Arti</th></tr></thead>
+    <tbody>
+      <tr><td><code>x or y</code></td><td>Jika <code>x</code> salah, hasilnya <code>y</code>; jika tidak, hasilnya <code>x</code></td></tr>
+      <tr><td><code>x and y</code></td><td>Jika <code>x</code> salah, hasilnya <code>x</code>; jika tidak, hasilnya <code>y</code></td></tr>
+      <tr><td><code>not x</code></td><td>Jika <code>x</code> salah, hasilnya <code>True</code>; jika tidak, <code>False</code></td></tr>
+      <tr><td><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>==</code> <code>!=</code></td><td>Perbandingan nilai</td></tr>
+      <tr><td><code>is</code> / <code>is not</code></td><td>Identitas objek (bukan hanya nilai)</td></tr>
+    </tbody>
+  </table>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>print(3 or 0)
+print(0 and 5)
+print(not 0)
+print(3 == 3.0)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>3
+0
+True
+True</code></pre></div>
+      <p class="reveal-note"><code>or</code> dan <code>and</code> mengembalikan salah satu operand aslinya, bukan selalu <code>True</code>/<code>False</code>.</p>
+    </details>
+  </div>
+
+  <h2 id="builtin">Fungsi bawaan (referensi)</h2>
+  <p>Python menyediakan banyak fungsi siap pakai. Bagian ini bersifat referensi &mdash; buka bagian yang relevan saat dibutuhkan, tidak perlu dihafal semua di minggu pertama.</p>
+
+  <details class="ref-block">
+    <summary>Math (7 fungsi)</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Fungsi</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>abs()</code></td><td>Nilai absolut suatu angka</td></tr>
+          <tr><td><code>divmod()</code></td><td>Hasil bagi dan sisa bagi integer</td></tr>
+          <tr><td><code>max()</code></td><td>Nilai terbesar dari argumen atau iterable</td></tr>
+          <tr><td><code>min()</code></td><td>Nilai terkecil dari argumen atau iterable</td></tr>
+          <tr><td><code>pow()</code></td><td>Memangkatkan suatu angka</td></tr>
+          <tr><td><code>round()</code></td><td>Membulatkan nilai <code>float</code></td></tr>
+          <tr><td><code>sum()</code></td><td>Menjumlahkan seluruh item iterable</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="ref-block">
+    <summary>Konversi tipe</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Fungsi</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>bool()</code></td><td>Mengonversi argumen menjadi nilai Boolean</td></tr>
+          <tr><td><code>complex()</code></td><td>Membentuk bilangan kompleks dari argumen</td></tr>
+          <tr><td><code>float()</code></td><td>Membentuk objek <code>float</code> dari angka atau string</td></tr>
+          <tr><td><code>int()</code></td><td>Membentuk objek <code>int</code> dari angka atau string</td></tr>
+          <tr><td><code>str()</code></td><td>Versi string dari suatu objek</td></tr>
+          <tr><td><code>bin()</code> / <code>oct()</code> / <code>hex()</code></td><td>Mengonversi integer ke string biner/oktal/heksadesimal</td></tr>
+          <tr><td><code>ord()</code> / <code>chr()</code></td><td>Karakter &harr; kode integernya</td></tr>
+          <tr><td><code>type()</code></td><td>Tipe dari suatu objek</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="ref-block">
+    <summary>Iterables dan iterators</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Fungsi</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>all()</code></td><td>True jika semua elemen iterable bernilai true</td></tr>
+          <tr><td><code>any()</code></td><td>True jika ada elemen iterable yang bernilai true</td></tr>
+          <tr><td><code>enumerate()</code></td><td>Mengembalikan <em>iterator</em> pasangan (indeks, nilai) dari suatu iterable</td></tr>
+          <tr><td><code>filter()</code></td><td>Menyaring elemen dari suatu iterable</td></tr>
+          <tr><td><code>len()</code></td><td>Panjang suatu objek</td></tr>
+          <tr><td><code>map()</code></td><td>Menerapkan fungsi ke tiap item iterable</td></tr>
+          <tr><td><code>range()</code></td><td>Membangkitkan deret nilai integer</td></tr>
+          <tr><td><code>reversed()</code></td><td>Iterator terbalik</td></tr>
+          <tr><td><code>sorted()</code></td><td>List baru yang terurut dari suatu iterable</td></tr>
+          <tr><td><code>zip()</code></td><td>Menggabungkan beberapa iterable sekaligus</td></tr>
+        </tbody>
+      </table>
+      <div class="snippet">
+        <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+        <pre><code>e = enumerate(['a', 'b'])
+print(type(e))
+print(list(enumerate(['a', 'b'])))</code></pre>
+        <details class="reveal">
+          <summary class="reveal-btn">Lihat hasil</summary>
+          <div class="reveal-output"><pre><code>&lt;class 'enumerate'&gt;
+[(0, 'a'), (1, 'b')]</code></pre></div>
+        </details>
+      </div>
+      <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> <code>enumerate()</code> mengembalikan objek <strong>iterator</strong>, bukan langsung sebuah list. Bungkus dengan <code>list(...)</code> untuk melihat isinya sekaligus.</div>
+    </div>
+  </details>
+
+  <details class="ref-block">
+    <summary>Tipe data komposit</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Fungsi</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>list()</code></td><td>Membuat objek list</td></tr>
+          <tr><td><code>tuple()</code></td><td>Membuat objek tuple</td></tr>
+          <tr><td><code>dict()</code></td><td>Membuat objek dict</td></tr>
+          <tr><td><code>set()</code></td><td>Membuat objek set</td></tr>
+          <tr><td><code>frozenset()</code></td><td>Membuat objek frozenset (set immutable)</td></tr>
+          <tr><td><code>bytes()</code> / <code>bytearray()</code></td><td>Membuat objek bytes (immutable) / bytearray (mutable)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="ref-block">
+    <summary>Input/Output</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Fungsi</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>print()</code></td><td>Mencetak ke console</td></tr>
+          <tr><td><code>input()</code></td><td>Membaca input dari console</td></tr>
+          <tr><td><code>format()</code></td><td>Mengonversi nilai ke representasi terformat</td></tr>
+          <tr><td><code>open()</code></td><td>Membuka berkas dan mengembalikan objek berkas</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="ref-block">
+    <summary>Variabel, referensi, dan scope</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Fungsi</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>dir()</code></td><td>Nama-nama di scope lokal saat ini, atau atribut suatu objek</td></tr>
+          <tr><td><code>id()</code></td><td>Identitas (alamat) suatu objek</td></tr>
+          <tr><td><code>globals()</code> / <code>locals()</code></td><td>Tabel simbol global / lokal saat ini</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="ref-block">
+    <summary>Kelas, atribut, dan lainnya</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Fungsi</th><th>Deskripsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>isinstance()</code></td><td>True jika suatu objek merupakan instance dari kelas tertentu</td></tr>
+          <tr><td><code>issubclass()</code></td><td>True jika suatu kelas merupakan subclass dari kelas lain</td></tr>
+          <tr><td><code>getattr()</code> / <code>setattr()</code> / <code>hasattr()</code></td><td>Membaca / mengubah / memeriksa atribut suatu objek</td></tr>
+          <tr><td><code>callable()</code></td><td>True jika objek bisa dipanggil (seperti fungsi)</td></tr>
+          <tr><td><code>help()</code></td><td>Membuka sistem bantuan bawaan</td></tr>
+        </tbody>
+      </table>
+      <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> fungsi ini bernama <code>isinstance()</code>, bukan &ldquo;<code>isintance()</code>&rdquo;.</div>
+    </div>
+  </details>
+
+  <h2 id="variabel">Variabel</h2>
+  <p>Variabel di Python tidak perlu dideklarasikan tipenya di awal &mdash; cukup ditugaskan (<em>assign</em>) sebuah nilai. Tipe variabel juga bisa berubah seiring waktu.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>n = 300
+print(n)
+a = b = c = 300
+print(a, b, c)
+var = 23.5
+print(type(var))
+var = "Now I'm a string"
+print(type(var))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>300
+300 300 300
+&lt;class 'float'&gt;
+&lt;class 'str'&gt;</code></pre></div>
+      <p class="reveal-note"><code>a = b = c = 300</code> adalah <em>chained assignment</em>: ketiga variabel menunjuk ke nilai yang sama.</p>
+    </details>
+  </div>
+  <p>Operator penugasan majemuk (<em>augmented assignment</em>) menyingkat <code>x = x &lt;op&gt; y</code> menjadi <code>x &lt;op&gt;= y</code>: <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>, <code>**=</code>, <code>//=</code>.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>x = 10
+x += 5
+x **= 2
+print(x)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>225</code></pre></div>
+      <p class="reveal-note">10 + 5 = 15, lalu 15 dipangkatkan 2 menjadi 225.</p>
+    </details>
+  </div>
+
+  <h3>Aturan penamaan</h3>
+  <ul>
+    <li>Boleh memakai huruf besar/kecil, digit, dan garis bawah (<code>_</code>); karakter pertama tidak boleh berupa digit.</li>
+    <li>31 kata berikut adalah <em>keyword</em> dan tidak boleh dipakai sebagai nama variabel: <code>False None True and as assert break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield</code>.</li>
+  </ul>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>for = 3</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output is-error"><pre><code>SyntaxError: invalid syntax</code></pre></div>
+      <p class="reveal-note"><code>for</code> adalah keyword, jadi tidak bisa dipakai sebagai nama variabel.</p>
+    </details>
+  </div>
+  <table>
+    <caption>Tiga gaya penamaan untuk nama yang terdiri dari beberapa kata</caption>
+    <thead><tr><th>Gaya</th><th>Contoh</th></tr></thead>
+    <tbody>
+      <tr><td>camelCase</td><td><code>numberOfCollegeGraduates</code></td></tr>
+      <tr><td>PascalCase</td><td><code>NumberOfCollegeGraduates</code></td></tr>
+      <tr><td>snake_case</td><td><code>number_of_college_graduates</code></td></tr>
+    </tbody>
+  </table>
+  <p>PEP 8 merekomendasikan <strong>snake_case</strong> untuk nama variabel dan fungsi, serta <strong>PascalCase</strong> untuk nama kelas. Detailnya di bagian Style Rules berikut.</p>
+
+  <h2 id="style">Python Style Rules</h2>
+  <p>Ringkasan <a href="https://peps.python.org/pep-0008/" rel="noopener">PEP 8</a> dan <a href="https://google.github.io/styleguide/pyguide.html" rel="noopener">Google Python Style Guide</a>, supaya kode kelas ini konsisten dan mudah dibaca satu sama lain.</p>
+
+  <h3>Satu pernyataan per baris</h3>
+  <div class="compare-grid">
+    <div class="compare-col yes">
+      <span class="tag">Yes</span>
+      <pre><code>i = 5
+print(i)</code></pre>
+    </div>
+    <div class="compare-col no">
+      <span class="tag">No</span>
+      <pre><code>i = 5; print(i)</code></pre>
+    </div>
+  </div>
+  <p>Jangan mengakhiri baris dengan titik koma, dan jangan gunakan titik koma untuk menggabung dua pernyataan dalam satu baris. Panjang baris maksimum <strong>80 karakter</strong>; jangan gunakan backslash (<code>\</code>) untuk melanjutkan baris &mdash; andalkan tanda kurung.</p>
+
+  <h3>Tanda kurung</h3>
+  <div class="compare-grid">
+    <div class="compare-col yes">
+      <span class="tag">Yes</span>
+      <pre><code>if foo:
+    bar()
+
+while x:
+    x = bar()
+
+return foo</code></pre>
+    </div>
+    <div class="compare-col no">
+      <span class="tag">No</span>
+      <pre><code>if (x):
+    bar()
+
+if not(x):
+    bar()
+
+return (foo)</code></pre>
+    </div>
+  </div>
+  <p>Jangan gunakan tanda kurung pada pernyataan <code>return</code> atau kondisional kecuali untuk menandai lanjutan baris. Tanda kurung tetap dipakai untuk tuple.</p>
+
+  <h3>Indentasi dan baris kosong</h3>
+  <ul>
+    <li>Python memakai indentasi (bukan <code>{ }</code>) untuk blok kode &mdash; <strong>4 spasi</strong> per level, jangan campur tab dan spasi.</li>
+    <li>Dua baris kosong di antara definisi tingkat atas (fungsi/kelas), satu baris kosong di antara definisi metode.</li>
+  </ul>
+
+  <h3>Whitespace</h3>
+  <div class="compare-grid">
+    <div class="compare-col yes">
+      <span class="tag">Yes</span>
+      <pre><code>spam(ham[1], {eggs: 2}, [])
+if x == 4:
+    print(x, y)
+x, y = y, x</code></pre>
+    </div>
+    <div class="compare-col no">
+      <span class="tag">No</span>
+      <pre><code>spam( ham[1], { eggs: 2 }, [ ] )
+if x == 4 :
+    print(x , y)
+x , y = y , x</code></pre>
+    </div>
+  </div>
+  <p>Tidak ada spasi tepat di dalam <code>()</code> <code>[]</code> <code>{}</code>, tidak ada spasi sebelum koma/titik dua, dan tidak ada spasi sebelum kurung buka untuk pemanggilan fungsi atau indexing. Beri satu spasi di sekitar operator penugasan dan perbandingan &mdash; kecuali untuk <em>keyword argument</em>: <code>def complex(real, imag=0.0):</code>, bukan <code>imag = 0.0</code>.</p>
+
+  <h3>String</h3>
+  <ul>
+    <li>Konsisten memilih <code>'</code> atau <code>"</code> di seluruh berkas.</li>
+    <li>Gunakan <code>.format()</code> (atau f-string) untuk memformat string, terutama saat menggabungkan banyak nilai; <code>+</code> cukup untuk penggabungan sederhana.</li>
+    <li>Hindari mengakumulasi string dengan <code>+=</code> di dalam loop &mdash; string bersifat immutable, sehingga tiap <code>+=</code> membuat objek sementara baru. Kumpulkan potongan dalam list, lalu <code>''.join(...)</code> sekali di akhir.</li>
+  </ul>
+
+  <h3>Import, pernyataan, dan nama</h3>
+  <ul>
+    <li>Satu modul per baris <code>import</code>, diletakkan di paling atas berkas, dikelompokkan dari standard library &rarr; pihak ketiga &rarr; modul milik proyek sendiri.</li>
+    <li>Hindari nama satu karakter kecuali untuk counter/iterator, dan hindari garis strip (<code>-</code>) dalam nama modul.</li>
+    <li>Setiap berkas yang dijalankan langsung sebaiknya memakai penjaga <code>__main__</code>:</li>
+  </ul>
+  <div class="snippet">
+    <pre><code>def main():
+    ...
+
+
+if __name__ == '__main__':
+    main()</code></pre>
+  </div>
+
+  <details class="ref-block">
+    <summary>Tabel konvensi penamaan (rekomendasi PEP 8)</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Jenis</th><th>Publik</th><th>Internal</th></tr></thead>
+        <tbody>
+          <tr><td>Package</td><td><code>lower_with_under</code></td><td>&nbsp;</td></tr>
+          <tr><td>Module</td><td><code>lower_with_under</code></td><td><code>_lower_with_under</code></td></tr>
+          <tr><td>Class</td><td><code>CapWords</code></td><td><code>_CapWords</code></td></tr>
+          <tr><td>Exception</td><td><code>CapWords</code></td><td>&nbsp;</td></tr>
+          <tr><td>Function</td><td><code>lower_with_under()</code></td><td><code>_lower_with_under()</code></td></tr>
+          <tr><td>Konstanta global/kelas</td><td><code>CAPS_WITH_UNDER</code></td><td><code>_CAPS_WITH_UNDER</code></td></tr>
+          <tr><td>Variabel lokal/parameter</td><td><code>lower_with_under</code></td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+      <p>Pengawalan garis bawah tunggal (<code>_nama</code>) melindungi variabel/fungsi tingkat modul; garis bawah ganda (<code>__nama</code>) pada atribut kelas membuatnya privat pada kelas tersebut.</p>
+    </div>
+  </details>
+
+  <div class="prevnext">
+    <span></span>
+    <a href="week02.html"><span class="dir">Selanjutnya</span>Minggu 2: Lists &amp; Tuples &rarr;</a>
+  </div>
+</main>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
+    <span>Halaman v1.2 &middot; 28 September 2026</span>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

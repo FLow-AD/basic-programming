@@ -1,0 +1,728 @@
+<!--
+  week04.html
+  Version: 1.1
+  Date: 2026-09-28
+  Changes: v1.1 fixes four leftover-English UI strings from the page
+  template (skip-link, top-nav aria-label, dark-mode button, table-of-
+  contents aria-label/title) so the page chrome is fully Indonesian
+  like the rest of the site. No content changes.
+  v1.0: First version. Covers the Sets deck, in Indonesian per the
+  site's default. Preserves the deck's own pink/green/yellow example
+  coding (pink = wrong technique or an error, green = correct, amber =
+  correct syntax but an edge case) using the existing .compare-col
+  variants. Two corrections made to the deck's own content: the
+  "Memodifikasi Set - Augmented" table had its last two rows' Indonesian
+  labels swapped/wrong (difference_update was labeled "Irisan simetris"
+  and symmetric_difference_update was labeled "Memeriksa irisan" -
+  corrected to "Selisih" and "Selisih simetris"); and the add() and
+  remove() method slides showed a two-argument add() call and a
+  remove() of an absent element inside a plain (non-error-coded) box,
+  when both actually raise in real Python - moved into compare-grid
+  wrong/right pairs to show this accurately. All ~45 code examples
+  below were executed for real in Python 3.11 and cross-checked
+  automatically against this file before publishing.
+-->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minggu 4: Sets &middot; Pemrograman Komputer</title>
+<meta name="description" content="Apa itu set, cara membuatnya, operator dan metode untuk menggabungkan dan membandingkan set, cara memodifikasi set, dan frozenset.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#konten">Langsung ke konten</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="course-code">IEC304202223</span>
+      <a href="index.html">Pemrograman Komputer</a>
+    </div>
+    <nav class="top-nav" aria-label="Navigasi utama">
+      <a href="index.html">Silabus</a>
+      <a href="week01.html">Minggu 1</a>
+      <a href="week02.html">Minggu 2</a>
+      <a href="week03.html">Minggu 3</a>
+      <a href="week04.html" aria-current="page">Minggu 4</a>
+      <a href="week05.html">Minggu 5</a>
+      <a href="week06.html">Minggu 6</a>
+      <a href="week07.html">Minggu 7</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-pressed="false">Mode gelap</button>
+  </div>
+</header>
+
+<main id="konten">
+  <div class="page-head">
+    <p class="eyebrow">Minggu 4 &middot; 6 &amp; 7 Oktober 2026</p>
+    <h1>Data Dinamis: Sets</h1>
+    <p class="subtitle">Sebuah struktur yang menyimpan kumpulan data <strong>unik</strong> dan <strong>tidak berurutan</strong> &mdash; mirip himpunan dalam matematika, lengkap dengan operasi gabungan, irisan, dan selisihnya.</p>
+  </div>
+
+  <nav class="toc" aria-label="Daftar isi">
+    <p class="toc-title">Daftar isi</p>
+    <ol>
+      <li><a href="#apa-itu">Apa itu set?</a></li>
+      <li><a href="#membentuk">Membentuk set</a></li>
+      <li><a href="#komponen">Komponen set</a></li>
+      <li><a href="#ukuran">Ukuran dan keanggotaan</a></li>
+      <li><a href="#operasi">Operasi pada set</a></li>
+      <li><a href="#relasi">Memeriksa relasi antar set</a></li>
+      <li><a href="#modifikasi">Memodifikasi set</a></li>
+      <li><a href="#frozenset">Frozenset</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="apa-itu">Apa itu set?</h2>
+  <p><strong>Set</strong> (himpunan) adalah salah satu tipe data komposit Python, seperti list ia dapat menyimpan sekumpulan data. Sets == himpunan matematika: hubungan antara dua buah himpunan dinyatakan lewat irisan dan gabungan, dan dalam Python koleksi data yang unik dalam suatu set disebut sebagai elemen atau anggota himpunan.</p>
+  <p>Karakteristik set:</p>
+  <ul>
+    <li>Tidak memiliki urutan (unordered).</li>
+    <li>Elemen dari set bersifat unik, tidak ada duplikasi.</li>
+    <li>Set dapat dimodifikasi, tetapi elemen di dalamnya harus bersifat <em>immutable</em>.</li>
+  </ul>
+
+  <h2 id="membentuk">Membentuk set</h2>
+  <p>Ada dua cara membuat set di Python.</p>
+
+  <h3>Cara 1: menggunakan fungsi <code>set()</code></h3>
+  <pre><code>x = set(&lt;iter&gt;)</code></pre>
+  <div class="fixed-note"><strong>Catatan:</strong> ini adalah notasi, bukan kode yang bisa dijalankan &mdash; <code>&lt;iter&gt;</code> adalah tempat untuk sebuah objek iterable (list, tuple, string, dsb).</div>
+  <div class="snippet">
+    <p class="snippet-label">Duplikat otomatis dibuang</p>
+    <pre><code>x = set(['foo', 'bar', 'baz', 'foo', 'qux'])
+print(sorted(x))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'baz', 'foo', 'qux']</code></pre></div>
+      <p class="reveal-note">Dua <code>'foo'</code> pada input menjadi satu. Di sini dan pada contoh-contoh berikutnya, hasil set ditampilkan lewat <code>sorted(&hellip;)</code> supaya urutannya konsisten dibaca di halaman ini &mdash; set aslinya sendiri tetap tidak berurutan, dan <code>print(x)</code> langsung bisa menghasilkan urutan yang berbeda setiap kali skrip dijalankan. <code>set((&hellip;))</code> dengan tuple bekerja dengan cara yang sama persis.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Dari string (iterable karakter)</p>
+    <pre><code>s = 'quux'
+print(list(s))
+print(sorted(set(s)))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['q', 'u', 'u', 'x']
+['q', 'u', 'x']</code></pre></div>
+      <p class="reveal-note"><code>list(s)</code> menyimpan tiap karakter, termasuk <code>'u'</code> yang berulang; <code>set(s)</code> membuang duplikatnya.</p>
+    </details>
+  </div>
+
+  <h3>Cara 2: menggunakan kurung kurawal <code>{ }</code></h3>
+  <p>Kurung kurawal mengapit langsung barisan dari koleksi data:</p>
+  <pre><code>x = {&lt;obj&gt;, &lt;obj&gt;, ... , &lt;obj&gt;}</code></pre>
+  <div class="snippet">
+    <pre><code>x = {'foo', 'bar', 'baz', 'foo', 'qux'}
+print(sorted(x))
+x = {'q', 'u', 'u', 'x'}
+print(sorted(x))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'baz', 'foo', 'qux']
+['q', 'u', 'x']</code></pre></div>
+    </details>
+  </div>
+
+  <h3>Perbedaan antara cara 1 dan cara 2</h3>
+  <p>Cara 1: fungsi <code>set()</code> membongkar sebuah <em>iterable</em> menjadi elemen-elemen pembentuknya. Cara 2: objek di dalam kurung kurawal langsung menjadi satu elemen dalam set. Bedanya terlihat jelas kalau argumennya sama-sama sebuah string:</p>
+  <div class="snippet">
+    <pre><code>print(sorted(set('foo')))
+print({'foo'})</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['f', 'o']
+{'foo'}</code></pre></div>
+      <p class="reveal-note"><code>set('foo')</code> membongkar <code>'foo'</code> menjadi karakter-karakternya (dan <code>'o'</code> yang berulang jadi satu); <code>{'foo'}</code> membuat set beranggotakan satu elemen, yaitu string <code>'foo'</code> utuh.</p>
+    </details>
+  </div>
+
+  <h3>Catatan: cara 2 tidak bisa membuat set kosong</h3>
+  <div class="compare-grid">
+    <div class="compare-col yes">
+      <span class="tag">Set kosong &mdash; benar</span>
+      <pre><code>x = set()
+print(type(x))
+print(x)</code></pre>
+      <p class="reveal-note">Hasil: <code>&lt;class 'set'&gt;</code> lalu <code>set()</code>.</p>
+    </div>
+    <div class="compare-col warn">
+      <span class="tag">Sintaks benar, tapi bukan set kosong</span>
+      <pre><code>x = {}
+print(type(x))
+print(x)</code></pre>
+      <p class="reveal-note">Hasil: <code>&lt;class 'dict'&gt;</code> lalu <code>{}</code> &mdash; kurung kurawal kosong selalu menjadi <strong>dictionary</strong> kosong, bukan set kosong.</p>
+    </div>
+  </div>
+
+  <h2 id="komponen">Komponen set</h2>
+  <p>Elemen dalam sebuah set dapat beragam bentuk dan tipe, selama bersifat <em>immutable</em> (dan karenanya hashable): integer, string, float, <code>None</code>, bahkan tuple boleh dicampur dalam satu set.</p>
+  <div class="snippet">
+    <pre><code>x = {42, 'foo', 3.14159, None}
+print(sorted(x, key=str))
+x = {42, 'foo', (1, 2, 3), 3.14159}
+print(sorted(x, key=str))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>[3.14159, 42, None, 'foo']
+[(1, 2, 3), 3.14159, 42, 'foo']</code></pre></div>
+      <p class="reveal-note">Elemennya diurutkan dengan <code>sorted(&hellip;, key=str)</code> hanya supaya bisa ditampilkan &mdash; tipe yang campur (int, str, <code>None</code>, tuple) tidak bisa dibandingkan langsung dengan <code>sorted()</code> biasa.</p>
+    </details>
+  </div>
+  <p>List dan dictionary bersifat mutable, sehingga tidak bisa dijadikan elemen set (keduanya <em>unhashable</em>):</p>
+  <div class="compare-grid">
+    <div class="compare-col no">
+      <span class="tag">List sebagai elemen &mdash; gagal</span>
+      <pre><code>a = [1, 2, 3]
+{a}</code></pre>
+      <p class="reveal-note"><code>TypeError: unhashable type: 'list'</code></p>
+    </div>
+    <div class="compare-col no">
+      <span class="tag">Dictionary sebagai elemen &mdash; gagal</span>
+      <pre><code>d = {'a': 1, 'b': 2}
+{d}</code></pre>
+      <p class="reveal-note"><code>TypeError: unhashable type: 'dict'</code></p>
+    </div>
+  </div>
+
+  <h2 id="ukuran">Ukuran dan keanggotaan</h2>
+  <div class="snippet">
+    <pre><code>x = {'foo', 'bar', 'baz'}
+print(len(x))
+print('bar' in x)
+print('qux' in x)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>3
+True
+False</code></pre></div>
+    </details>
+  </div>
+  <p>Set tidak memiliki indeks dan tidak bisa dipotong (di-<em>slice</em>) &mdash; tidak ada konsep "elemen pertama" pada sesuatu yang tidak berurutan:</p>
+  <div class="snippet">
+    <pre><code>x = {'foo', 'bar', 'baz'}
+x[0]</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output is-error"><pre><code>TypeError: 'set' object is not subscriptable</code></pre></div>
+    </details>
+  </div>
+
+  <h2 id="operasi">Operasi pada set</h2>
+  <p>Operasi pada set dalam Python secara umum sama seperti himpunan dalam matematika. Setiap operasi tersedia dalam dua bentuk: sebagai <strong>metode</strong> dan sebagai <strong>operator</strong> &mdash; keduanya ekivalen.</p>
+
+  <h3>1. Gabungan (union)</h3>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'baz', 'qux', 'quux'}
+print(sorted(x1.union(x2)))
+print(sorted(x1 | x2))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'baz', 'foo', 'quux', 'qux']
+['bar', 'baz', 'foo', 'quux', 'qux']</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Gabungan untuk lebih dari dua set</p>
+    <pre><code>a = {1, 2, 3, 4}
+b = {2, 3, 4, 5}
+c = {3, 4, 5, 6}
+d = {4, 5, 6, 7}
+print(a.union(b, c, d))
+print(a | b | c | d)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>{1, 2, 3, 4, 5, 6, 7}
+{1, 2, 3, 4, 5, 6, 7}</code></pre></div>
+    </details>
+  </div>
+
+  <h3>2. Irisan (intersection)</h3>
+  <p>Mencari elemen yang eksis pada kedua himpunan.</p>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'baz', 'qux', 'quux'}
+print(x1.intersection(x2))
+print(x1 &amp; x2)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>{'baz'}
+{'baz'}</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Irisan untuk lebih dari dua set</p>
+    <pre><code>a = {1, 2, 3, 4}
+b = {2, 3, 4, 5}
+c = {3, 4, 5, 6}
+d = {4, 5, 6, 7}
+print(a.intersection(b, c, d))
+print(a &amp; b &amp; c &amp; d)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>{4}
+{4}</code></pre></div>
+    </details>
+  </div>
+
+  <h3>3. Selisih (difference)</h3>
+  <p>Mencari elemen yang merupakan anggota himpunan satu tetapi bukan anggota himpunan kedua &mdash; membuang anggota himpunan 1 yang juga merupakan anggota himpunan 2.</p>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'baz', 'qux', 'quux'}
+print(sorted(x1.difference(x2)))
+print(sorted(x1 - x2))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'foo']
+['bar', 'foo']</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Selisih untuk lebih dari dua set &mdash; dihitung berurutan dari kiri</p>
+    <pre><code>a = {1, 2, 3, 30, 300}
+b = {10, 20, 30, 40}
+c = {100, 200, 300, 400}
+print(a.difference(b, c))
+print(a - b - c)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>{1, 2, 3}
+{1, 2, 3}</code></pre></div>
+      <p class="reveal-note"><code>a - b - c</code> sama dengan <code>(a - b) - c</code>: <code>a - b</code> dulu menyisakan <code>{1, 2, 3, 300}</code>, baru dikurangi lagi dengan <code>c</code> menjadi <code>{1, 2, 3}</code>.</p>
+    </details>
+  </div>
+
+  <h3>4. Selisih simetris (symmetric difference)</h3>
+  <p>Mencari elemen-elemen yang merupakan anggota himpunan 1, himpunan 2, tetapi bukan keduanya (yang tidak ada di irisannya).</p>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'baz', 'qux', 'quux'}
+print(sorted(x1.symmetric_difference(x2)))
+print(sorted(x1 ^ x2))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'foo', 'quux', 'qux']
+['bar', 'foo', 'quux', 'qux']</code></pre></div>
+    </details>
+  </div>
+  <p>Untuk lebih dari dua set, <code>symmetric_difference()</code> berbeda dari <code>union()</code>, <code>intersection()</code>, dan <code>difference()</code>: metode ini <strong>tidak menerima banyak argumen</strong>, sedangkan operator <code>^</code> tetap bisa dirangkai:</p>
+  <div class="compare-grid">
+    <div class="compare-col warn">
+      <span class="tag">Operator &mdash; bisa dirangkai</span>
+      <pre><code>a = {1, 2, 3, 4, 5}
+b = {10, 2, 3, 4, 50}
+c = {1, 50, 100}
+a ^ b ^ c</code></pre>
+      <p class="reveal-note">Hasilnya <code>{10, 100, 5}</code> &mdash; dihitung berurutan dari kiri, sama seperti <code>-</code>.</p>
+    </div>
+    <div class="compare-col no">
+      <span class="tag">Metode &mdash; hanya menerima satu argumen</span>
+      <pre><code>a = {1, 2, 3, 4, 5}
+b = {10, 2, 3, 4, 50}
+c = {1, 50, 100}
+a.symmetric_difference(b, c)</code></pre>
+      <p class="reveal-note"><code>TypeError: set.symmetric_difference() takes exactly one argument (2 given)</code></p>
+    </div>
+  </div>
+
+  <details class="ref-block">
+    <summary>Referensi: metode dan operator yang ekivalen</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Metode</th><th>Operator</th><th>Kegunaan</th></tr></thead>
+        <tbody>
+          <tr><td><code>x1.union(x2)</code></td><td><code>x1 | x2</code></td><td>Gabungan</td></tr>
+          <tr><td><code>x1.intersection(x2)</code></td><td><code>x1 &amp; x2</code></td><td>Irisan</td></tr>
+          <tr><td><code>x1.difference(x2)</code></td><td><code>x1 - x2</code></td><td>Selisih</td></tr>
+          <tr><td><code>x1.symmetric_difference(x2)</code></td><td><code>x1 ^ x2</code></td><td>Selisih simetris</td></tr>
+          <tr><td><code>x1.isdisjoint(x2)</code></td><td>&mdash;</td><td>Memeriksa apakah tidak ada irisan</td></tr>
+          <tr><td><code>x1.issubset(x2)</code></td><td><code>x1 &lt;= x2</code></td><td>Memeriksa subset</td></tr>
+          <tr><td><code>x1.issuperset(x2)</code></td><td><code>x1 &gt;= x2</code></td><td>Memeriksa superset</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <h2 id="relasi">Memeriksa relasi antar set</h2>
+
+  <h3>Beririsan atau tidak (<code>isdisjoint</code>)</h3>
+  <p>Bila hasilnya <code>True</code>, irisan dari kedua himpunan tersebut merupakan himpunan kosong.</p>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'baz', 'qux', 'quux'}
+print(x1.isdisjoint(x2))
+print(sorted(x2 - {'baz'}))
+print(x1.isdisjoint(x2 - {'baz'}))
+print(x1 &amp; x2)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>False
+['quux', 'qux']
+True
+{'baz'}</code></pre></div>
+      <p class="reveal-note"><code>x1</code> dan <code>x2</code> berbagi <code>'baz'</code>, jadi tidak disjoint. Begitu <code>'baz'</code> dibuang dari <code>x2</code>, keduanya jadi tidak beririsan sama sekali.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <pre><code>x1 = {1, 3, 5}
+x2 = {2, 4, 6}
+print(x1.isdisjoint(x2))
+print(x1 &amp; x2)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>True
+set()</code></pre></div>
+    </details>
+  </div>
+
+  <h3>Subset (<code>issubset</code>, <code>&lt;=</code>) dan proper subset (<code>&lt;</code>)</h3>
+  <p>Memeriksa apakah suatu himpunan merupakan bagian dari himpunan lainnya:</p>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+print(x1.issubset({'foo', 'bar', 'baz', 'qux', 'quux'}))
+x2 = {'baz', 'qux', 'quux'}
+print(x1 &lt;= x2)
+print(x1 &lt;= x1)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>True
+False
+True</code></pre></div>
+      <p class="reveal-note"><code>x1 &lt;= x1</code> bernilai <code>True</code>: <code>&lt;=</code> mengizinkan himpunan yang identik (subset boleh sama dengan himpunan itu sendiri).</p>
+    </details>
+  </div>
+  <p><strong>Proper subset</strong> (<code>&lt;</code>) lebih ketat: tidak boleh identik.</p>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar'}
+x2 = {'foo', 'bar', 'baz'}
+print(x1 &lt; x2)
+
+x1 = {'foo', 'bar', 'baz'}
+x2 = {'foo', 'bar', 'baz'}
+print(x1 &lt; x2)
+
+print(x1 &lt; x1)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>True
+False
+False</code></pre></div>
+      <p class="reveal-note">Begitu <code>x1</code> dan <code>x2</code> identik, <code>x1 &lt; x2</code> menjadi <code>False</code> &mdash; termasuk <code>x1 &lt; x1</code>, sebuah himpunan bukan proper subset dari dirinya sendiri.</p>
+    </details>
+  </div>
+
+  <h3>Superset (<code>issuperset</code>, <code>&gt;=</code>) dan proper superset (<code>&gt;</code>)</h3>
+  <p>Memeriksa apakah suatu himpunan berisi semua elemen yang terdapat di himpunan lainnya:</p>
+  <div class="snippet">
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+print(x1.issuperset({'foo', 'bar'}))
+x2 = {'baz', 'qux', 'quux'}
+print(x1 &gt;= x2)
+print(x1 &gt;= x1)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>True
+False
+True</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Proper superset (<code>&gt;</code>) &mdash; tidak boleh identik</p>
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'foo', 'bar'}
+print(x1 &gt; x2)
+
+x1 = {'foo', 'bar', 'baz'}
+x2 = {'foo', 'bar', 'baz'}
+print(x1 &gt; x2)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>True
+False</code></pre></div>
+    </details>
+  </div>
+
+  <h2 id="modifikasi">Memodifikasi set</h2>
+  <p>Ada dua cara memodifikasi set: dengan <strong>augmented operator</strong> (mengombinasikan operator dengan <code>=</code>, sama seperti <code>+=</code> pada angka), dan dengan <strong>metode</strong> khusus untuk menambah/menghapus satu elemen.</p>
+
+  <h3>Augmented operator</h3>
+  <div class="fixed-note"><strong>Koreksi dari materi asli:</strong> pada slide deck, dua baris terakhir tabel di bawah tertukar labelnya &mdash; <code>difference_update</code> tertulis "Irisan simetris" dan <code>symmetric_difference_update</code> tertulis "Memeriksa irisan". Tabel di bawah sudah memakai label yang benar: "Selisih" dan "Selisih simetris".</div>
+  <details class="ref-block">
+    <summary>Referensi: augmented operator untuk set</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Metode</th><th>Operator</th><th>Kegunaan</th></tr></thead>
+        <tbody>
+          <tr><td><code>x1.update(x2)</code></td><td><code>x1 |= x2</code></td><td>Gabungan</td></tr>
+          <tr><td><code>x1.intersection_update(x2)</code></td><td><code>x1 &amp;= x2</code></td><td>Irisan</td></tr>
+          <tr><td><code>x1.difference_update(x2)</code></td><td><code>x1 -= x2</code></td><td>Selisih</td></tr>
+          <tr><td><code>x1.symmetric_difference_update(x2)</code></td><td><code>x1 ^= x2</code></td><td>Selisih simetris</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+  <div class="snippet">
+    <p class="snippet-label">Modifikasi dengan gabungan</p>
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'foo', 'baz', 'qux'}
+x1 |= x2
+print(sorted(x1))
+x1.update(['corge', 'garply'])
+print(sorted(x1))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'baz', 'foo', 'qux']
+['bar', 'baz', 'corge', 'foo', 'garply', 'qux']</code></pre></div>
+      <p class="reveal-note"><code>x1.update(x2[, x3, &hellip;])</code> dan <code>x1 |= x2 [| x3 &hellip;]</code> keduanya bisa menerima lebih dari satu himpunan/iterable sekaligus.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Modifikasi dengan irisan</p>
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'foo', 'baz', 'qux'}
+x1 &amp;= x2
+print(sorted(x1))
+x1.intersection_update(['baz', 'qux'])
+print(x1)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['baz', 'foo']
+{'baz'}</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Modifikasi dengan selisih</p>
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'foo', 'baz', 'qux'}
+x1 -= x2
+print(x1)
+
+x1 = {'foo', 'bar', 'baz'}
+x1.difference_update({'foo', 'baz', 'qux'})
+print(x1)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>{'bar'}
+{'bar'}</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Modifikasi dengan selisih simetris</p>
+    <pre><code>x1 = {'foo', 'bar', 'baz'}
+x2 = {'foo', 'baz', 'qux'}
+x1 ^= x2
+print(sorted(x1))
+x1.symmetric_difference_update({'qux', 'corge'})
+print(sorted(x1))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'qux']
+['bar', 'corge']</code></pre></div>
+    </details>
+  </div>
+
+  <h3>Metode untuk menambah dan menghapus elemen</h3>
+  <details class="ref-block">
+    <summary>Referensi: 5 metode modifikasi pada halaman ini</summary>
+    <div class="ref-body">
+      <table>
+        <thead><tr><th>Metode</th><th>Kegunaan</th></tr></thead>
+        <tbody>
+          <tr><td><code>x.add(&lt;elem&gt;)</code></td><td>Menambahkan satu anggota ke dalam himpunan.</td></tr>
+          <tr><td><code>x.remove(&lt;elem&gt;)</code></td><td>Menghapus anggota dari himpunan; error jika elemen tidak ada.</td></tr>
+          <tr><td><code>x.discard(&lt;elem&gt;)</code></td><td>Menghapus anggota dari himpunan; aman meski elemen tidak ada.</td></tr>
+          <tr><td><code>x.pop()</code></td><td>Menghapus dan mengembalikan satu anggota (arbitrary, karena set tidak berurutan).</td></tr>
+          <tr><td><code>x.clear()</code></td><td>Mengosongkan himpunan.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin: 10px 0 0; font-size: 14px;"><code>&lt;elem&gt;</code> harus bersifat immutable dan berupa satu objek.</p>
+    </div>
+  </details>
+  <div class="snippet">
+    <p class="snippet-label"><code>x.add(&lt;elem&gt;)</code></p>
+    <pre><code>x = {'foo', 'bar', 'baz'}
+x.add('qux')
+print(sorted(x))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'baz', 'foo', 'qux']</code></pre></div>
+    </details>
+  </div>
+  <p>Ingat catatan "satu objek" di atas &mdash; <code>&lt;elem&gt;</code> memang harus tepat satu argumen:</p>
+  <div class="compare-grid">
+    <div class="compare-col yes">
+      <span class="tag">Satu argumen &mdash; benar</span>
+      <pre><code>x = {'foo', 'bar', 'baz'}
+x.add('qux')</code></pre>
+      <p class="reveal-note">Berhasil, seperti contoh di atas.</p>
+    </div>
+    <div class="compare-col no">
+      <span class="tag">Dua argumen &mdash; gagal</span>
+      <pre><code>x = {'foo', 'bar', 'baz'}
+x.add('corge', 'garply')</code></pre>
+      <p class="reveal-note"><code>TypeError: set.add() takes exactly one argument (2 given)</code></p>
+    </div>
+  </div>
+
+  <p><code>remove()</code> dan <code>discard()</code> sama-sama menghapus satu elemen, tapi berbeda sikap saat elemen itu ternyata tidak ada:</p>
+  <div class="compare-grid">
+    <div class="compare-col no">
+      <span class="tag"><code>remove()</code> &mdash; error jika elemen tidak ada</span>
+      <pre><code>x = {'foo', 'bar', 'baz'}
+x.remove('baz')
+x.remove('qux')</code></pre>
+      <p class="reveal-note">Baris kedua berhasil (<code>x</code> menjadi <code>{'foo', 'bar'}</code>); baris ketiga gagal karena <code>'qux'</code> memang bukan anggota <code>x</code>: <code>KeyError: 'qux'</code>.</p>
+    </div>
+    <div class="compare-col yes">
+      <span class="tag"><code>discard()</code> &mdash; aman meski elemen tidak ada</span>
+      <pre><code>x = {'foo', 'bar', 'baz'}
+x.discard('baz')
+x.discard('qux')</code></pre>
+      <p class="reveal-note">Kedua baris berhasil tanpa error; <code>x</code> berakhir sebagai <code>{'foo', 'bar'}</code> &mdash; <code>discard()</code> tidak pernah protes meski elemennya tidak ada.</p>
+    </div>
+  </div>
+
+  <div class="snippet">
+    <p class="snippet-label"><code>x.pop()</code> &mdash; menghapus dan mengembalikan satu anggota</p>
+    <pre><code>x = {'foo'}
+print(x.pop())
+print(x)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>foo
+set()</code></pre></div>
+      <p class="reveal-note">Pada set beranggota banyak, elemen mana yang terambil oleh <code>pop()</code> tidak dijamin urutannya (arbitrary) &mdash; karena itu contoh ini memakai set beranggota satu, supaya hasilnya pasti.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>x.pop()</code> berulang sampai habis, lalu error</p>
+    <pre><code>x = {'foo', 'bar', 'baz'}
+x.pop()
+x.pop()
+x.pop()
+print(x)
+x.pop()</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output is-error"><pre><code>set()
+KeyError: 'pop from an empty set'</code></pre></div>
+      <p class="reveal-note">Tiga kali <code>pop()</code> pada set berisi tiga elemen selalu mengosongkannya (elemen mana yang terambil lebih dulu tidak pasti, tapi hasil akhirnya selalu <code>set()</code>); panggilan keempat pada set yang sudah kosong gagal.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label"><code>x.clear()</code></p>
+    <pre><code>x = {'foo', 'bar', 'baz'}
+x.clear()
+print(x)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>set()</code></pre></div>
+    </details>
+  </div>
+
+  <h2 id="frozenset">Frozenset</h2>
+  <p><code>frozenset</code> memiliki karakteristik yang serupa dengan set biasa, hanya saja bersifat <em>immutable</em>. Kita bisa melakukan operasi pada frozenset (gabungan, irisan, dsb.), tetapi tidak bisa memodifikasinya.</p>
+  <div class="snippet">
+    <pre><code>x = frozenset(['foo', 'bar', 'baz'])
+print(sorted(x))
+print(len(x))
+print(x &amp; {'baz', 'qux', 'quux'})</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>['bar', 'baz', 'foo']
+3
+frozenset({'baz'})</code></pre></div>
+      <p class="reveal-note">Mengiriskan sebuah frozenset dengan set biasa tetap menghasilkan frozenset &mdash; operasi pada frozenset selalu menghasilkan objek baru yang juga immutable.</p>
+    </details>
+  </div>
+
+  <p>Yang tidak bisa dilakukan pada frozenset adalah memodifikasinya di tempat:</p>
+  <div class="compare-col no" style="margin: 14px 0 20px;">
+    <span class="tag">Ketiganya gagal</span>
+    <pre><code>x = frozenset(['foo', 'bar', 'baz'])
+x.add('qux')
+x.pop()
+x.clear()</code></pre>
+    <p class="reveal-note">Masing-masing dijalankan sendiri (baris pertama sudah menghentikan skrip kalau dijalankan berurutan): <code>x.add('qux')</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'add'</code>; <code>x.pop()</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'pop'</code>; <code>x.clear()</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'clear'</code> &mdash; frozenset memang tidak memiliki metode-metode itu sama sekali.</p>
+  </div>
+
+  <p>Augmented operator tetap bisa dipakai pada frozenset &mdash; tapi bukan memodifikasi, melainkan mengganti variabelnya dengan objek frozenset baru:</p>
+  <div class="snippet">
+    <pre><code>f = frozenset(['foo', 'bar', 'baz'])
+s = {'baz', 'qux', 'quux'}
+f &amp;= s
+print(f)
+print(type(f))</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Tampilkan hasil</summary>
+      <div class="reveal-output"><pre><code>frozenset({'baz'})
+&lt;class 'frozenset'&gt;</code></pre></div>
+      <p class="reveal-note"><code>f &amp;= s</code> di sini setara dengan <code>f = f &amp; s</code>: variabel <code>f</code> ditimpa dengan frozenset hasil irisan yang baru, bukan mengubah frozenset lama secara langsung (yang memang tidak mungkin, karena immutable).</p>
+    </details>
+  </div>
+
+  <h3>Kegunaan frozenset</h3>
+  <p>Frozenset dipakai ketika kita butuh set, tetapi objeknya harus <em>immutable</em> &mdash; misalnya sebagai elemen dari set lain, atau sebagai key dictionary. Set biasa tidak bisa dipakai untuk keduanya, karena set sendiri bersifat mutable dan karenanya unhashable:</p>
+  <div class="compare-grid">
+    <div class="compare-col no">
+      <span class="tag">Set biasa sebagai elemen set lain &mdash; gagal</span>
+      <pre><code>x1 = set(['foo'])
+x2 = set(['bar'])
+x3 = set(['baz'])
+x = {x1, x2, x3}</code></pre>
+      <p class="reveal-note"><code>TypeError: unhashable type: 'set'</code></p>
+    </div>
+    <div class="compare-col yes">
+      <span class="tag">Frozenset sebagai elemen set lain &mdash; berhasil</span>
+      <pre><code>x1 = frozenset(['foo'])
+x2 = frozenset(['bar'])
+x3 = frozenset(['baz'])
+x = {x1, x2, x3}</code></pre>
+      <p class="reveal-note">Berhasil membuat set berisi tiga frozenset (urutan tampilannya sendiri bisa berbeda-beda setiap dijalankan, karena set tidak berurutan) &mdash; frozenset bersifat hashable, jadi sah menjadi anggota set.</p>
+    </div>
+  </div>
+  <div class="compare-grid">
+    <div class="compare-col no">
+      <span class="tag">Set biasa sebagai key dictionary &mdash; gagal</span>
+      <pre><code>x = {1, 2, 3}
+y = {'a', 'b', 'c'}
+d = {x: 'foo', y: 'bar'}</code></pre>
+      <p class="reveal-note"><code>TypeError: unhashable type: 'set'</code></p>
+    </div>
+    <div class="compare-col yes">
+      <span class="tag">Frozenset sebagai key dictionary &mdash; berhasil</span>
+      <pre><code>x = frozenset({1, 2, 3})
+y = frozenset({'a', 'b', 'c'})
+d = {x: 'foo', y: 'bar'}
+print(d)</code></pre>
+      <p class="reveal-note">Berhasil; <code>d</code> punya dua entri, dengan <code>x</code> dan <code>y</code> sebagai key-nya (urutan elemen di dalam tiap frozenset saat ditampilkan bisa berbeda-beda, karena frozenset juga tidak berurutan).</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p class="callout-title">Lanjut ke mana?</p>
+    <p>Lihat <a href="index.html">silabus</a> untuk jadwal dan materi minggu-minggu berikutnya.</p>
+  </div>
+
+  <div class="prevnext">
+    <a href="week03.html"><span class="dir">Sebelumnya</span>&larr; Minggu 3: Dictionaries</a>
+    <a href="week05.html" style="text-align: right;"><span class="dir">Selanjutnya</span>Minggu 5: Conditional Statements &rarr;</a>
+  </div>
+</main>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
+    <span>Halaman v1.1 &middot; 28 September 2026</span>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!--
+  week05.html
+  Version: 1.0
+  Date: 2026-09-28
+  Changes: First version. Covers the Conditional Statements deck (if/elif/
+  else, blocks & indentation, the ternary conditional expression, and the
+  pass statement), in Indonesian per the site's default. The deck's own
+  code slides render comparison operators as a single "=" inside if/elif
+  conditions (e.g. "if name = 'Fred':"); read literally that is a
+  SyntaxError in Python (assignment is not allowed inside an expression),
+  so this page uses "==" throughout those examples, with a note explaining
+  the fix. All code examples below were executed for real in Python 3.11
+  and cross-checked automatically against this file before publishing.
+-->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minggu 5: Conditional Statements &middot; Pemrograman Komputer</title>
+<meta name="description" content="Pernyataan bersyarat if/elif/else, blok dan indentasi, penulisan if satu baris, ekspresi bersyarat (ternary operator), dan pernyataan pass.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#konten">Langsung ke konten</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="course-code">IEC304202223</span>
+      <a href="index.html">Pemrograman Komputer</a>
+    </div>
+    <nav class="top-nav" aria-label="Navigasi utama">
+      <a href="index.html">Silabus</a>
+      <a href="week01.html">Minggu 1</a>
+      <a href="week02.html">Minggu 2</a>
+      <a href="week03.html">Minggu 3</a>
+      <a href="week04.html">Minggu 4</a>
+      <a href="week05.html" aria-current="page">Minggu 5</a>
+      <a href="week06.html">Minggu 6</a>
+      <a href="week07.html">Minggu 7</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-pressed="false">Mode gelap</button>
+  </div>
+</header>
+
+<main id="konten">
+  <div class="page-head">
+    <p class="eyebrow">Minggu 5 &middot; 13 &amp; 14 Oktober 2026</p>
+    <h1>Pernyataan Bersyarat: Conditional Statements</h1>
+    <p class="subtitle"><code>if</code>, <code>elif</code>, dan <code>else</code> mengubah alur program berdasarkan evaluasi Boolean, sebuah <strong>blok</strong> didefinisikan lewat indentasi, <strong>ekspresi bersyarat</strong> (ternary) memampatkan if/else menjadi satu ekspresi, dan <code>pass</code> jadi placeholder ketika suatu blok memang harus kosong.</p>
+  </div>
+
+  <nav class="toc" aria-label="Daftar isi">
+    <p class="toc-title">Daftar isi</p>
+    <ol>
+      <li><a href="#if-statement">Pengenalan if statement</a></li>
+      <li><a href="#blok">Blok: mengelompokkan pernyataan &amp; indentasi</a></li>
+      <li><a href="#else-elif">Klausul else dan elif</a></li>
+      <li><a href="#satu-baris">If statement dalam satu baris</a></li>
+      <li><a href="#ekspresi-bersyarat">Ekspresi bersyarat (ternary operator)</a></li>
+      <li><a href="#pass">Pernyataan pass</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="if-statement">Pengenalan if statement</h2>
+  <p>Bentuk paling sederhana dari pernyataan bersyarat adalah sebagai berikut:</p>
+  <pre><code>if &lt;expr&gt;:
+    &lt;statement&gt;</code></pre>
+  <div class="fixed-note"><strong>Catatan:</strong> ini notasi, bukan kode yang bisa dijalankan langsung &mdash; <code>&lt;expr&gt;</code> dan <code>&lt;statement&gt;</code> adalah placeholder.</div>
+  <ul>
+    <li><code>&lt;expr&gt;</code> adalah ekspresi yang dievaluasi dalam konteks Boolean (bernilai <code>True</code>/<code>False</code>).</li>
+    <li><code>&lt;statement&gt;</code> adalah pernyataan Python yang valid, dan harus ditulis menjorok ke dalam (indented).</li>
+  </ul>
+  <p>Jika <code>&lt;expr&gt;</code> benar, <code>&lt;statement&gt;</code> dieksekusi. Jika <code>&lt;expr&gt;</code> salah, <code>&lt;statement&gt;</code> diabaikan. Nilai <code>&lt;expr&gt;</code> tidak harus <code>bool</code> secara harfiah &mdash; nilai apa pun dievaluasi lewat &ldquo;kebenaran&rdquo;-nya (<em>truthiness</em>): <code>0</code>, string kosong, dan koleksi kosong bernilai <em>falsy</em>; selainnya <em>truthy</em>.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu (truthy/falsy), lalu klik untuk lihat hasil</p>
+    <pre><code>x = 0
+y = 5
+
+if x &lt; y:      # Truthy
+    print('yes')
+
+if y &lt; x:      # Falsy
+    print('yes')
+
+if x:          # Falsy
+    print('yes')
+
+if y:          # Truthy
+    print('yes')
+
+if x or y:                    # Truthy
+    print('yes')
+
+if x and y:                   # Falsy
+    print('yes')
+
+if 'aul' in 'grault':         # Truthy
+    print('yes')
+
+if 'quux' in ['foo', 'bar', 'baz']:  # Falsy
+    print('yes')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>yes
+yes
+yes
+yes</code></pre></div>
+      <p class="reveal-note">Empat baris <code>if</code> yang bernilai truthy: <code>x &lt; y</code> (<code>0 &lt; 5</code>), <code>y</code> (<code>5</code> bukan nol), <code>x or y</code> (hasilnya <code>5</code>, truthy), dan <code>'aul' in 'grault'</code> (substring ditemukan). Empat lainnya falsy dan tidak mencetak apa pun.</p>
+    </details>
+  </div>
+
+  <h2 id="blok">Blok: mengelompokkan pernyataan &amp; indentasi</h2>
+  <p>Contoh sebelumnya hanya berisi satu pernyataan ketika syarat terpenuhi. Ada saatnya kita menginginkan lebih dari satu hal untuk dilakukan &mdash; misalnya &ldquo;ketika cuaca cerah, saya akan berjalan-jalan di taman, mencuci baju, <em>dan</em> membersihkan halaman.&rdquo; Ketika <code>&lt;statement&gt;</code> berisi lebih dari satu perintah, pendekatan yang umum dilakukan adalah menggabungkan beberapa perintah tersebut ke dalam satu <strong>compound statement</strong> atau <strong>blok</strong>.</p>
+  <p>Sebuah blok dianggap sebagai satu entitas: ketika syarat terpenuhi, semua pernyataan di dalam blok dijalankan; ketika syarat tidak terpenuhi, tidak satu pun pernyataan dalam blok yang dijalankan.</p>
+
+  <h3>Indentasi mendefinisikan blok (off-side rule)</h3>
+  <p>Python mengikuti aturan yang dikenal sebagai <strong>off-side rule</strong>, yang diberi nama oleh seorang <em>computer scientist</em> asal Inggris bernama Peter J. Landin. Pada Python, indentasi punya makna penting yang digunakan untuk mendefinisikan compound statement atau blok: pernyataan-pernyataan yang berada pada level indent yang sama merupakan bagian dari blok yang sama.</p>
+  <pre><code>if &lt;expr&gt;:
+    &lt;statement&gt;
+    &lt;statement&gt;
+    ...
+    &lt;statement&gt;
+&lt;following_statement&gt;</code></pre>
+  <div class="fixed-note"><strong>Catatan:</strong> notasi lagi, bukan kode yang dijalankan &mdash; semua <code>&lt;statement&gt;</code> ada pada level indent yang sama (satu blok), sedangkan <code>&lt;following_statement&gt;</code> kembali ke level indent <code>if</code> sehingga selalu dijalankan, terlepas dari <code>&lt;expr&gt;</code> benar atau salah.</div>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>if 'foo' in ['bar', 'baz', 'qux']:
+    print('Expression was true')
+    print('Executing statement in suite')
+    print('...')
+    print('Done.')
+print('After conditional')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>After conditional</code></pre></div>
+      <p class="reveal-note"><code>'foo' in ['bar', 'baz', 'qux']</code> bernilai <code>False</code>, jadi seluruh blok berindentasi dilewati. <code>print('After conditional')</code> tetap dijalankan karena indentasinya sejajar dengan <code>if</code>, bukan bagian dari bloknya.</p>
+    </details>
+  </div>
+  <p>Blok juga bisa bersarang (nested) &mdash; sebuah <code>if</code> bisa berada di dalam blok <code>if</code> lain, selama level indentasinya konsisten:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu baris mana yang tereksekusi, lalu klik untuk lihat hasil</p>
+    <pre><code>if 'foo' in ['foo', 'bar', 'baz']:
+    print('Outer condition is true')
+
+    if 10 &gt; 20:
+        print('Inner condition 1')
+
+    print('Between inner conditions')
+
+    if 10 &lt; 20:
+        print('Inner condition 2')
+
+    print('End of outer condition')
+print('After outer condition')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Outer condition is true
+Between inner conditions
+Inner condition 2
+End of outer condition
+After outer condition</code></pre></div>
+      <p class="reveal-note"><code>print('Inner condition 1')</code> satu-satunya baris yang dilewati, karena <code>10 &gt; 20</code> salah. Baris-baris lain berada di blok yang syaratnya terpenuhi (blok <code>if</code> luar) atau di luar blok mana pun (<code>print('After outer condition')</code>).</p>
+    </details>
+  </div>
+
+  <h2 id="else-elif">Klausul else dan elif</h2>
+  <p>Ketika kita ingin melakukan suatu hal ketika syarat terpenuhi, dan melakukan hal lain ketika tidak terpenuhi, gunakan klausul <code>else</code>:</p>
+  <pre><code>if &lt;expr&gt;:
+    &lt;statement(s)&gt;
+else:
+    &lt;statement(s)&gt;</code></pre>
+  <div class="fixed-note"><strong>Catatan:</strong> notasi &mdash; kedua blok untuk pernyataan ketika <code>&lt;expr&gt;</code> bernilai benar atau salah didefinisikan lewat indentasi, sama seperti blok <code>if</code> sendiri.</div>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil (x = 20)</p>
+    <pre><code>x = 20
+if x &lt; 50:
+    print('(first suite)')
+    print('x is small')
+else:
+    print('(second suite)')
+    print('x is large')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>(first suite)
+x is small</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil (x = 120, kode sama persis)</p>
+    <pre><code>x = 120
+if x &lt; 50:
+    print('(first suite)')
+    print('x is small')
+else:
+    print('(second suite)')
+    print('x is large')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>(second suite)
+x is large</code></pre></div>
+    </details>
+  </div>
+
+  <p>Untuk beberapa alternatif pilihan, gunakan satu atau lebih klausul <code>elif</code>. Python akan mengevaluasi setiap <code>&lt;expr&gt;</code> secara berurutan dan mengeksekusi <code>&lt;statement&gt;</code> milik <code>&lt;expr&gt;</code> pertama yang bernilai benar. Jika tidak ada yang benar dan klausul <code>else</code> terdefinisi, pernyataan dalam klausul tersebut yang dieksekusi. Klausul <code>elif</code> boleh sejumlah berapa pun; klausul <code>else</code> bersifat opsional, dan jika dipakai harus diletakkan di akhir.</p>
+  <pre><code>if &lt;expr&gt;:
+    &lt;statement(s)&gt;
+elif &lt;expr&gt;:
+    &lt;statement(s)&gt;
+elif &lt;expr&gt;:
+    &lt;statement(s)&gt;
+    ...
+else:
+    &lt;statement(s)&gt;</code></pre>
+  <div class="fixed-note"><strong>Catatan pada slide asli:</strong> pada contoh elif di slide, kondisi kesetaraan ditulis sebagai <code>if name = 'Fred':</code> (tanda &ldquo;=&rdquo; tunggal, kemungkinan hasil rendering font pada slide untuk &ldquo;==&rdquo;). Dibaca apa adanya, <code>=</code> tunggal di dalam ekspresi <code>if</code> tidak valid secara sintaks di Python (penugasan tidak boleh muncul di dalam ekspresi) &mdash; jadi contoh-contoh berikut memakai <code>==</code>, sesuai maksud aslinya untuk membandingkan nilai.</div>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>name = 'Joe'
+if name == 'Fred':
+    print('Hello Fred')
+elif name == 'Xander':
+    print('Hello Xander')
+elif name == 'Joe':
+    print('Hello Joe')
+elif name == 'Arnold':
+    print('Hello Arnold')
+else:
+    print("I don't know who you are!")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Hello Joe</code></pre></div>
+      <p class="reveal-note">Python berhenti pada klausul <code>elif</code> pertama yang benar (<code>name == 'Joe'</code>) dan tidak lagi menguji sisanya.</p>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Kode sama, tanpa klausul else &mdash; kali ini tidak ada yang cocok, tebak dulu lalu klik</p>
+    <pre><code>name = 'Mike'
+if name == 'Fred':
+    print('Hello Fred')
+elif name == 'Xander':
+    print('Hello Xander')
+elif name == 'Joe':
+    print('Hello Joe')
+elif name == 'Arnold':
+    print('Hello Arnold')
+print('Program selesai.')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Program selesai.</code></pre></div>
+      <p class="reveal-note">Ketika klausul <code>else</code> tidak diikutkan dan semua kondisi bernilai salah, tidak ada blok <code>if</code>/<code>elif</code> yang dieksekusi &mdash; program cukup melanjutkan ke pernyataan berikutnya.</p>
+    </details>
+  </div>
+
+  <p>Pernyataan <code>if</code> dan <code>elif</code> menggunakan evaluasi yang mirip <em>short-circuit evaluation</em> pada operator <code>and</code> dan <code>or</code>: begitu satu <code>&lt;expr&gt;</code> ditemukan bernilai <code>True</code>, blok tersebut dieksekusi dan <code>&lt;expr&gt;</code> berikutnya tidak diuji sama sekali &mdash; bahkan tidak dievaluasi.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu apakah ini error, lalu klik untuk lihat hasil</p>
+    <pre><code>if 'a' in 'bar':
+    print('foo')
+elif 1/0:
+    print("This won't happen")
+elif var:
+    print("This won't either")</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo</code></pre></div>
+      <p class="reveal-note">Tidak error, walau <code>1/0</code> dan variabel <code>var</code> yang tidak pernah didefinisikan muncul di baris berikutnya. Karena <code>'a' in 'bar'</code> sudah benar, klausul <code>elif 1/0:</code> dan <code>elif var:</code> tidak pernah dievaluasi &mdash; kalau saja dievaluasi, baris pertama akan melempar <code>ZeroDivisionError</code>.</p>
+    </details>
+  </div>
+
+  <h2 id="satu-baris">If statement dalam satu baris</h2>
+  <p>Penulisan <code>if</code> statement dapat dilakukan pada satu baris. Bahkan lebih dari satu <code>&lt;statement&gt;</code> dapat dituliskan pada baris yang sama, dipisahkan dengan titik koma (<code>;</code>):</p>
+  <pre><code>if &lt;expr&gt;: &lt;statement&gt;
+
+if &lt;expr&gt;: &lt;statement_1&gt;; &lt;statement_2&gt;; ...; &lt;statement_n&gt;</code></pre>
+  <p>Jika dituliskan pada baris yang sama, Python akan mengeksekusi semua <code>&lt;statement_1&gt; ... &lt;statement_n&gt;</code> jika <code>&lt;expr&gt;</code> bernilai <code>True</code>. Jika tidak, tidak ada yang dieksekusi.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>if 'f' in 'foo': print('1'); print('2'); print('3')
+if 'z' in 'foo': print('1'); print('2'); print('3')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>1
+2
+3</code></pre></div>
+      <p class="reveal-note">Baris kedua tidak mencetak apa pun karena <code>'z' in 'foo'</code> salah.</p>
+    </details>
+  </div>
+  <p>Multiple statements juga bisa diterapkan pada baris yang sama untuk klausul <code>elif</code> atau <code>else</code>:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil (x = 2)</p>
+    <pre><code>x = 2
+if x == 1: print('foo'); print('bar'); print('baz')
+elif x == 2: print('qux'); print('quux')
+else: print('corge'); print('grault')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>qux
+quux</code></pre></div>
+    </details>
+  </div>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil (x = 3, kode sama persis)</p>
+    <pre><code>x = 3
+if x == 1: print('foo'); print('bar'); print('baz')
+elif x == 2: print('qux'); print('quux')
+else: print('corge'); print('grault')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>corge
+grault</code></pre></div>
+    </details>
+  </div>
+  <p>Penulisan satu baris atau menggunakan indent dapat dipilih sesuai kebutuhan dan preferensi &mdash; keduanya setara. Versi berindentasi dari contoh <code>x = 3</code> di atas:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>x = 3
+if x == 1:
+    print('foo')
+    print('bar')
+    print('baz')
+elif x == 2:
+    print('qux')
+    print('quux')
+else:
+    print('corge')
+    print('grault')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>corge
+grault</code></pre></div>
+      <p class="reveal-note">Hasil identik dengan versi satu baris di atas &mdash; hanya gaya penulisan yang berbeda.</p>
+    </details>
+  </div>
+
+  <h2 id="ekspresi-bersyarat">Ekspresi bersyarat (ternary operator)</h2>
+  <p>Dalam bentuk paling sederhana, syntax untuk ekspresi bersyarat dituliskan sebagai berikut. Syntax ini juga dikenal sebagai <strong>ternary operator</strong>:</p>
+  <pre><code>&lt;expr1&gt; if &lt;conditional_expr&gt; else &lt;expr2&gt;</code></pre>
+  <p><code>&lt;conditional_expr&gt;</code> dievaluasi terlebih dahulu. Jika benar, <code>&lt;expr1&gt;</code> dieksekusi dan <code>&lt;expr2&gt;</code> <strong>tidak dievaluasi sama sekali</strong>. Jika salah, <code>&lt;expr2&gt;</code> dieksekusi dan <code>&lt;expr1&gt;</code> tidak dievaluasi.</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>raining = False
+print("Let's go to the", 'beach' if not raining else 'library')
+
+raining = True
+print("Let's go to the", 'beach' if not raining else 'library')
+
+age = 12
+s = 'minor' if age &lt; 21 else 'adult'
+print(s)
+
+print('yes' if ('qux' in ['foo', 'bar', 'baz']) else 'no')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>Let's go to the beach
+Let's go to the library
+minor
+no</code></pre></div>
+    </details>
+  </div>
+
+  <p>Salah satu kegunaan ekspresi bersyarat yang paling umum adalah untuk penugasan variabel &mdash; sebagai contoh, mencari nilai maksimum dari dua angka. Kedua cara berikut setara:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>a = 3
+b = 7
+
+# Cara 1: if dan else statement
+if a &gt; b:
+    m = a
+else:
+    m = b
+print(m)
+
+# Cara 2: ekspresi bersyarat (ternary)
+m = a if a &gt; b else b
+print(m)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>7
+7</code></pre></div>
+    </details>
+  </div>
+
+  <h3>Prioritas operator</h3>
+  <p>Operator <code>+</code> terikat lebih erat (mempunyai prioritas lebih tinggi) daripada ekspresi bersyarat:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
+    <pre><code>x = y = 40
+
+z = 1 + x if x &gt; y else y + 2
+print(z)
+
+z = (1 + x) if x &gt; y else (y + 2)
+print(z)
+
+z = 1 + (x if x &gt; y else y) + 2
+print(z)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>42
+42
+43</code></pre></div>
+      <p class="reveal-note"><code>x &gt; y</code> salah (keduanya 40), jadi dua baris pertama sama-sama mengevaluasi <code>y + 2 = 42</code> &mdash; <code>1 + x if x &gt; y else y + 2</code> otomatis terikat sebagai <code>(1 + x) if (x &gt; y) else (y + 2)</code>, persis seperti versi yang diberi tanda kurung eksplisit. Baris ketiga sengaja mengurung ekspresi bersyaratnya lebih dulu (<code>x if x &gt; y else y</code>, hasilnya <code>y</code> yaitu <code>40</code>) sehingga <code>1 + 40 + 2 = 43</code>.</p>
+    </details>
+  </div>
+
+  <p>Karena cabang yang tidak dipilih memang tidak pernah dievaluasi, ekspresi bersyarat bisa dipakai untuk menghindari error yang seharusnya muncul dari cabang yang tidak diambil:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu apakah ini error, lalu klik untuk lihat hasil</p>
+    <pre><code>print('foo' if True else 1/0)
+print(1/0 if False else 'bar')</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>foo
+bar</code></pre></div>
+      <p class="reveal-note">Tidak ada <code>ZeroDivisionError</code> sama sekali &mdash; pada baris pertama <code>1/0</code> berada di cabang <code>else</code> yang tidak diambil, dan pada baris kedua <code>1/0</code> berada di cabang <code>if</code> yang juga tidak diambil.</p>
+    </details>
+  </div>
+
+  <p>Ekspresi bersyarat juga bisa dirangkai (chained), sebagai alternatif dari struktur <code>if</code>/<code>elif</code>/<code>else</code> dengan banyak cabang:</p>
+  <div class="snippet">
+    <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil (x = 3)</p>
+    <pre><code>x = 3
+s = ('foo' if (x == 1) else
+     'bar' if (x == 2) else
+     'baz' if (x == 3) else
+     'qux' if (x == 4) else
+     'quux')
+print(s)</code></pre>
+    <details class="reveal">
+      <summary class="reveal-btn">Lihat hasil</summary>
+      <div class="reveal-output"><pre><code>baz</code></pre></div>
+      <p class="reveal-note">Sama seperti klausul <code>elif</code>, evaluasi berhenti begitu satu cabang cocok (<code>x == 3</code>) dan cabang setelahnya tidak diuji.</p>
+    </details>
+  </div>
+
+  <h2 id="pass">Pernyataan pass</h2>
+  <p>Ada kalanya ketika suatu syarat dipenuhi, kita menginginkan Python untuk tidak melakukan apa-apa &mdash; atau dengan kata lain, blok tersebut memang harus kosong. Karena Python mendefinisikan blok lewat indentasi (bukan tanda kurung kurawal), sebuah <code>if</code> tanpa isi sama sekali bukan sintaks yang valid. Untuk kasus ini, gunakan pernyataan <code>pass</code>: sebuah <em>no-op</em> (tidak melakukan apa-apa) yang hanya berfungsi sebagai placeholder sintaksis agar blok tetap valid secara sintaks.</p>
+  <div class="compare-grid">
+    <div class="compare-col no">
+      <span class="tag">Salah &mdash; blok if kosong</span>
+      <pre><code>if True:
+
+print('foo')</code></pre>
+      <p class="reveal-note"><code>IndentationError: expected an indented block after 'if' statement on line 1</code> &mdash; setelah baris kosong, <code>print('foo')</code> berada pada level indent yang sama dengan <code>if</code>, jadi Python tidak menemukan satu pun pernyataan berindentasi untuk mengisi blok <code>if</code>.</p>
+    </div>
+    <div class="compare-col yes">
+      <span class="tag">Benar &mdash; diisi pass</span>
+      <pre><code>if True:
+    pass
+
+print('foo')</code></pre>
+      <p class="reveal-note">Hasil: <code>foo</code>. <code>pass</code> mengisi blok <code>if</code> tanpa melakukan apa-apa, sehingga sintaksnya valid; <code>print('foo')</code> sendiri berada di luar blok <code>if</code> (indentasinya sejajar dengan <code>if</code>), jadi selalu dijalankan terlepas dari isi blok <code>if</code>.</p>
+    </div>
+  </div>
+  <p><code>pass</code> sering dipakai sebagai placeholder sementara saat kerangka program sedang ditulis &mdash; misalnya badan fungsi atau kelas yang isinya belum diputuskan &mdash; supaya kode tetap bisa dijalankan sebelum logikanya dilengkapi.</p>
+
+  <div class="callout">
+    <p class="callout-title">Selanjutnya</p>
+    <p>Lihat <a href="index.html">silabus</a> untuk jadwal dan materi minggu-minggu berikutnya.</p>
+  </div>
+
+  <div class="prevnext">
+    <a href="week04.html"><span class="dir">Sebelumnya</span>&larr; Minggu 4: Sets</a>
+    <a href="week06.html"><span class="dir">Selanjutnya</span>Minggu 6: Pengulangan, Input dan Output &rarr;</a>
+  </div>
+</main>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
+    <span>Halaman v1.0 &middot; 28 September 2026</span>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
