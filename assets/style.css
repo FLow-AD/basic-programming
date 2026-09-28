@@ -1,8 +1,34 @@
 /*
   style.css
-  Version: 2.1
+  Version: 2.2
   Date: 2026-09-28
-  Changes: v2.1 re-themes the v2.0 redesign per Flo's follow-up request:
+  Changes: v2.2 re-themes the palette again, per Flo's follow-up request,
+  to a warmer earthy range built around five colors she gave directly
+  (#5d8172 sage, #7dae99 mint, #f6d4a3 peach, #bf7950 clay, #ae572c
+  rust), refined over two rounds of sample mockups before this build:
+  rust replaces teal as the fixed top-bar color and the site-wide
+  accent/link color; peach replaces yellow-green as the highlight color
+  (current-page underline, callout links); mint/sage carry the
+  "correct" (.compare-col.yes) tag as before. Two colors were added
+  beyond Flo's five, both derived from them rather than picked
+  arbitrarily, to fix problems found in the sample review: a darker
+  "sage deep" (#3f5c4f) is now the site's general border color (cards,
+  snippet, table of contents, compare-grid) instead of a plain neutral
+  tan, and also gives the "correct" tag enough contrast to use as text,
+  not just a pill background; a muted "wine" red (#8c3f47) now carries
+  the "wrong" (.compare-col.no) tag instead of reusing rust, so it no
+  longer shares a color with links and reads clearly apart from the
+  amber "edge case" tag. The warn tag also needed a darker clay
+  (#825236) as its solid pill-background color, since the given clay
+  (#bf7950) alone isn't dark enough for white pill text; the lighter
+  clay stays in use as the tag's card border/tint. Dark mode keeps the
+  same theme-constant-vs-adaptive split as v2.1 (see the comment above
+  the dark-mode blocks below): ok/err/warn-ink stay fixed across
+  themes (solid pill backgrounds), everything else adapts. The unused
+  --highlight-ink token (defined but never applied to any rule, in this
+  palette or the last one) was removed as dead code. No HTML/class
+  changes; fonts (Fira Sans/Fira Code) are unchanged from v2.1.
+  v2.1: re-themes the v2.0 redesign per Flo's follow-up request:
   palette moved to a YlGnBu-inspired range built around three colors Flo
   gave directly (#1f4260 dark blue, #009a9c teal, #f3ff82 yellow-green) --
   the dark blue is now the fixed top-bar color (was near-black ink), teal
@@ -43,31 +69,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-  --bg: #eef5f5;
+  --bg: #f8f3ea;
   --bg-raised: #ffffff;
-  --text: #16283a;
-  --body-text: #33424f;
-  --text-muted: #62808c;
-  --border: #cfdcdc;
-  --hair: #e2ecec;
-  --accent: #009a9c;
-  --accent-ink: #ffffff;
-  --highlight: #f3ff82;
-  --highlight-ink: #1f4260;
-  --code-bg: #eaf5f5;
-  --ok-bg: #f6fbd8;
-  --ok-border: #d9e896;
-  --ok-ink: #5c7a17;
-  --ok-text: #4d6813;
-  --err-bg: #fbedea;
-  --err-border: #e8cfc9;
-  --err-ink: #b23f27;
-  --warn-bg: #faf1e6;
-  --warn-border: #e5cda9;
-  --warn-ink: #a65d12;
-  --topbar-bg: #1f4260;
-  --topbar-text: #eaf3f3;
-  --topbar-muted: #9db6c2;
+  --text: #2c2117;
+  --body-text: #4a3c2e;
+  --text-muted: #8a7a68;
+  --border: #6f9683;
+  --hair: #dbe6e0;
+  --accent: #ae572c;
+  --accent-ink: #fbf1e6;
+  --highlight: #f6d4a3;
+  --code-bg: #f1e7d6;
+  --ok-bg: #eaf4ef;
+  --ok-border: #7dae99;
+  --ok-ink: #3f5c4f;
+  --ok-text: #3f5c4f;
+  --err-bg: #f7ecec;
+  --err-border: #c98a90;
+  --err-ink: #8c3f47;
+  --warn-bg: #fbf0e0;
+  --warn-border: #bf7950;
+  --warn-ink: #825236;
+  --topbar-bg: #ae572c;
+  --topbar-text: #fbf1e6;
+  --topbar-muted: #e3bfa5;
   --radius: 4px;
   --max-width: 1100px;
   --content-measure: 74ch;
@@ -81,48 +106,46 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f1b22;
-    --bg-raised: #17262e;
-    --text: #eaf3f3;
-    --body-text: #c3d3d6;
-    --text-muted: #85a0a8;
-    --border: #2b3f47;
-    --hair: #20323a;
-    --accent: #2fd1d3;
-    --accent-ink: #06282a;
-    --highlight: #f3ff82;
-    --highlight-ink: #1f4260;
-    --code-bg: #1c2b32;
-    --ok-bg: #17240f;
-    --ok-border: #3c521c;
-    --ok-text: #a9d94a;
-    --err-bg: #2c211e;
-    --err-border: #5c3a32;
-    --warn-bg: #2a2318;
-    --warn-border: #5c4a2b;
+    --bg: #1b140f;
+    --bg-raised: #251c16;
+    --text: #f4ece1;
+    --body-text: #d9c8b7;
+    --text-muted: #9c8975;
+    --border: #4f7263;
+    --hair: #2d241d;
+    --accent: #e08a5b;
+    --accent-ink: #2a160a;
+    --highlight: #f6d4a3;
+    --code-bg: #2a2017;
+    --ok-bg: #16241d;
+    --ok-border: #3f6b56;
+    --ok-text: #8fd6b4;
+    --err-bg: #2a1719;
+    --err-border: #6b3238;
+    --warn-bg: #2a1d12;
+    --warn-border: #6b4726;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #0f1b22;
-  --bg-raised: #17262e;
-  --text: #eaf3f3;
-  --body-text: #c3d3d6;
-  --text-muted: #85a0a8;
-  --border: #2b3f47;
-  --hair: #20323a;
-  --accent: #2fd1d3;
-  --accent-ink: #06282a;
-  --highlight: #f3ff82;
-  --highlight-ink: #1f4260;
-  --code-bg: #1c2b32;
-  --ok-bg: #17240f;
-  --ok-border: #3c521c;
-  --ok-text: #a9d94a;
-  --err-bg: #2c211e;
-  --err-border: #5c3a32;
-  --warn-bg: #2a2318;
-  --warn-border: #5c4a2b;
+  --bg: #1b140f;
+  --bg-raised: #251c16;
+  --text: #f4ece1;
+  --body-text: #d9c8b7;
+  --text-muted: #9c8975;
+  --border: #4f7263;
+  --hair: #2d241d;
+  --accent: #e08a5b;
+  --accent-ink: #2a160a;
+  --highlight: #f6d4a3;
+  --code-bg: #2a2017;
+  --ok-bg: #16241d;
+  --ok-border: #3f6b56;
+  --ok-text: #8fd6b4;
+  --err-bg: #2a1719;
+  --err-border: #6b3238;
+  --warn-bg: #2a1d12;
+  --warn-border: #6b4726;
 }
 
 /* ok-ink / err-ink / warn-ink are intentionally NOT redefined for dark
@@ -412,7 +435,7 @@ pre code {
 /* ---------- Callout (bold dark card, matches the reference's closing-note style) ---------- */
 .callout {
   background: var(--topbar-bg);
-  color: #dce4e4;
+  color: #f1e3d5;
   border-radius: var(--radius);
   padding: 20px 22px;
   margin: 20px 0;
