@@ -1,8 +1,15 @@
 <!--
   week07.html
-  Version: 1.0
+  Version: 2.1
   Date: 2026-09-28
-  Changes: First version. Covers the "Teknik Memformat String" deck (23
+  Changes: v2.1 reduces em-dash usage in prose per Flo's request (24 of 29 em-dashes replaced with commas, periods, colons, parentheses, or connector words as natural substitutes); no changes to code, reveal-output text, or HTML structure/classes; re-validated with check_pages.py (0 mismatches) and a tag-balance check (no mismatches).
+  v2.0 applies the site's redesign: wraps the existing table
+  of contents in a sticky left section rail ("aside class=sidenav")
+  inside a new two-column ".cols"/".content" grid, matching the new
+  assets/style.css v2.0 (see that file for the full visual-design
+  changelog). No content or code changes; re-validated with
+  check_pages.py after the change (0 mismatches).
+  v1.0: First version. Covers the "Teknik Memformat String" deck (23
   slides): the string .format() method (arguments, simple replacement,
   nested replacement) and the format_spec mini-language. The deck's own
   23 pages turned out to contain no slides at all for its second listed
@@ -59,6 +66,8 @@
     <p class="subtitle">Dua cara menyisipkan nilai ke dalam string: metode <code>.format()</code> dan <em>formatted string literal</em> (f-string) &mdash; beserta mini-language <code>format_spec</code> yang dipakai keduanya untuk mengatur lebar, perataan, dan presisi tampilan.</p>
   </div>
 
+  <div class="cols">
+  <aside class="sidenav">
   <nav class="toc" aria-label="Daftar isi">
     <p class="toc-title">Daftar isi</p>
     <ol>
@@ -74,10 +83,12 @@
       <li><a href="#fstring-batasan">f-string: batasan</a></li>
     </ol>
   </nav>
+  </aside>
+  <div class="content">
 
   <h2 id="metode-format">Metode String <code>.format()</code></h2>
   <p>Bentuk umum dari <code>.format()</code>:</p>
-  <div class="fixed-note"><strong>Catatan:</strong> ini notasi, bukan kode yang bisa langsung dijalankan &mdash; <code>&lt;template&gt;</code>, <code>&lt;positional_argument(s)&gt;</code>, dan <code>&lt;keyword_argument(s)&gt;</code> adalah placeholder.</div>
+  <div class="fixed-note"><strong>Catatan:</strong> ini notasi, bukan kode yang bisa langsung dijalankan: <code>&lt;template&gt;</code>, <code>&lt;positional_argument(s)&gt;</code>, dan <code>&lt;keyword_argument(s)&gt;</code> adalah placeholder.</div>
   <pre><code>&lt;template&gt;.format(&lt;positional_argument(s)&gt;, &lt;keyword_argument(s)&gt;)</code></pre>
   <p><code>&lt;template&gt;</code> berisi ruang yang dapat diganti nilainya, dituliskan dalam kurung kurawal (<code>{ }</code>), disebut <strong>replacement field</strong>. <code>&lt;positional_argument(s)&gt;</code> dan <code>&lt;keyword_argument(s)&gt;</code> merincikan nilai yang akan dimasukkan ke dalam <code>&lt;template&gt;</code>.</p>
 
@@ -88,11 +99,11 @@
     <details class="reveal">
       <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{ foo }</code></pre></div>
-      <p class="reveal-note">Kurung kurawal ganda <code>{{</code> dan <code>}}</code> adalah cara meng-escape kurung kurawal literal &mdash; keduanya dicetak sebagai <code>{</code> dan <code>}</code> tunggal, sedangkan <code>{0}</code> tetap menjadi replacement field yang diganti dengan argumen posisi ke-0.</p>
+      <p class="reveal-note">Kurung kurawal ganda <code>{{</code> dan <code>}}</code> adalah cara meng-escape kurung kurawal literal: keduanya dicetak sebagai <code>{</code> dan <code>}</code> tunggal, sedangkan <code>{0}</code> tetap menjadi replacement field yang diganti dengan argumen posisi ke-0.</p>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">Argumen posisi &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <p class="snippet-label">Argumen posisi: tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>print('{0} {1} cost ${2}'.format(6, 'bananas', 1.74))</code></pre>
     <details class="reveal">
       <summary class="reveal-btn">Lihat hasil</summary>
@@ -101,7 +112,7 @@
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">Argumen keyword &mdash; nilai yang sama, ditulis dengan nama</p>
+    <p class="snippet-label">Argumen keyword: nilai yang sama, ditulis dengan nama</p>
     <pre><code>print('{quantity} {item} cost ${price}'.format(
     quantity=6,
     item='bananas',
@@ -109,7 +120,7 @@
     <details class="reveal">
       <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>6 bananas cost $1.74</code></pre></div>
-      <p class="reveal-note">Hasilnya identik dengan versi argumen posisi &mdash; bedanya replacement field mengacu ke <strong>nama</strong> keyword argument, bukan ke nomor urut.</p>
+      <p class="reveal-note">Hasilnya identik dengan versi argumen posisi, bedanya replacement field mengacu ke <strong>nama</strong> keyword argument, bukan ke nomor urut.</p>
     </details>
   </div>
 
@@ -130,12 +141,12 @@ baz.bar.foo/foofoo.barbar.bazbaz</code></pre></div>
     <details class="reveal">
       <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output is-error"><pre><code>IndexError: Replacement index 3 out of range for positional args tuple</code></pre></div>
-      <p class="reveal-note">Hanya ada 3 argumen posisi (indeks 0, 1, 2) &mdash; indeks <code>3</code> tidak ada.</p>
+      <p class="reveal-note">Hanya ada 3 argumen posisi (indeks 0, 1, 2), sedangkan indeks <code>3</code> tidak ada.</p>
     </details>
   </div>
   <div class="callout">
     <p class="callout-title">Sejak Python &ge; 3.1</p>
-    <p>Kurung kurawal boleh dikosongkan (<code>{}</code>); Python akan menomorinya secara otomatis mulai dari 0, sesuai urutan penulisan replacement field &mdash; bukan urutan argumen di <code>.format()</code>.</p>
+    <p>Kurung kurawal boleh dikosongkan (<code>{}</code>); Python akan menomorinya secara otomatis mulai dari 0, sesuai urutan penulisan replacement field, bukan urutan argumen di <code>.format()</code>.</p>
   </div>
   <div class="snippet">
     <pre><code>print('{}/{}/{}'.format('foo', 'bar', 'baz'))</code></pre>
@@ -149,17 +160,17 @@ baz.bar.foo/foofoo.barbar.bazbaz</code></pre></div>
     <div class="compare-col no">
       <span class="tag">Field lebih banyak dari argumen</span>
       <pre><code>'{}{}{}{}'.format('foo','bar','baz')</code></pre>
-      <p class="reveal-note"><code>IndexError: Replacement index 3 out of range for positional args tuple</code> &mdash; 4 field otomatis (indeks 0&ndash;3) tapi cuma 3 argumen.</p>
+      <p class="reveal-note"><code>IndexError: Replacement index 3 out of range for positional args tuple</code>: 4 field otomatis (indeks 0&ndash;3) tapi cuma 3 argumen.</p>
     </div>
     <div class="compare-col warn">
       <span class="tag">Argumen lebih banyak dari field</span>
       <pre><code>print('{}{}'.format('foo', 'bar', 'baz'))</code></pre>
-      <p class="reveal-note">Hasilnya <code>foobar</code> &mdash; argumen ketiga (<code>'baz'</code>) sah-sah saja diberikan, tapi tidak pernah dipakai karena tidak ada field ketiga.</p>
+      <p class="reveal-note">Hasilnya <code>foobar</code>: argumen ketiga (<code>'baz'</code>) sah-sah saja diberikan, tapi tidak pernah dipakai karena tidak ada field ketiga.</p>
     </div>
     <div class="compare-col no">
       <span class="tag">Mencampur manual &amp; otomatis</span>
       <pre><code>'{1}{}{0}'.format('foo','bar','baz')</code></pre>
-      <p class="reveal-note"><code>ValueError: cannot switch from manual field specification to automatic field numbering</code> &mdash; sekali memakai indeks manual (<code>{1}</code>, <code>{0}</code>) dalam satu template, field otomatis (<code>{}</code>) tidak boleh dicampur di situ.</p>
+      <p class="reveal-note"><code>ValueError: cannot switch from manual field specification to automatic field numbering</code>: sekali memakai indeks manual (<code>{1}</code>, <code>{0}</code>) dalam satu template, field otomatis (<code>{}</code>) tidak boleh dicampur di situ.</p>
     </div>
   </div>
 
@@ -173,7 +184,7 @@ baz.bar.foo/foofoo.barbar.bazbaz</code></pre></div>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">Nama yang tidak diberikan &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <p class="snippet-label">Nama yang tidak diberikan: tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>'{x}/{y}/{w}'.format(x='foo', y='bar', z='baz')</code></pre>
     <details class="reveal">
       <summary class="reveal-btn">Lihat hasil</summary>
@@ -181,7 +192,7 @@ baz.bar.foo/foofoo.barbar.bazbaz</code></pre></div>
       <p class="reveal-note">Field <code>{w}</code> minta keyword argument bernama <code>w</code>, tapi yang diberikan cuma <code>x</code>, <code>y</code>, <code>z</code>.</p>
     </details>
   </div>
-  <p>Perbedaan penting antara keduanya: untuk argumen posisi, <strong>urutan penulisan argumen menentukan hasil</strong>; untuk keyword argument, <strong>urutan penulisan di pemanggilan <code>.format()</code> tidak berpengaruh</strong> &mdash; yang menentukan adalah namanya:</p>
+  <p>Perbedaan penting antara keduanya: untuk argumen posisi, <strong>urutan penulisan argumen menentukan hasil</strong>; untuk keyword argument, <strong>urutan penulisan di pemanggilan <code>.format()</code> tidak berpengaruh</strong>, yang menentukan adalah namanya:</p>
   <div class="snippet">
     <pre><code>print('{0}/{1}/{2}'.format('foo', 'bar', 'baz'))
 print('{0}/{1}/{2}'.format('bar', 'baz', 'foo'))
@@ -207,9 +218,9 @@ foo/bar/baz</code></pre></div>
     </details>
   </div>
   <div class="compare-col no" style="margin: 14px 0 20px;">
-    <span class="tag">Keyword sebelum positional &mdash; ini bukan aturan .format(), tapi aturan sintaks Python untuk pemanggilan fungsi apa pun</span>
+    <span class="tag">Keyword sebelum positional: ini bukan aturan .format(), tapi aturan sintaks Python untuk pemanggilan fungsi apa pun</span>
     <pre><code>'{0}{x}{1}'.format('foo', x='baz', 'bar')</code></pre>
-    <p class="reveal-note"><code>SyntaxError: positional argument follows keyword argument</code> &mdash; begitu satu argumen ditulis pakai <code>nama=</code>, semua argumen posisi setelahnya juga dianggap melanggar urutan, walau di sini niatnya menyisipkan satu argumen posisi terakhir.</p>
+    <p class="reveal-note"><code>SyntaxError: positional argument follows keyword argument</code>: begitu satu argumen ditulis pakai <code>nama=</code>, semua argumen posisi setelahnya juga dianggap melanggar urutan, walau di sini niatnya menyisipkan satu argumen posisi terakhir.</p>
   </div>
   <p>Variabel juga bisa dipakai sebagai argumen, dicampur posisi dan keyword seperti biasa:</p>
   <div class="snippet">
@@ -262,7 +273,7 @@ print('{0!r}'.format('hi'))</code></pre>
       <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>hi
 'hi'</code></pre></div>
-      <p class="reveal-note"><code>!s</code> (<code>str()</code>) mencetak string apa adanya; <code>!r</code> (<code>repr()</code>) menyertakan tanda kutipnya &mdash; representasi yang bisa (idealnya) ditulis ulang sebagai kode Python.</p>
+      <p class="reveal-note"><code>!s</code> (<code>str()</code>) mencetak string apa adanya; <code>!r</code> (<code>repr()</code>) menyertakan tanda kutipnya, yaitu representasi yang bisa (idealnya) ditulis ulang sebagai kode Python.</p>
     </details>
   </div>
 
@@ -284,7 +295,7 @@ print('{0!r}'.format('hi'))</code></pre>
           <tr><td><code>&lt;width&gt;</code></td><td>Lebar minimum dari keluaran.</td></tr>
           <tr><td><code>&lt;group&gt;</code></td><td>Karakter pengelompokan untuk keluaran numerik (mis. pemisah ribuan).</td></tr>
           <tr><td><code>.&lt;prec&gt;</code></td><td>Jumlah digit di belakang titik desimal untuk tipe floating-point, atau lebar keluaran maksimum untuk tipe string.</td></tr>
-          <tr><td><code>&lt;type&gt;</code></td><td>Tipe presentasi &mdash; jenis konversi yang dilakukan pada argumen terkait.</td></tr>
+          <tr><td><code>&lt;type&gt;</code></td><td>Tipe presentasi: jenis konversi yang dilakukan pada argumen terkait.</td></tr>
         </tbody>
       </table>
     </div>
@@ -361,7 +372,7 @@ print('{:#b}'.format(10))</code></pre>
   </div>
 
   <h3 id="nested-replacement">Nested replacement fields</h3>
-  <p><code>&lt;name&gt;</code> mengindikasikan argumen yang disisipkan, dapat berupa angka (indeks) untuk positional arguments atau kata kunci untuk keyword argument. Kalau argumen itu sendiri berupa list, elemennya bisa diakses langsung di dalam replacement field dengan menuliskan indeksnya &mdash; inilah yang disebut <em>nested replacement</em>:</p>
+  <p><code>&lt;name&gt;</code> mengindikasikan argumen yang disisipkan, dapat berupa angka (indeks) untuk positional arguments atau kata kunci untuk keyword argument. Kalau argumen itu sendiri berupa list, elemennya bisa diakses langsung di dalam replacement field dengan menuliskan indeksnya; inilah yang disebut <em>nested replacement</em>:</p>
   <div class="snippet">
     <pre><code>x, y, z = 1, 2, 3
 a = ['foo', 'bar', 'baz']
@@ -371,12 +382,12 @@ print('{my_list[0]}, {my_list[2]}'.format(my_list=a))</code></pre>
       <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>foo, baz
 foo, baz</code></pre></div>
-      <p class="reveal-note"><code>{0[0]}</code> berarti: ambil argumen posisi ke-0 (yaitu <code>a</code>), lalu indeks <code>[0]</code>-nya. <code>{my_list[2]}</code> berarti: ambil keyword argument <code>my_list</code>, lalu indeks <code>[2]</code>-nya. Perhatikan tidak ada tanda kutip di sekitar <code>0</code> maupun <code>2</code> di dalam kurung siku &mdash; berbeda dari indexing Python biasa.</p>
+      <p class="reveal-note"><code>{0[0]}</code> berarti: ambil argumen posisi ke-0 (yaitu <code>a</code>), lalu indeks <code>[0]</code>-nya. <code>{my_list[2]}</code> berarti: ambil keyword argument <code>my_list</code>, lalu indeks <code>[2]</code>-nya. Perhatikan tidak ada tanda kutip di sekitar <code>0</code> maupun <code>2</code> di dalam kurung siku, berbeda dari indexing Python biasa.</p>
     </details>
   </div>
 
   <h2 id="fstring">Formatted String Literal (f-string)</h2>
-  <p>Cara kedua untuk memformat string: awali literal string dengan huruf <code>f</code> atau <code>F</code>, lalu tulis ekspresi Python langsung di dalam kurung kurawal &mdash; tidak perlu memanggil <code>.format()</code> secara terpisah.</p>
+  <p>Cara kedua untuk memformat string: awali literal string dengan huruf <code>f</code> atau <code>F</code>, lalu tulis ekspresi Python langsung di dalam kurung kurawal, tidak perlu memanggil <code>.format()</code> secara terpisah.</p>
 
   <h3 id="fstring-syntax">Syntax</h3>
   <div class="snippet">
@@ -388,7 +399,7 @@ print(f'Nama saya {name}, umur {age} tahun.')</code></pre>
       <div class="reveal-output"><pre><code>Nama saya Andi, umur 20 tahun.</code></pre></div>
     </details>
   </div>
-  <p>Bagian di dalam <code>{ }</code> bukan cuma nama variabel &mdash; boleh ekspresi Python apa saja: operasi aritmetika, pemanggilan method, bahkan pemanggilan fungsi:</p>
+  <p>Bagian di dalam <code>{ }</code> bukan cuma nama variabel, boleh ekspresi Python apa saja: operasi aritmetika, pemanggilan method, bahkan pemanggilan fungsi:</p>
   <div class="snippet">
     <pre><code>print(f'{3 + 4}')
 a = ['foo', 'bar', 'baz']
@@ -422,7 +433,7 @@ print(f'Total: Rp{harga:,.2f}')</code></pre>
       <div class="reveal-output"><pre><code>Total: Rp24,990.50</code></pre></div>
     </details>
   </div>
-  <p>Bonus yang tidak dimiliki <code>.format()</code>: akhiri sebuah field dengan <code>=</code> untuk mencetak teks ekspresinya sekaligus nilainya &mdash; berguna untuk debugging cepat tanpa menulis ulang nama variabelnya di dalam string:</p>
+  <p>Bonus yang tidak dimiliki <code>.format()</code>: akhiri sebuah field dengan <code>=</code> untuk mencetak teks ekspresinya sekaligus nilainya, berguna untuk debugging cepat tanpa menulis ulang nama variabelnya di dalam string:</p>
   <div class="snippet">
     <pre><code>age = 20
 print(f'{age=}')
@@ -433,7 +444,7 @@ print(f'{x=}, {y=}, {x + y = }')</code></pre>
       <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>age=20
 x=5, y=3, x + y = 8</code></pre></div>
-      <p class="reveal-note">Spasi di sekitar ekspresi (seperti pada <code>x + y = </code>) ikut dicetak apa adanya &mdash; itu sebabnya hasilnya <code>x + y = 8</code>, bukan <code>x+y=8</code>.</p>
+      <p class="reveal-note">Spasi di sekitar ekspresi (seperti pada <code>x + y = </code>) ikut dicetak apa adanya. Itu sebabnya hasilnya <code>x + y = 8</code>, bukan <code>x+y=8</code>.</p>
     </details>
   </div>
 
@@ -443,7 +454,7 @@ x=5, y=3, x + y = 8</code></pre></div>
     <div class="compare-col no">
       <span class="tag">Backslash di dalam ekspresi</span>
       <pre><code>print(f'{"a\nb"}')</code></pre>
-      <p class="reveal-note"><code>SyntaxError: f-string expression part cannot include a backslash</code> &mdash; karakter <code>\</code> (termasuk untuk escape sequence seperti <code>\n</code>) tidak boleh muncul di dalam kurung kurawal <code>{ }</code>.</p>
+      <p class="reveal-note"><code>SyntaxError: f-string expression part cannot include a backslash</code>: karakter <code>\</code> (termasuk untuk escape sequence seperti <code>\n</code>) tidak boleh muncul di dalam kurung kurawal <code>{ }</code>.</p>
     </div>
     <div class="compare-col no">
       <span class="tag">Kutip yang sama dengan pembatas f-string</span>
@@ -453,7 +464,7 @@ x=5, y=3, x + y = 8</code></pre></div>
   </div>
   <div class="callout">
     <p class="callout-title">Diverifikasi untuk versi Python ini</p>
-    <p>Kedua contoh di atas benar-benar menghasilkan <code>SyntaxError</code> pada Python 3.11 (versi yang dipakai untuk menjalankan dan memvalidasi seluruh kode di situs ini). Sejak <strong>Python 3.12</strong> (PEP 701), kedua batasan ini dihapus &mdash; backslash dan tanda kutip yang sama boleh dipakai bebas di dalam ekspresi f-string. Ini dicek langsung dengan menjalankan kode yang sama di interpreter Python 3.12: keduanya berhasil dan tidak lagi menghasilkan error.</p>
+    <p>Kedua contoh di atas benar-benar menghasilkan <code>SyntaxError</code> pada Python 3.11 (versi yang dipakai untuk menjalankan dan memvalidasi seluruh kode di situs ini). Sejak <strong>Python 3.12</strong> (PEP 701), kedua batasan ini dihapus: backslash dan tanda kutip yang sama boleh dipakai bebas di dalam ekspresi f-string. Ini dicek langsung dengan menjalankan kode yang sama di interpreter Python 3.12: keduanya berhasil dan tidak lagi menghasilkan error.</p>
   </div>
 
   <div class="callout">
@@ -465,12 +476,14 @@ x=5, y=3, x + y = 8</code></pre></div>
     <a href="week06.html"><span class="dir">Sebelumnya</span>&larr; Minggu 6: Pengulangan, Input dan Output</a>
     <span></span>
   </div>
+  </div>
+  </div>
 </main>
 
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Halaman v1.0 &middot; 28 September 2026</span>
+    <span>Halaman v2.1 &middot; 28 September 2026</span>
   </div>
 </footer>
 

@@ -1,8 +1,15 @@
 <!--
   week04.html
-  Version: 1.1
+  Version: 2.1
   Date: 2026-09-28
-  Changes: v1.1 fixes four leftover-English UI strings from the page
+  Changes: v2.1 reduces em-dash usage in prose per Flo's request (30 of 36 em-dashes replaced with commas, periods, colons, parentheses, or connector words as natural substitutes); no changes to code, reveal-output text, or HTML structure/classes; re-validated with check_pages.py (0 mismatches) and a tag-balance check (no mismatches).
+  v2.0 applies the site's redesign: wraps the existing table
+  of contents in a sticky left section rail ("aside class=sidenav")
+  inside a new two-column ".cols"/".content" grid, matching the new
+  assets/style.css v2.0 (see that file for the full visual-design
+  changelog). No content or code changes; re-validated with
+  check_pages.py after the change (0 mismatches).
+  v1.1: fixes four leftover-English UI strings from the page
   template (skip-link, top-nav aria-label, dark-mode button, table-of-
   contents aria-label/title) so the page chrome is fully Indonesian
   like the rest of the site. No content changes.
@@ -61,6 +68,8 @@
     <p class="subtitle">Sebuah struktur yang menyimpan kumpulan data <strong>unik</strong> dan <strong>tidak berurutan</strong> &mdash; mirip himpunan dalam matematika, lengkap dengan operasi gabungan, irisan, dan selisihnya.</p>
   </div>
 
+  <div class="cols">
+  <aside class="sidenav">
   <nav class="toc" aria-label="Daftar isi">
     <p class="toc-title">Daftar isi</p>
     <ol>
@@ -74,6 +83,8 @@
       <li><a href="#frozenset">Frozenset</a></li>
     </ol>
   </nav>
+  </aside>
+  <div class="content">
 
   <h2 id="apa-itu">Apa itu set?</h2>
   <p><strong>Set</strong> (himpunan) adalah salah satu tipe data komposit Python, seperti list ia dapat menyimpan sekumpulan data. Sets == himpunan matematika: hubungan antara dua buah himpunan dinyatakan lewat irisan dan gabungan, dan dalam Python koleksi data yang unik dalam suatu set disebut sebagai elemen atau anggota himpunan.</p>
@@ -89,7 +100,7 @@
 
   <h3>Cara 1: menggunakan fungsi <code>set()</code></h3>
   <pre><code>x = set(&lt;iter&gt;)</code></pre>
-  <div class="fixed-note"><strong>Catatan:</strong> ini adalah notasi, bukan kode yang bisa dijalankan &mdash; <code>&lt;iter&gt;</code> adalah tempat untuk sebuah objek iterable (list, tuple, string, dsb).</div>
+  <div class="fixed-note"><strong>Catatan:</strong> ini adalah notasi, bukan kode yang bisa dijalankan: <code>&lt;iter&gt;</code> adalah tempat untuk sebuah objek iterable (list, tuple, string, dsb).</div>
   <div class="snippet">
     <p class="snippet-label">Duplikat otomatis dibuang</p>
     <pre><code>x = set(['foo', 'bar', 'baz', 'foo', 'qux'])
@@ -97,7 +108,7 @@ print(sorted(x))</code></pre>
     <details class="reveal">
       <summary class="reveal-btn">Tampilkan hasil</summary>
       <div class="reveal-output"><pre><code>['bar', 'baz', 'foo', 'qux']</code></pre></div>
-      <p class="reveal-note">Dua <code>'foo'</code> pada input menjadi satu. Di sini dan pada contoh-contoh berikutnya, hasil set ditampilkan lewat <code>sorted(&hellip;)</code> supaya urutannya konsisten dibaca di halaman ini &mdash; set aslinya sendiri tetap tidak berurutan, dan <code>print(x)</code> langsung bisa menghasilkan urutan yang berbeda setiap kali skrip dijalankan. <code>set((&hellip;))</code> dengan tuple bekerja dengan cara yang sama persis.</p>
+      <p class="reveal-note">Dua <code>'foo'</code> pada input menjadi satu. Di sini dan pada contoh-contoh berikutnya, hasil set ditampilkan lewat <code>sorted(&hellip;)</code> supaya urutannya konsisten dibaca di halaman ini. Set aslinya sendiri tetap tidak berurutan, dan <code>print(x)</code> langsung bisa menghasilkan urutan yang berbeda setiap kali skrip dijalankan. <code>set((&hellip;))</code> dengan tuple bekerja dengan cara yang sama persis.</p>
     </details>
   </div>
   <div class="snippet">
@@ -155,7 +166,7 @@ print(x)</code></pre>
       <pre><code>x = {}
 print(type(x))
 print(x)</code></pre>
-      <p class="reveal-note">Hasil: <code>&lt;class 'dict'&gt;</code> lalu <code>{}</code> &mdash; kurung kurawal kosong selalu menjadi <strong>dictionary</strong> kosong, bukan set kosong.</p>
+      <p class="reveal-note">Hasil: <code>&lt;class 'dict'&gt;</code> lalu <code>{}</code>. Kurung kurawal kosong selalu menjadi <strong>dictionary</strong> kosong, bukan set kosong.</p>
     </div>
   </div>
 
@@ -170,19 +181,19 @@ print(sorted(x, key=str))</code></pre>
       <summary class="reveal-btn">Tampilkan hasil</summary>
       <div class="reveal-output"><pre><code>[3.14159, 42, None, 'foo']
 [(1, 2, 3), 3.14159, 42, 'foo']</code></pre></div>
-      <p class="reveal-note">Elemennya diurutkan dengan <code>sorted(&hellip;, key=str)</code> hanya supaya bisa ditampilkan &mdash; tipe yang campur (int, str, <code>None</code>, tuple) tidak bisa dibandingkan langsung dengan <code>sorted()</code> biasa.</p>
+      <p class="reveal-note">Elemennya diurutkan dengan <code>sorted(&hellip;, key=str)</code> hanya supaya bisa ditampilkan, karena tipe yang campur (int, str, <code>None</code>, tuple) tidak bisa dibandingkan langsung dengan <code>sorted()</code> biasa.</p>
     </details>
   </div>
   <p>List dan dictionary bersifat mutable, sehingga tidak bisa dijadikan elemen set (keduanya <em>unhashable</em>):</p>
   <div class="compare-grid">
     <div class="compare-col no">
-      <span class="tag">List sebagai elemen &mdash; gagal</span>
+      <span class="tag">List sebagai elemen: gagal</span>
       <pre><code>a = [1, 2, 3]
 {a}</code></pre>
       <p class="reveal-note"><code>TypeError: unhashable type: 'list'</code></p>
     </div>
     <div class="compare-col no">
-      <span class="tag">Dictionary sebagai elemen &mdash; gagal</span>
+      <span class="tag">Dictionary sebagai elemen: gagal</span>
       <pre><code>d = {'a': 1, 'b': 2}
 {d}</code></pre>
       <p class="reveal-note"><code>TypeError: unhashable type: 'dict'</code></p>
@@ -202,7 +213,7 @@ True
 False</code></pre></div>
     </details>
   </div>
-  <p>Set tidak memiliki indeks dan tidak bisa dipotong (di-<em>slice</em>) &mdash; tidak ada konsep "elemen pertama" pada sesuatu yang tidak berurutan:</p>
+  <p>Set tidak memiliki indeks dan tidak bisa dipotong (di-<em>slice</em>), karena tidak ada konsep "elemen pertama" pada sesuatu yang tidak berurutan:</p>
   <div class="snippet">
     <pre><code>x = {'foo', 'bar', 'baz'}
 x[0]</code></pre>
@@ -213,7 +224,7 @@ x[0]</code></pre>
   </div>
 
   <h2 id="operasi">Operasi pada set</h2>
-  <p>Operasi pada set dalam Python secara umum sama seperti himpunan dalam matematika. Setiap operasi tersedia dalam dua bentuk: sebagai <strong>metode</strong> dan sebagai <strong>operator</strong> &mdash; keduanya ekivalen.</p>
+  <p>Operasi pada set dalam Python secara umum sama seperti himpunan dalam matematika. Setiap operasi tersedia dalam dua bentuk: sebagai <strong>metode</strong> dan sebagai <strong>operator</strong>, keduanya ekivalen.</p>
 
   <h3>1. Gabungan (union)</h3>
   <div class="snippet">
@@ -271,7 +282,7 @@ print(a &amp; b &amp; c &amp; d)</code></pre>
   </div>
 
   <h3>3. Selisih (difference)</h3>
-  <p>Mencari elemen yang merupakan anggota himpunan satu tetapi bukan anggota himpunan kedua &mdash; membuang anggota himpunan 1 yang juga merupakan anggota himpunan 2.</p>
+  <p>Mencari elemen yang merupakan anggota himpunan satu tetapi bukan anggota himpunan kedua, yaitu membuang anggota himpunan 1 yang juga merupakan anggota himpunan 2.</p>
   <div class="snippet">
     <pre><code>x1 = {'foo', 'bar', 'baz'}
 x2 = {'baz', 'qux', 'quux'}
@@ -284,7 +295,7 @@ print(sorted(x1 - x2))</code></pre>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">Selisih untuk lebih dari dua set &mdash; dihitung berurutan dari kiri</p>
+    <p class="snippet-label">Selisih untuk lebih dari dua set: dihitung berurutan dari kiri</p>
     <pre><code>a = {1, 2, 3, 30, 300}
 b = {10, 20, 30, 40}
 c = {100, 200, 300, 400}
@@ -314,15 +325,15 @@ print(sorted(x1 ^ x2))</code></pre>
   <p>Untuk lebih dari dua set, <code>symmetric_difference()</code> berbeda dari <code>union()</code>, <code>intersection()</code>, dan <code>difference()</code>: metode ini <strong>tidak menerima banyak argumen</strong>, sedangkan operator <code>^</code> tetap bisa dirangkai:</p>
   <div class="compare-grid">
     <div class="compare-col warn">
-      <span class="tag">Operator &mdash; bisa dirangkai</span>
+      <span class="tag">Operator: bisa dirangkai</span>
       <pre><code>a = {1, 2, 3, 4, 5}
 b = {10, 2, 3, 4, 50}
 c = {1, 50, 100}
 a ^ b ^ c</code></pre>
-      <p class="reveal-note">Hasilnya <code>{10, 100, 5}</code> &mdash; dihitung berurutan dari kiri, sama seperti <code>-</code>.</p>
+      <p class="reveal-note">Hasilnya <code>{10, 100, 5}</code>, dihitung berurutan dari kiri, sama seperti <code>-</code>.</p>
     </div>
     <div class="compare-col no">
-      <span class="tag">Metode &mdash; hanya menerima satu argumen</span>
+      <span class="tag">Metode: hanya menerima satu argumen</span>
       <pre><code>a = {1, 2, 3, 4, 5}
 b = {10, 2, 3, 4, 50}
 c = {1, 50, 100}
@@ -413,7 +424,7 @@ print(x1 &lt; x1)</code></pre>
       <div class="reveal-output"><pre><code>True
 False
 False</code></pre></div>
-      <p class="reveal-note">Begitu <code>x1</code> dan <code>x2</code> identik, <code>x1 &lt; x2</code> menjadi <code>False</code> &mdash; termasuk <code>x1 &lt; x1</code>, sebuah himpunan bukan proper subset dari dirinya sendiri.</p>
+      <p class="reveal-note">Begitu <code>x1</code> dan <code>x2</code> identik, <code>x1 &lt; x2</code> menjadi <code>False</code>, termasuk <code>x1 &lt; x1</code>, sebuah himpunan bukan proper subset dari dirinya sendiri.</p>
     </details>
   </div>
 
@@ -452,7 +463,7 @@ False</code></pre></div>
   <p>Ada dua cara memodifikasi set: dengan <strong>augmented operator</strong> (mengombinasikan operator dengan <code>=</code>, sama seperti <code>+=</code> pada angka), dan dengan <strong>metode</strong> khusus untuk menambah/menghapus satu elemen.</p>
 
   <h3>Augmented operator</h3>
-  <div class="fixed-note"><strong>Koreksi dari materi asli:</strong> pada slide deck, dua baris terakhir tabel di bawah tertukar labelnya &mdash; <code>difference_update</code> tertulis "Irisan simetris" dan <code>symmetric_difference_update</code> tertulis "Memeriksa irisan". Tabel di bawah sudah memakai label yang benar: "Selisih" dan "Selisih simetris".</div>
+  <div class="fixed-note"><strong>Koreksi dari materi asli:</strong> pada slide deck, dua baris terakhir tabel di bawah tertukar labelnya: <code>difference_update</code> tertulis "Irisan simetris" dan <code>symmetric_difference_update</code> tertulis "Memeriksa irisan". Tabel di bawah sudah memakai label yang benar: "Selisih" dan "Selisih simetris".</div>
   <details class="ref-block">
     <summary>Referensi: augmented operator untuk set</summary>
     <div class="ref-body">
@@ -554,16 +565,16 @@ print(sorted(x))</code></pre>
       <div class="reveal-output"><pre><code>['bar', 'baz', 'foo', 'qux']</code></pre></div>
     </details>
   </div>
-  <p>Ingat catatan "satu objek" di atas &mdash; <code>&lt;elem&gt;</code> memang harus tepat satu argumen:</p>
+  <p>Ingat catatan "satu objek" di atas, <code>&lt;elem&gt;</code> memang harus tepat satu argumen:</p>
   <div class="compare-grid">
     <div class="compare-col yes">
-      <span class="tag">Satu argumen &mdash; benar</span>
+      <span class="tag">Satu argumen: benar</span>
       <pre><code>x = {'foo', 'bar', 'baz'}
 x.add('qux')</code></pre>
       <p class="reveal-note">Berhasil, seperti contoh di atas.</p>
     </div>
     <div class="compare-col no">
-      <span class="tag">Dua argumen &mdash; gagal</span>
+      <span class="tag">Dua argumen: gagal</span>
       <pre><code>x = {'foo', 'bar', 'baz'}
 x.add('corge', 'garply')</code></pre>
       <p class="reveal-note"><code>TypeError: set.add() takes exactly one argument (2 given)</code></p>
@@ -580,16 +591,16 @@ x.remove('qux')</code></pre>
       <p class="reveal-note">Baris kedua berhasil (<code>x</code> menjadi <code>{'foo', 'bar'}</code>); baris ketiga gagal karena <code>'qux'</code> memang bukan anggota <code>x</code>: <code>KeyError: 'qux'</code>.</p>
     </div>
     <div class="compare-col yes">
-      <span class="tag"><code>discard()</code> &mdash; aman meski elemen tidak ada</span>
+      <span class="tag"><code>discard()</code>: aman meski elemen tidak ada</span>
       <pre><code>x = {'foo', 'bar', 'baz'}
 x.discard('baz')
 x.discard('qux')</code></pre>
-      <p class="reveal-note">Kedua baris berhasil tanpa error; <code>x</code> berakhir sebagai <code>{'foo', 'bar'}</code> &mdash; <code>discard()</code> tidak pernah protes meski elemennya tidak ada.</p>
+      <p class="reveal-note">Kedua baris berhasil tanpa error; <code>x</code> berakhir sebagai <code>{'foo', 'bar'}</code>. <code>discard()</code> tidak pernah protes meski elemennya tidak ada.</p>
     </div>
   </div>
 
   <div class="snippet">
-    <p class="snippet-label"><code>x.pop()</code> &mdash; menghapus dan mengembalikan satu anggota</p>
+    <p class="snippet-label"><code>x.pop()</code>: menghapus dan mengembalikan satu anggota</p>
     <pre><code>x = {'foo'}
 print(x.pop())
 print(x)</code></pre>
@@ -597,7 +608,7 @@ print(x)</code></pre>
       <summary class="reveal-btn">Tampilkan hasil</summary>
       <div class="reveal-output"><pre><code>foo
 set()</code></pre></div>
-      <p class="reveal-note">Pada set beranggota banyak, elemen mana yang terambil oleh <code>pop()</code> tidak dijamin urutannya (arbitrary) &mdash; karena itu contoh ini memakai set beranggota satu, supaya hasilnya pasti.</p>
+      <p class="reveal-note">Pada set beranggota banyak, elemen mana yang terambil oleh <code>pop()</code> tidak dijamin urutannya (arbitrary). Karena itu, contoh ini memakai set beranggota satu, supaya hasilnya pasti.</p>
     </details>
   </div>
   <div class="snippet">
@@ -638,7 +649,7 @@ print(x &amp; {'baz', 'qux', 'quux'})</code></pre>
       <div class="reveal-output"><pre><code>['bar', 'baz', 'foo']
 3
 frozenset({'baz'})</code></pre></div>
-      <p class="reveal-note">Mengiriskan sebuah frozenset dengan set biasa tetap menghasilkan frozenset &mdash; operasi pada frozenset selalu menghasilkan objek baru yang juga immutable.</p>
+      <p class="reveal-note">Mengiriskan sebuah frozenset dengan set biasa tetap menghasilkan frozenset. Operasi pada frozenset selalu menghasilkan objek baru yang juga immutable.</p>
     </details>
   </div>
 
@@ -649,10 +660,10 @@ frozenset({'baz'})</code></pre></div>
 x.add('qux')
 x.pop()
 x.clear()</code></pre>
-    <p class="reveal-note">Masing-masing dijalankan sendiri (baris pertama sudah menghentikan skrip kalau dijalankan berurutan): <code>x.add('qux')</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'add'</code>; <code>x.pop()</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'pop'</code>; <code>x.clear()</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'clear'</code> &mdash; frozenset memang tidak memiliki metode-metode itu sama sekali.</p>
+    <p class="reveal-note">Masing-masing dijalankan sendiri (baris pertama sudah menghentikan skrip kalau dijalankan berurutan): <code>x.add('qux')</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'add'</code>; <code>x.pop()</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'pop'</code>; <code>x.clear()</code> &rarr; <code>AttributeError: 'frozenset' object has no attribute 'clear'</code>. Frozenset memang tidak memiliki metode-metode itu sama sekali.</p>
   </div>
 
-  <p>Augmented operator tetap bisa dipakai pada frozenset &mdash; tapi bukan memodifikasi, melainkan mengganti variabelnya dengan objek frozenset baru:</p>
+  <p>Augmented operator tetap bisa dipakai pada frozenset, tapi bukan memodifikasi, melainkan mengganti variabelnya dengan objek frozenset baru:</p>
   <div class="snippet">
     <pre><code>f = frozenset(['foo', 'bar', 'baz'])
 s = {'baz', 'qux', 'quux'}
@@ -668,10 +679,10 @@ print(type(f))</code></pre>
   </div>
 
   <h3>Kegunaan frozenset</h3>
-  <p>Frozenset dipakai ketika kita butuh set, tetapi objeknya harus <em>immutable</em> &mdash; misalnya sebagai elemen dari set lain, atau sebagai key dictionary. Set biasa tidak bisa dipakai untuk keduanya, karena set sendiri bersifat mutable dan karenanya unhashable:</p>
+  <p>Frozenset dipakai ketika kita butuh set, tetapi objeknya harus <em>immutable</em>, misalnya sebagai elemen dari set lain, atau sebagai key dictionary. Set biasa tidak bisa dipakai untuk keduanya, karena set sendiri bersifat mutable dan karenanya unhashable:</p>
   <div class="compare-grid">
     <div class="compare-col no">
-      <span class="tag">Set biasa sebagai elemen set lain &mdash; gagal</span>
+      <span class="tag">Set biasa sebagai elemen set lain: gagal</span>
       <pre><code>x1 = set(['foo'])
 x2 = set(['bar'])
 x3 = set(['baz'])
@@ -684,19 +695,19 @@ x = {x1, x2, x3}</code></pre>
 x2 = frozenset(['bar'])
 x3 = frozenset(['baz'])
 x = {x1, x2, x3}</code></pre>
-      <p class="reveal-note">Berhasil membuat set berisi tiga frozenset (urutan tampilannya sendiri bisa berbeda-beda setiap dijalankan, karena set tidak berurutan) &mdash; frozenset bersifat hashable, jadi sah menjadi anggota set.</p>
+      <p class="reveal-note">Berhasil membuat set berisi tiga frozenset (urutan tampilannya sendiri bisa berbeda-beda setiap dijalankan, karena set tidak berurutan). Frozenset bersifat hashable, jadi sah menjadi anggota set.</p>
     </div>
   </div>
   <div class="compare-grid">
     <div class="compare-col no">
-      <span class="tag">Set biasa sebagai key dictionary &mdash; gagal</span>
+      <span class="tag">Set biasa sebagai key dictionary: gagal</span>
       <pre><code>x = {1, 2, 3}
 y = {'a', 'b', 'c'}
 d = {x: 'foo', y: 'bar'}</code></pre>
       <p class="reveal-note"><code>TypeError: unhashable type: 'set'</code></p>
     </div>
     <div class="compare-col yes">
-      <span class="tag">Frozenset sebagai key dictionary &mdash; berhasil</span>
+      <span class="tag">Frozenset sebagai key dictionary: berhasil</span>
       <pre><code>x = frozenset({1, 2, 3})
 y = frozenset({'a', 'b', 'c'})
 d = {x: 'foo', y: 'bar'}
@@ -714,12 +725,14 @@ print(d)</code></pre>
     <a href="week03.html"><span class="dir">Sebelumnya</span>&larr; Minggu 3: Dictionaries</a>
     <a href="week05.html" style="text-align: right;"><span class="dir">Selanjutnya</span>Minggu 5: Conditional Statements &rarr;</a>
   </div>
+  </div>
+  </div>
 </main>
 
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Halaman v1.1 &middot; 28 September 2026</span>
+    <span>Halaman v2.1 &middot; 28 September 2026</span>
   </div>
 </footer>
 

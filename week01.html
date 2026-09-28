@@ -1,8 +1,19 @@
 <!--
   week01.html
-  Version: 1.2
+  Version: 2.1
   Date: 2026-09-28
-  Changes: v1.2 adds Minggu 4-7 links to the top nav (no content
+  Changes: v2.1 reduces em-dash usage in prose per Flo's request (17 of 20
+  em-dashes replaced with commas, periods, colons, semicolons, or connector
+  words as natural substitutes); no changes to code, reveal-output text, or
+  HTML structure/classes; re-validated with check_pages.py (0 mismatches)
+  and a tag-balance check (no mismatches).
+  v2.0 applies the site's redesign: wraps the existing table
+  of contents in a sticky left section rail ("aside class=sidenav")
+  inside a new two-column ".cols"/".content" grid, matching the new
+  assets/style.css v2.0 (see that file for the full visual-design
+  changelog). No content or code changes; re-validated with
+  check_pages.py after the change (0 mismatches).
+  v1.2: adds Minggu 4-7 links to the top nav (no content
   changes).
   v1.1: adds a Minggu 3 link to the top nav (no content changes).
   v1.0: First version. Covers the three Minggu 1 decks (Intro to
@@ -52,6 +63,8 @@
     <p class="subtitle">Apa itu pemrograman, kenapa Python, cara instalasi, tipe data dasar, variabel, dan aturan gaya penulisan kode.</p>
   </div>
 
+  <div class="cols">
+  <aside class="sidenav">
   <nav class="toc" aria-label="Daftar isi">
     <p class="toc-title">Daftar isi</p>
     <ol>
@@ -65,9 +78,11 @@
       <li><a href="#style">Python Style Rules</a></li>
     </ol>
   </nav>
+  </aside>
+  <div class="content">
 
   <h2 id="pemrograman">Apa itu pemrograman?</h2>
-  <p>Programming adalah usaha membuat komputer melakukan dan menyelesaikan sebuah tugas spesifik tanpa melakukan kesalahan. Komputer sendiri tidak pintar &mdash; ia menjadi berguna karena diprogram oleh manusia.</p>
+  <p>Programming adalah usaha membuat komputer melakukan dan menyelesaikan sebuah tugas spesifik tanpa melakukan kesalahan. Komputer sendiri tidak pintar. Ia menjadi berguna karena diprogram oleh manusia.</p>
   <p>Komputer hanya benar-benar mengerti kode mesin: rangkaian angka 1 dan 0 (biner). Bahasa pemrograman seperti Python berperan sebagai penerjemah antara cara berpikir manusia dan bahasa yang dimengerti komputer, sehingga menulis program jauh lebih praktis daripada menulis biner langsung.</p>
   <p>Setiap bahasa punya aturan penulisannya sendiri (<em>syntax</em>). Melanggar aturan ini menghasilkan error &mdash; sama seperti kalimat &ldquo;Let&rsquo;s eat, Grandma!&rdquo; berubah makna total tanpa tanda koma.</p>
 
@@ -90,11 +105,11 @@
 
   <h2 id="instalasi">Instalasi</h2>
   <ol>
-    <li><strong>Python</strong> &mdash; unduh dari <a href="https://python.org/downloads" rel="noopener">python.org/downloads</a>, pilih versi 3.10 ke atas. Saat menjalankan installer, centang &ldquo;Add python.exe to PATH&rdquo; sebelum klik &ldquo;Install Now&rdquo;.</li>
-    <li><strong>Verifikasi</strong> &mdash; buka Command Prompt (<code>cmd</code>) dan jalankan <code>python --version</code>. Jika muncul nomor versi, instalasi dan PATH sudah benar.</li>
-    <li><strong>VS Code</strong> &mdash; unduh dari <a href="https://code.visualstudio.com" rel="noopener">code.visualstudio.com</a>, lalu saat instalasi centang keempat opsi tambahan (desktop icon, dua opsi &ldquo;Open with Code&rdquo;, dan Add to PATH).</li>
-    <li><strong>Ekstensi Python</strong> &mdash; di VS Code, buka Extensions (<code>Ctrl+Shift+X</code>), cari &ldquo;Python&rdquo;, pasang ekstensi resmi dari Microsoft (<code>ms-python.python</code>).</li>
-    <li><strong>Hubungkan interpreter</strong> &mdash; <code>Ctrl+Shift+P</code> &rarr; ketik &ldquo;Python: Select Interpreter&rdquo; &rarr; pilih Python yang baru diinstal.</li>
+    <li><strong>Python</strong>: unduh dari <a href="https://python.org/downloads" rel="noopener">python.org/downloads</a>, pilih versi 3.10 ke atas. Saat menjalankan installer, centang &ldquo;Add python.exe to PATH&rdquo; sebelum klik &ldquo;Install Now&rdquo;.</li>
+    <li><strong>Verifikasi</strong>: buka Command Prompt (<code>cmd</code>) dan jalankan <code>python --version</code>. Jika muncul nomor versi, instalasi dan PATH sudah benar.</li>
+    <li><strong>VS Code</strong>: unduh dari <a href="https://code.visualstudio.com" rel="noopener">code.visualstudio.com</a>, lalu saat instalasi centang keempat opsi tambahan (desktop icon, dua opsi &ldquo;Open with Code&rdquo;, dan Add to PATH).</li>
+    <li><strong>Ekstensi Python</strong>: di VS Code, buka Extensions (<code>Ctrl+Shift+X</code>), cari &ldquo;Python&rdquo;, pasang ekstensi resmi dari Microsoft (<code>ms-python.python</code>).</li>
+    <li><strong>Hubungkan interpreter</strong>: <code>Ctrl+Shift+P</code> &rarr; ketik &ldquo;Python: Select Interpreter&rdquo; &rarr; pilih Python yang baru diinstal.</li>
   </ol>
 
   <div class="callout">
@@ -115,8 +130,8 @@ drive.mount('/content/drive/')</code></pre>
   <h2 id="tipe-data">Tipe data dasar</h2>
   <p>Python punya empat tipe data dasar: <strong>Numeric</strong> (angka), <strong>String</strong> (teks), <strong>Boolean</strong> (logika), dan <strong>Function</strong> (untuk mentransformasi data-data di atas). Cek tipe data apa pun dengan <code>type(...)</code>.</p>
 
-  <h3>Numeric &mdash; integer</h3>
-  <p>Python 3 tidak membatasi seberapa besar nilai integer, hanya dibatasi memori komputer. Selain basis 10 (desimal), integer bisa ditulis dengan prefiks basis lain: <code>0b</code>/<code>0B</code> untuk biner, <code>0o</code>/<code>0O</code> untuk oktal, <code>0x</code>/<code>0X</code> untuk heksadesimal &mdash; semuanya tetap dikategorikan bertipe <code>int</code>.</p>
+  <h3>Numeric: integer</h3>
+  <p>Python 3 tidak membatasi seberapa besar nilai integer, hanya dibatasi memori komputer. Selain basis 10 (desimal), integer bisa ditulis dengan prefiks basis lain: <code>0b</code>/<code>0B</code> untuk biner, <code>0o</code>/<code>0O</code> untuk oktal, <code>0x</code>/<code>0X</code> untuk heksadesimal; semuanya tetap dikategorikan bertipe <code>int</code>.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>print(0o10)
@@ -132,7 +147,7 @@ print(type(0o10))</code></pre>
     </details>
   </div>
 
-  <h3>Numeric &mdash; floating point</h3>
+  <h3>Numeric: floating point</h3>
   <p>Tipe <code>float</code> merepresentasikan angka desimal, memakai standar IEEE 754 &ldquo;double precision&rdquo; 64-bit. Karakter <code>e</code>/<code>E</code> diikuti integer menyatakan notasi ilmiah.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
@@ -155,7 +170,7 @@ inf
   </div>
   <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> nilai float maksimum yang bisa diproses Python sekitar <strong>1.8 &times; 10<sup>308</sup></strong> (bukan 10<sup>208</sup>), dan nilai positif terkecil sekitar 5.0 &times; 10<sup>&minus;324</sup>. Sesuai <a href="https://docs.python.org/3/tutorial/floatingpoint.html" rel="noopener">docs.python.org</a> dan diverifikasi langsung dengan menjalankan kodenya.</div>
 
-  <h3>Numeric &mdash; bilangan kompleks</h3>
+  <h3>Numeric: bilangan kompleks</h3>
   <p>Ditulis <code>&lt;bagian riil&gt;+&lt;bagian imajiner&gt;j</code>.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
@@ -196,10 +211,10 @@ print(divmod(7, 2))</code></pre>
 (3, 1)</code></pre></div>
     </details>
   </div>
-  <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> slide menulis &ldquo;<code>0 ** 0 = 0</code>&rdquo; dan &ldquo;<code>pow(x, y) = 0</code>&rdquo;. Keduanya salah &mdash; <code>0 ** 0</code> dan <code>pow(0, 0)</code> sama-sama bernilai <strong>1</strong> di Python (dan secara matematis merupakan konvensi umum).</div>
+  <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> slide menulis &ldquo;<code>0 ** 0 = 0</code>&rdquo; dan &ldquo;<code>pow(x, y) = 0</code>&rdquo;. Keduanya salah: <code>0 ** 0</code> dan <code>pow(0, 0)</code> sama-sama bernilai <strong>1</strong> di Python (dan secara matematis merupakan konvensi umum).</div>
 
   <h3>String</h3>
-  <p>String ditulis dengan tanda petik tunggal atau ganda &mdash; keduanya setara. Karakter <code>\</code> membuat <em>escape sequence</em> untuk karakter khusus. String diawali prefiks <code>r</code>/<code>R</code> (raw string) menonaktifkan escape sequence, dan petik tiga (<code>'''</code> atau <code>"""</code>) memungkinkan string multi-baris tanpa perlu meng-escape petik di dalamnya.</p>
+  <p>String ditulis dengan tanda petik tunggal atau ganda; keduanya setara. Karakter <code>\</code> membuat <em>escape sequence</em> untuk karakter khusus. String diawali prefiks <code>r</code>/<code>R</code> (raw string) menonaktifkan escape sequence, dan petik tiga (<code>'''</code> atau <code>"""</code>) memungkinkan string multi-baris tanpa perlu meng-escape petik di dalamnya.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>print('This string contains a single quote (\') character.')
@@ -254,7 +269,7 @@ True</code></pre></div>
   </div>
 
   <h2 id="builtin">Fungsi bawaan (referensi)</h2>
-  <p>Python menyediakan banyak fungsi siap pakai. Bagian ini bersifat referensi &mdash; buka bagian yang relevan saat dibutuhkan, tidak perlu dihafal semua di minggu pertama.</p>
+  <p>Python menyediakan banyak fungsi siap pakai. Bagian ini bersifat referensi; buka bagian yang relevan saat dibutuhkan, tidak perlu dihafal semua di minggu pertama.</p>
 
   <details class="ref-block">
     <summary>Math (7 fungsi)</summary>
@@ -390,7 +405,7 @@ print(list(enumerate(['a', 'b'])))</code></pre>
   </details>
 
   <h2 id="variabel">Variabel</h2>
-  <p>Variabel di Python tidak perlu dideklarasikan tipenya di awal &mdash; cukup ditugaskan (<em>assign</em>) sebuah nilai. Tipe variabel juga bisa berubah seiring waktu.</p>
+  <p>Variabel di Python tidak perlu dideklarasikan tipenya di awal, cukup ditugaskan (<em>assign</em>) sebuah nilai. Tipe variabel juga bisa berubah seiring waktu.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>n = 300
@@ -464,7 +479,7 @@ print(i)</code></pre>
       <pre><code>i = 5; print(i)</code></pre>
     </div>
   </div>
-  <p>Jangan mengakhiri baris dengan titik koma, dan jangan gunakan titik koma untuk menggabung dua pernyataan dalam satu baris. Panjang baris maksimum <strong>80 karakter</strong>; jangan gunakan backslash (<code>\</code>) untuk melanjutkan baris &mdash; andalkan tanda kurung.</p>
+  <p>Jangan mengakhiri baris dengan titik koma, dan jangan gunakan titik koma untuk menggabung dua pernyataan dalam satu baris. Panjang baris maksimum <strong>80 karakter</strong>; jangan gunakan backslash (<code>\</code>) untuk melanjutkan baris, andalkan tanda kurung.</p>
 
   <h3>Tanda kurung</h3>
   <div class="compare-grid">
@@ -493,7 +508,7 @@ return (foo)</code></pre>
 
   <h3>Indentasi dan baris kosong</h3>
   <ul>
-    <li>Python memakai indentasi (bukan <code>{ }</code>) untuk blok kode &mdash; <strong>4 spasi</strong> per level, jangan campur tab dan spasi.</li>
+    <li>Python memakai indentasi (bukan <code>{ }</code>) untuk blok kode: <strong>4 spasi</strong> per level, jangan campur tab dan spasi.</li>
     <li>Dua baris kosong di antara definisi tingkat atas (fungsi/kelas), satu baris kosong di antara definisi metode.</li>
   </ul>
 
@@ -514,7 +529,7 @@ if x == 4 :
 x , y = y , x</code></pre>
     </div>
   </div>
-  <p>Tidak ada spasi tepat di dalam <code>()</code> <code>[]</code> <code>{}</code>, tidak ada spasi sebelum koma/titik dua, dan tidak ada spasi sebelum kurung buka untuk pemanggilan fungsi atau indexing. Beri satu spasi di sekitar operator penugasan dan perbandingan &mdash; kecuali untuk <em>keyword argument</em>: <code>def complex(real, imag=0.0):</code>, bukan <code>imag = 0.0</code>.</p>
+  <p>Tidak ada spasi tepat di dalam <code>()</code> <code>[]</code> <code>{}</code>, tidak ada spasi sebelum koma/titik dua, dan tidak ada spasi sebelum kurung buka untuk pemanggilan fungsi atau indexing. Beri satu spasi di sekitar operator penugasan dan perbandingan, kecuali untuk <em>keyword argument</em>: <code>def complex(real, imag=0.0):</code>, bukan <code>imag = 0.0</code>.</p>
 
   <h3>String</h3>
   <ul>
@@ -561,12 +576,14 @@ if __name__ == '__main__':
     <span></span>
     <a href="week02.html"><span class="dir">Selanjutnya</span>Minggu 2: Lists &amp; Tuples &rarr;</a>
   </div>
+  </div>
+  </div>
 </main>
 
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Halaman v1.2 &middot; 28 September 2026</span>
+    <span>Halaman v2.1 &middot; 28 September 2026</span>
   </div>
 </footer>
 

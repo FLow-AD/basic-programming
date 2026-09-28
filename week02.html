@@ -1,8 +1,19 @@
 <!--
   week02.html
-  Version: 1.2
+  Version: 2.1
   Date: 2026-09-28
-  Changes: v1.2 adds Minggu 4-7 links to the top nav (no content
+  Changes: v2.1 reduces em-dash usage in prose per Flo's request (17 of 19
+  em-dashes replaced with commas, periods, colons, semicolons, or connector
+  words as natural substitutes); no changes to code, reveal-output text, or
+  HTML structure/classes; re-validated with check_pages.py (0 mismatches)
+  and a tag-balance check (no mismatches).
+  v2.0 applies the site's redesign: wraps the existing table
+  of contents in a sticky left section rail ("aside class=sidenav")
+  inside a new two-column ".cols"/".content" grid, matching the new
+  assets/style.css v2.0 (see that file for the full visual-design
+  changelog). No content or code changes; re-validated with
+  check_pages.py after the change (0 mismatches).
+  v1.2: adds Minggu 4-7 links to the top nav (no content
   changes).
   v1.1: adds a Minggu 3 link to the top nav and wires up the
   "Berikutnya" prevnext link to week03.html (no other content changes).
@@ -49,9 +60,11 @@
   <div class="page-head">
     <p class="eyebrow">Minggu 2 &middot; 22 &amp; 23 September 2026</p>
     <h1>Data Dinamis: List &amp; Tuple</h1>
-    <p class="subtitle">Struktur data yang bisa menyimpan sejumlah data sekaligus &mdash; list yang bisa diubah, dan tuple yang tidak.</p>
+    <p class="subtitle">Struktur data yang bisa menyimpan sejumlah data sekaligus: list yang bisa diubah, dan tuple yang tidak.</p>
   </div>
 
+  <div class="cols">
+  <aside class="sidenav">
   <nav class="toc" aria-label="Daftar isi">
     <p class="toc-title">Daftar isi</p>
     <ol>
@@ -67,6 +80,8 @@
       <li><a href="#packing">Packing &amp; unpacking</a></li>
     </ol>
   </nav>
+  </aside>
+  <div class="content">
 
   <h2 id="struktur-data">Struktur data</h2>
   <p>Struktur data adalah struktur yang dapat menyimpan sejumlah data sekaligus. Python punya empat jenis bawaan: <strong>list</strong>, <strong>tuple</strong>, <strong>dictionary</strong>, dan <strong>set</strong>. Minggu ini fokus ke dua yang pertama; dictionary dan set menyusul di Minggu 3 dan 4.</p>
@@ -80,7 +95,7 @@ shoplist = ['apple', 'mango', 'carrot', 'banana']</code></pre>
 
   <h3>Karakteristik list</h3>
   <ul>
-    <li>Memiliki urutan (<em>ordered</em>) &mdash; urutan yang sama isinya, jika urutannya beda, dianggap list yang berbeda.</li>
+    <li>Memiliki urutan (<em>ordered</em>): urutan yang sama isinya, jika urutannya beda, dianggap list yang berbeda.</li>
     <li>Bisa menyimpan objek apa pun, boleh campuran tipe, dan boleh berisi objek yang berulang.</li>
     <li>Elemen diakses lewat indeks, dimulai dari <code>0</code> seperti pada string.</li>
     <li>Bisa bersarang (list di dalam list) sedalam apa pun.</li>
@@ -89,7 +104,7 @@ shoplist = ['apple', 'mango', 'carrot', 'banana']</code></pre>
 
   <h2 id="indexing">Indexing &amp; slicing</h2>
   <div class="snippet">
-    <p class="snippet-label">a = ['foo', 'bar', 'baz', 'qux', 'quux', 'corge'] &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <p class="snippet-label">a = ['foo', 'bar', 'baz', 'qux', 'quux', 'corge']: tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>a = ['foo', 'bar', 'baz', 'qux', 'quux', 'corge']
 print(a[0], a[2], a[5])
 print(a[-1], a[-2], a[-5])</code></pre>
@@ -121,7 +136,7 @@ True</code></pre></div>
   </div>
   <p>Bagian ketiga <code>a[awal:akhir:langkah]</code> mengatur <em>stride</em> (interval). Langkah negatif membalik arah.</p>
   <div class="snippet">
-    <p class="snippet-label">b = list(range(10)) &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <p class="snippet-label">b = list(range(10)): tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>b = list(range(10))
 print(b[0:6:2])
 print(b[1:6:2])
@@ -133,7 +148,7 @@ print(b[6:0:-2])</code></pre>
 [6, 4, 2]</code></pre></div>
     </details>
   </div>
-  <p>Syntax <code>[::-1]</code> membalik urutan &mdash; berlaku sama untuk list maupun string. Tapi <code>a[:]</code> (tanpa <code>-1</code>) berperilaku beda antara keduanya:</p>
+  <p>Syntax <code>[::-1]</code> membalik urutan, berlaku sama untuk list maupun string. Tapi <code>a[:]</code> (tanpa <code>-1</code>) berperilaku beda antara keduanya:</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>a = ['foo', 'bar', 'baz', 'qux', 'quux', 'corge']
@@ -171,7 +186,7 @@ print(len(a), min([4, 1, 7]), max([4, 1, 7]))</code></pre>
   <h2 id="nested">List bersarang</h2>
   <p>Sebuah list bisa memuat sublist, dan sublist itu bisa memuat sub-sublist, sedalam apa pun.</p>
   <div class="snippet">
-    <p class="snippet-label">x = ['a', ['bb', ['ccc', 'ddd'], 'ee', 'ff'], 'g', ['hh', 'ii'], 'j'] &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <p class="snippet-label">x = ['a', ['bb', ['ccc', 'ddd'], 'ee', 'ff'], 'g', ['hh', 'ii'], 'j']: tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>x = ['a', ['bb', ['ccc', 'ddd'], 'ee', 'ff'], 'g', ['hh', 'ii'], 'j']
 print(len(x))
 print(x[1][1][0])</code></pre>
@@ -183,7 +198,7 @@ ccc</code></pre></div>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">Operator <code>in</code> pada list bersarang &mdash; tebak dulu, lalu klik untuk lihat hasil</p>
+    <p class="snippet-label">Operator <code>in</code> pada list bersarang: tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>print('ddd' in x)
 print('ddd' in x[1])
 print('ddd' in x[1][1])</code></pre>
@@ -197,7 +212,7 @@ True</code></pre></div>
   </div>
 
   <h2 id="mutasi">Mengubah list</h2>
-  <p>Karena list mutable, isinya bisa diganti lewat indexing dan penugasan biasa &mdash; berbeda dari string yang akan menghasilkan error jika dicoba dengan cara yang sama.</p>
+  <p>Karena list mutable, isinya bisa diganti lewat indexing dan penugasan biasa, berbeda dari string yang akan menghasilkan error jika dicoba dengan cara yang sama.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>a = ['foo', 'bar', 'baz', 'qux', 'quux', 'corge']
@@ -215,7 +230,7 @@ print(a)</code></pre>
       <p class="reveal-note">Menugaskan ke sebuah <em>slice</em> (<code>a[1:3] = [...]</code>) bisa mengganti beberapa elemen sekaligus dengan jumlah elemen baru yang berbeda &mdash; ini juga cara menyisipkan (<code>a[2:2] = [...]</code>) atau menghapus banyak elemen (<code>a[1:5] = []</code>) tanpa <code>del</code>.</p>
     </details>
   </div>
-  <p>Menambah satu elemen di akhir memakai <code>+=</code> memerlukan <em>iterable</em> di sisi kanan &mdash; sebuah angka saja bukan iterable.</p>
+  <p>Menambah satu elemen di akhir memakai <code>+=</code> memerlukan <em>iterable</em> di sisi kanan: sebuah angka saja bukan iterable.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>a = ['foo', 'bar', 'baz']
@@ -238,7 +253,7 @@ print(a)</code></pre>
   </div>
 
   <h2 id="alias">Alias vs salinan</h2>
-  <p>List adalah objek, dan sebuah variabel hanyalah <strong>nama</strong> yang menunjuk ke objek itu. <code>b = a</code> tidak membuat list baru &mdash; <code>b</code> dan <code>a</code> menjadi dua nama untuk satu list yang sama (disebut <em>alias</em>). Untuk mendapat list baru yang independen, gunakan <code>a.copy()</code> atau <code>a[:]</code>.</p>
+  <p>List adalah objek, dan sebuah variabel hanyalah <strong>nama</strong> yang menunjuk ke objek itu. <code>b = a</code> tidak membuat list baru: <code>b</code> dan <code>a</code> menjadi dua nama untuk satu list yang sama (disebut <em>alias</em>). Untuk mendapat list baru yang independen, gunakan <code>a.copy()</code> atau <code>a[:]</code>.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>a = [1, 2, 3]
@@ -256,7 +271,7 @@ print('d is a:', d is a, 'd:', d)</code></pre>
 b is a: True
 c is a: False c: [1, 2, 3]
 d is a: False d: [1, 2, 3]</code></pre></div>
-      <p class="reveal-note">Mengubah <code>b</code> ikut mengubah <code>a</code>, karena keduanya list yang sama. <code>c</code> dan <code>d</code> tidak ikut berubah karena keduanya salinan independen. Ini bukan bagian dari slide asli &mdash; ditambahkan karena ini salah satu sumber bug paling umum bagi pemula.</p>
+      <p class="reveal-note">Mengubah <code>b</code> ikut mengubah <code>a</code>, karena keduanya list yang sama. <code>c</code> dan <code>d</code> tidak ikut berubah karena keduanya salinan independen. Ini bukan bagian dari slide asli, ditambahkan karena ini salah satu sumber bug paling umum bagi pemula.</p>
     </details>
   </div>
 
@@ -278,15 +293,15 @@ d is a: False d: [1, 2, 3]</code></pre></div>
       <tr><td><code>list.copy()</code></td><td><code>a.copy()</code></td><td>Salinan dangkal (<em>shallow copy</em>) baru dari <code>a</code></td></tr>
     </tbody>
   </table>
-  <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> slide menulis <code>a.pop(index=-1)</code> seolah bisa dipanggil dengan keyword argument. Faktanya <code>list.pop()</code> hanya menerima argumen posisi &mdash; <code>a.pop(index=-1)</code> menghasilkan <code>TypeError: list.pop() takes no keyword arguments</code>. Tulis <code>a.pop()</code> atau <code>a.pop(0)</code>.</div>
+  <div class="fixed-note"><strong>Diperbaiki dari slide asli:</strong> slide menulis <code>a.pop(index=-1)</code> seolah bisa dipanggil dengan keyword argument. Faktanya <code>list.pop()</code> hanya menerima argumen posisi: <code>a.pop(index=-1)</code> menghasilkan <code>TypeError: list.pop() takes no keyword arguments</code>. Tulis <code>a.pop()</code> atau <code>a.pop(0)</code>.</div>
   <div class="callout">
     <p class="callout-title">Jebakan: <code>sort()</code> mengembalikan <code>None</code></p>
     <p><code>r = s.sort()</code> membuat <code>r</code> bernilai <code>None</code>, karena <code>sort()</code> mengurutkan <code>s</code> di tempat (in place) dan tidak mengembalikan apa pun. Jika ingin list terurut <em>baru</em> tanpa mengubah aslinya, gunakan fungsi bawaan <code>sorted(s)</code> yang mengembalikan list baru.</p>
   </div>
-  <p>Sifat dinamis list terlihat dari ukurannya yang bisa berubah kapan pun dibutuhkan &mdash; bertambah lewat <code>append</code>/<code>extend</code>/<code>insert</code>/penugasan slice, berkurang lewat <code>remove</code>/<code>pop</code>/<code>del</code>/penugasan slice kosong.</p>
+  <p>Sifat dinamis list terlihat dari ukurannya yang bisa berubah kapan pun dibutuhkan: bertambah lewat <code>append</code>/<code>extend</code>/<code>insert</code>/penugasan slice, berkurang lewat <code>remove</code>/<code>pop</code>/<code>del</code>/penugasan slice kosong.</p>
 
   <h2 id="tuple">Tuple</h2>
-  <p>Tuple mirip list, dengan dua perbedaan utama: ditandai kurung lengkung <code>( )</code> (bukan siku), dan bersifat <strong>immutable</strong> &mdash; setelah dibuat, isinya tidak bisa diubah.</p>
+  <p>Tuple mirip list, dengan dua perbedaan utama: ditandai kurung lengkung <code>( )</code> (bukan siku), dan bersifat <strong>immutable</strong>, setelah dibuat isinya tidak bisa diubah.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>t = ('foo', 'bar', 'baz', 'qux', 'quux', 'corge')
@@ -338,7 +353,7 @@ bar foo</code></pre></div>
   <ul>
     <li>Eksekusi program dengan tuple sedikit lebih cepat daripada list yang setara.</li>
     <li>Untuk data yang memang dimaksudkan tidak bisa diubah (misalnya koordinat, atau data yang dibagi ke banyak bagian program dan tidak boleh diubah tanpa sengaja).</li>
-    <li>Sebagai <em>key</em> dictionary &mdash; dictionary mensyaratkan key bertipe immutable, sehingga tuple bisa dipakai (list tidak bisa).</li>
+    <li>Sebagai <em>key</em> dictionary: dictionary mensyaratkan key bertipe immutable, sehingga tuple bisa dipakai (list tidak bisa).</li>
   </ul>
 
   <h3>Hal unik saat mencetak tuple</h3>
@@ -371,7 +386,7 @@ print(type(t), t)</code></pre>
   </div>
 
   <h2 id="packing">Packing &amp; unpacking</h2>
-  <p><strong>Packing</strong>: beberapa nilai dikemas jadi satu tuple. <strong>Unpacking</strong>: sebuah tuple dibongkar ke beberapa variabel sekaligus &mdash; jumlah variabel di kiri harus sama persis dengan jumlah elemen tuple.</p>
+  <p><strong>Packing</strong>: beberapa nilai dikemas jadi satu tuple. <strong>Unpacking</strong>: sebuah tuple dibongkar ke beberapa variabel sekaligus; jumlah variabel di kiri harus sama persis dengan jumlah elemen tuple.</p>
   <div class="snippet">
     <p class="snippet-label">Tebak dulu, lalu klik untuk lihat hasil</p>
     <pre><code>t = ('foo', 'bar', 'baz', 'qux')
@@ -410,12 +425,14 @@ s1, s2, s3, s4, s5 = t</code></pre>
     <a href="week01.html"><span class="dir">Sebelumnya</span>&larr; Minggu 1: Pendahuluan &amp; Dasar</a>
     <a href="week03.html"><span class="dir">Berikutnya</span>Minggu 3: Dictionaries &rarr;</a>
   </div>
+  </div>
+  </div>
 </main>
 
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Halaman v1.2 &middot; 28 September 2026</span>
+    <span>Halaman v2.1 &middot; 28 September 2026</span>
   </div>
 </footer>
 

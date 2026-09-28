@@ -1,8 +1,15 @@
 <!--
   week03.html
-  Version: 1.1
+  Version: 2.1
   Date: 2026-09-28
-  Changes: v1.1 adds Week 4-7 links to the top nav and wires up the
+  Changes: v2.1 reduces em-dash usage in prose per Flo's request (24 of 29 em-dashes replaced with commas, periods, colons, semicolons, parentheses, or connector words as natural substitutes); no changes to code, reveal-output text, or HTML structure/classes; re-validated with check_pages.py (0 mismatches) and a tag-balance check (no mismatches).
+  v2.0 applies the site's redesign: wraps the existing table
+  of contents in a sticky left section rail ("aside class=sidenav")
+  inside a new two-column ".cols"/".content" grid, matching the new
+  assets/style.css v2.0 (see that file for the full visual-design
+  changelog). No content or code changes; re-validated with
+  check_pages.py after the change (0 mismatches).
+  v1.1: adds Week 4-7 links to the top nav and wires up the
   "Next" prevnext link to week04.html (no other content changes).
   v1.0: First version. Covers the Dictionaries deck, in English per
   request. Preserves the deck's own pink/green/yellow example coding
@@ -48,9 +55,11 @@
   <div class="page-head">
     <p class="eyebrow">Week 3 &middot; September 29 &amp; 30, 2026</p>
     <h1>Data Dinamis: Dictionaries</h1>
-    <p class="subtitle">A structure that maps <strong>keys</strong> to <strong>values</strong> instead of positions to items &mdash; look things up by name, not by counting slots.</p>
+    <p class="subtitle">A structure that maps <strong>keys</strong> to <strong>values</strong> instead of positions to items, so you look things up by name, not by counting slots.</p>
   </div>
 
+  <div class="cols">
+  <aside class="sidenav">
   <nav class="toc" aria-label="Table of contents">
     <p class="toc-title">On this page</p>
     <ol>
@@ -66,6 +75,8 @@
       <li><a href="#vs-list">Dictionary vs. list</a></li>
     </ol>
   </nav>
+  </aside>
+  <div class="content">
 
   <h2 id="apa-itu">What is a dictionary?</h2>
   <p>A dictionary is one of Python's composite data types, like a list, it can hold a collection of data. It is also known as an <em>associative array</em>: a set of <strong>key&ndash;value</strong> pairs written inside curly braces <code>{ }</code>.</p>
@@ -75,7 +86,7 @@
     ...
     &lt;key&gt;: &lt;value&gt;
 }</code></pre>
-  <div class="fixed-note"><strong>Note:</strong> this is notation, not runnable code &mdash; <code>&lt;key&gt;</code> and <code>&lt;value&gt;</code> are placeholders.</div>
+  <div class="fixed-note"><strong>Note:</strong> this is notation, not runnable code: <code>&lt;key&gt;</code> and <code>&lt;value&gt;</code> are placeholders.</div>
   <p>A dictionary mapping a Major League Baseball city to its team, used throughout this page:</p>
   <div class="snippet">
     <pre><code>MLB_team = {
@@ -88,7 +99,7 @@
   </div>
 
   <h3>Dictionary vs. list, at a glance</h3>
-  <p>Both are <em>mutable</em>, both are dynamic in size, and both can nest &mdash; a list can hold a sub-list and a dictionary can hold another dictionary; they are also interchangeable, a dictionary can hold a list and a list can hold a dictionary. The real difference is <strong>how you reach an element</strong>: a list uses an <strong>index</strong> that marks a position, a dictionary uses a <strong>key</strong> that marks an association. The rest of this page is mostly about the consequences of that one difference.</p>
+  <p>Both are <em>mutable</em>, both are dynamic in size, and both can nest, meaning a list can hold a sub-list and a dictionary can hold another dictionary; they are also interchangeable, a dictionary can hold a list and a list can hold a dictionary. The real difference is <strong>how you reach an element</strong>: a list uses an <strong>index</strong> that marks a position, a dictionary uses a <strong>key</strong> that marks an association. The rest of this page is mostly about the consequences of that one difference.</p>
 
   <h2 id="membuat">Creating a dictionary</h2>
   <p>Besides writing the literal directly, <code>dict()</code> builds one from a sequence of key&ndash;value pairs:</p>
@@ -108,7 +119,7 @@ print(MLB_team)</code></pre>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">With keyword arguments &mdash; only works when every key is a plain identifier-like string</p>
+    <p class="snippet-label">With keyword arguments (only works when every key is a plain identifier-like string)</p>
     <pre><code>MLB_team = dict(
     Colorado='Rockies',
     Boston='Red Sox',
@@ -129,7 +140,7 @@ print(type(MLB_team))</code></pre>
     <div class="compare-col no">
       <span class="tag">Wrong &mdash; treated like a list</span>
       <pre><code>&gt;&gt;&gt; MLB_team[1]</code></pre>
-      <p class="reveal-note"><code>KeyError: 1</code> &mdash; there is no key <code>1</code> in this dictionary.</p>
+      <p class="reveal-note"><code>KeyError: 1</code>. There is no key <code>1</code> in this dictionary.</p>
     </div>
     <div class="compare-col yes">
       <span class="tag">Correct &mdash; existing keys</span>
@@ -141,10 +152,10 @@ print(type(MLB_team))</code></pre>
     <div class="compare-col warn">
       <span class="tag">Correct syntax, undefined key</span>
       <pre><code>&gt;&gt;&gt; MLB_team['Toronto']</code></pre>
-      <p class="reveal-note"><code>KeyError: 'Toronto'</code> &mdash; right technique, this key just does not exist.</p>
+      <p class="reveal-note"><code>KeyError: 'Toronto'</code>. Right technique, this key just does not exist.</p>
     </div>
   </div>
-  <p>Both the pink and amber boxes raise a <code>KeyError</code>, but for different reasons: the pink example uses the wrong approach entirely (indexing like a list), while the amber example uses the right approach on a key that is simply not there &mdash; a distinction worth keeping straight, since the fix is different each time (use a key, vs. check the key exists first).</p>
+  <p>Both the pink and amber boxes raise a <code>KeyError</code>, but for different reasons: the pink example uses the wrong approach entirely (indexing like a list), while the amber example uses the right approach on a key that is simply not there: a distinction worth keeping straight, since the fix is different each time (use a key, vs. check the key exists first).</p>
 
   <h2 id="ubah">Adding, updating, deleting</h2>
   <p>Assign to a new key to add an entry, assign to an existing key to update it:</p>
@@ -154,7 +165,7 @@ print(MLB_team)</code></pre>
     <details class="reveal">
       <summary class="reveal-btn">Show result</summary>
       <div class="reveal-output"><pre><code>{'Colorado': 'Rockies', 'Boston': 'Red Sox', 'Minnesota': 'Twins', 'Milwaukee': 'Brewers', 'Seattle': 'Mariners', 'Kansas City': 'Royals'}</code></pre></div>
-      <p class="reveal-note">A new key is appended at the end &mdash; insertion order.</p>
+      <p class="reveal-note">A new key is appended at the end, in insertion order.</p>
     </details>
   </div>
   <div class="snippet">
@@ -181,7 +192,7 @@ print(MLB_team)</code></pre>
   <p>A dictionary's values can be of any type and any type may repeat; the picture is different for keys.</p>
 
   <h3>1. A key can only appear once</h3>
-  <p>These two boxes do not crash &mdash; they demonstrate the same gotcha two different ways: writing the same key again never creates a second entry, it silently overwrites the first.</p>
+  <p>These two boxes do not crash, but instead demonstrate the same gotcha two different ways: writing the same key again never creates a second entry, it silently overwrites the first.</p>
   <div class="compare-grid">
     <div class="compare-col no">
       <span class="tag">Watch out &mdash; reassigning after the fact</span>
@@ -245,10 +256,10 @@ MLB_team[1]</code></pre>
 d
 d[0]
 d[2]</code></pre>
-      <p class="reveal-note">Works &mdash; but only because <code>0</code> and <code>2</code> are genuinely keys in <code>d</code>.</p>
+      <p class="reveal-note">Works, but only because <code>0</code> and <code>2</code> are genuinely keys in <code>d</code>.</p>
     </div>
   </div>
-  <p>Reversing the order the pairs were written makes no difference to a lookup &mdash; a key's position never matters, only its value:</p>
+  <p>Reversing the order the pairs were written makes no difference to a lookup; a key's position never matters, only its value:</p>
   <div class="snippet">
     <pre><code>d = {3: 'd', 2: 'c', 1: 'b', 0: 'a'}
 print(d)
@@ -276,7 +287,7 @@ d.append('e')</code></pre>
   </div>
 
   <h2 id="bertahap">Building one step by step</h2>
-  <p>Start from an empty dictionary and fill it in one key at a time &mdash; useful when the data does not all arrive at once:</p>
+  <p>Start from an empty dictionary and fill it in one key at a time, useful when the data does not all arrive at once:</p>
   <div class="snippet">
     <pre><code>person = {}
 print(type(person))
@@ -292,7 +303,7 @@ print(person)</code></pre>
       <summary class="reveal-btn">Show result</summary>
       <div class="reveal-output"><pre><code>&lt;class 'dict'&gt;
 {'fname': 'Joe', 'lname': 'Fonebone', 'age': 51, 'spouse': 'Edna', 'children': ['Ralph', 'Betty', 'Joey'], 'pets': {'dog': 'Fido', 'cat': 'Sox'}}</code></pre></div>
-      <p class="reveal-note">A value can be a list, or even another dictionary &mdash; dictionaries nest, just like lists.</p>
+      <p class="reveal-note">A value can be a list, or even another dictionary, since dictionaries nest just like lists.</p>
     </details>
   </div>
   <p>Reach into a nested value by chaining another index or key on the end:</p>
@@ -320,7 +331,7 @@ print(foo[True])</code></pre>
 aaa
 bbb
 ccc</code></pre></div>
-      <p class="reveal-note">One dictionary, three different key types (<code>int</code>, <code>float</code>, <code>bool</code>) and one value per key &mdash; all legal, because all three types are hashable.</p>
+      <p class="reveal-note">One dictionary, three different key types (<code>int</code>, <code>float</code>, <code>bool</code>) and one value per key, all legal because all three types are hashable.</p>
     </details>
   </div>
   <p>Even a type object or a built-in function can be a key, since they are hashable too:</p>
@@ -340,7 +351,7 @@ print(d[oct])</code></pre>
   </div>
 
   <h2 id="operator">Operators: in, not in, len</h2>
-  <p>The membership and sizing operators that already work on strings, lists and tuples work on dictionaries too &mdash; on their <strong>keys</strong>:</p>
+  <p>The membership and sizing operators that already work on strings, lists and tuples work on dictionaries too, specifically on their <strong>keys</strong>:</p>
   <div class="snippet">
     <pre><code>MLB_team = {'Colorado': 'Rockies', 'Boston': 'Red Sox',
             'Minnesota': 'Twins', 'Milwaukee': 'Brewers',
@@ -376,7 +387,7 @@ True</code></pre></div>
         <thead><tr><th>Method</th><th>Purpose</th></tr></thead>
         <tbody>
           <tr><td><code>d.clear()</code></td><td>Removes every entry from <code>d</code>.</td></tr>
-          <tr><td><code>d.get(key[, default])</code></td><td>Returns the value for <code>key</code>, or <code>default</code> (or <code>None</code>) if it is missing &mdash; never raises.</td></tr>
+          <tr><td><code>d.get(key[, default])</code></td><td>Returns the value for <code>key</code>, or <code>default</code> (or <code>None</code>) if it is missing; never raises.</td></tr>
           <tr><td><code>d.items()</code></td><td>A view of <code>(key, value)</code> tuples.</td></tr>
           <tr><td><code>d.keys()</code></td><td>A view of the keys.</td></tr>
           <tr><td><code>d.values()</code></td><td>A view of the values.</td></tr>
@@ -401,7 +412,7 @@ print(d)</code></pre>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.get()</code> &mdash; the safe way to read a value that might not be there</p>
+    <p class="snippet-label"><code>d.get()</code>: the safe way to read a value that might not be there</p>
     <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 print(d.get('b'))
 print(d.get('z'))
@@ -431,7 +442,7 @@ b
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.values()</code> &mdash; not deduplicated</p>
+    <p class="snippet-label"><code>d.values()</code>: not deduplicated</p>
     <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 print(list(d.values()))
 
@@ -441,7 +452,7 @@ print(list(d.values()))</code></pre>
       <summary class="reveal-btn">Show result</summary>
       <div class="reveal-output"><pre><code>[10, 20, 30]
 [10, 10, 10]</code></pre></div>
-      <p class="reveal-note">Repeated values stay repeated &mdash; unlike keys, values are not required to be unique (Constraint 3 above).</p>
+      <p class="reveal-note">Repeated values stay repeated; unlike keys, values are not required to be unique (Constraint 3 above).</p>
     </details>
   </div>
   <div class="snippet">
@@ -467,11 +478,11 @@ d.pop('z')</code></pre>
       <span class="tag">Missing key, with a default</span>
       <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 d.pop('z', -1)</code></pre>
-      <p class="reveal-note">Returns <code>-1</code>, no crash &mdash; same idea as <code>.get()</code>.</p>
+      <p class="reveal-note">Returns <code>-1</code>, no crash, same idea as <code>.get()</code>.</p>
     </div>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.popitem()</code> &mdash; always removes the most recently added pair</p>
+    <p class="snippet-label"><code>d.popitem()</code>: always removes the most recently added pair</p>
     <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 print(d.popitem())
 print(d)
@@ -500,7 +511,7 @@ d.popitem()</code></pre>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.update()</code> &mdash; three equivalent ways to merge in <code>{'b': 200, 'd': 400}</code></p>
+    <p class="snippet-label"><code>d.update()</code>: three equivalent ways to merge in <code>{'b': 200, 'd': 400}</code></p>
     <pre><code>d1 = {'a': 10, 'b': 20, 'c': 30}
 d2 = {'b': 200, 'd': 400}
 d1.update(d2)
@@ -523,7 +534,7 @@ print(d1)</code></pre>
   </div>
 
   <h2 id="urut">Sorting a dictionary</h2>
-  <p>Dictionaries have no built-in order to rearrange &mdash; instead, sort the <code>.items()</code> and rebuild a dictionary from the result. Sorting by key is the default; sorting by value needs a <code>key=lambda</code>, exactly as with lists:</p>
+  <p>Dictionaries have no built-in order to rearrange. Instead, sort the <code>.items()</code> and rebuild a dictionary from the result. Sorting by key is the default; sorting by value needs a <code>key=lambda</code>, exactly as with lists:</p>
   <div class="snippet">
     <pre><code>people = {3: 'Jim', 2: 'Jack', 4: 'Jane', 1: 'Jill'}
 
@@ -553,19 +564,21 @@ print(dict(sorted(people.items(), key=lambda item: item[1])))</code></pre>
 
   <div class="callout">
     <p class="callout-title">This week's assignment</p>
-    <p>Tugas 03 &mdash; Toko ABC Inventory (dictionaries: building a catalog, updating and removing entries, safe lookups with <code>.get()</code>, and sorting) is shared via MORNING, with different starting data for every NIM. Submit before the Week 4 class (October 6 or 7, 2026).</p>
+    <p>Tugas 03: Toko ABC Inventory (dictionaries: building a catalog, updating and removing entries, safe lookups with <code>.get()</code>, and sorting) is shared via MORNING, with different starting data for every NIM. Submit before the Week 4 class (October 6 or 7, 2026).</p>
   </div>
 
   <div class="prevnext">
     <a href="week02.html"><span class="dir">Previous</span>&larr; Week 2: Lists &amp; Tuples</a>
     <a href="week04.html"><span class="dir">Next</span>Week 4: Sets &rarr;</a>
   </div>
+  </div>
+  </div>
 </main>
 
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Page v1.1 &middot; September 28, 2026</span>
+    <span>Page v2.1 &middot; September 28, 2026</span>
   </div>
 </footer>
 
