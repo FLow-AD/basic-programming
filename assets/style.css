@@ -1,8 +1,41 @@
 /*
   style.css
-  Version: 2.2
-  Date: 2026-09-28
-  Changes: v2.2 re-themes the palette again, per Flo's follow-up request,
+  Version: 2.4
+  Date: 2026-10-05
+  Changes: v2.4 fixes a readability bug Flo found in light mode: `code`
+  elements (and the one place a `.fixed-note` sits inside a `.callout`,
+  on week01.html's "pip" box) were invisible or near-invisible, because
+  neither overrides its inherited text color, and both normally expect
+  to sit on the light page background -- but inside `.callout`, text
+  color is inherited from the callout's own light (page-background-
+  appropriate) color while the code/fixed-note background stayed light
+  too, so in light mode it came out light text on a light background.
+  (In dark mode this accidentally worked, because --code-bg is dark
+  there, which is why Flo only noticed it in light mode.) Fixed by
+  giving `.callout code` and `.callout .fixed-note` a translucent dark
+  overlay on the callout's own background instead of their normal light
+  one, and `.callout .fixed-note strong` the highlight color instead of
+  the accent color (which would've been invisible too, rust-on-rust) --
+  both scoped only inside `.callout`, so code and fixed-notes elsewhere
+  on the page are completely unaffected. No HTML changes; this covers
+  every callout on the site, not just the one Flo likely saw, since the
+  same underlying mismatch affects any callout containing inline code
+  (confirmed on week01.html, week03.html, and week07.html).
+  v2.3 adds styling for the new NIM-seeded self-check practice
+  widget (see assets/practice.js v1.0, and the new .practice-widget
+  markup on week02/03/04.html): an input + button to generate questions,
+  and per-question cards with a code block and a click-to-reveal answer.
+  Built entirely from existing design tokens (no new colors), so it
+  already matches both themes and the v2.2 earthy palette with no
+  theme-specific rules of its own. Reuses the visual language of
+  .snippet/.reveal-btn (card with a code block, a text reveal toggle)
+  but under new class names throughout, so check_pages.py's regex-based
+  snippet scanner -- which only looks for the literal classes "snippet"
+  and "reveal" -- never touches this dynamically generated content; it
+  isn't meant to (there's no fixed code/output pair to verify, since the
+  questions are generated at runtime per student). No other rules
+  changed.
+  v2.2: re-themes the palette again, per Flo's follow-up request,
   to a warmer earthy range built around five colors she gave directly
   (#5d8172 sage, #7dae99 mint, #f6d4a3 peach, #bf7950 clay, #ae572c
   rust), refined over two rounds of sample mockups before this build:
@@ -452,6 +485,19 @@ pre code {
   margin: 0 0 8px;
 }
 .callout a { color: var(--highlight); }
+/* code (and a nested .fixed-note) inside .callout would otherwise inherit
+   the callout's own light text color while keeping their normal light
+   background meant for the page background -- light-on-light, unreadable
+   in light mode. Use a translucent dark overlay on the callout's own
+   (theme-constant) background instead, so both stay legible in either
+   theme. */
+.callout code { background: rgba(0, 0, 0, 0.22); color: inherit; }
+.callout .fixed-note {
+  background: rgba(0, 0, 0, 0.22);
+  border-left-color: var(--highlight);
+  color: inherit;
+}
+.callout .fixed-note strong { color: var(--highlight); }
 
 .fixed-note {
   border-left: 3px solid var(--accent);
@@ -695,8 +741,98 @@ details.ref-block > summary::before { content: "▸ "; color: var(--accent); }
 details.ref-block[open] > summary::before { content: "▾ "; }
 details.ref-block .ref-body { padding: 0 16px 15px; }
 
+/* ---------- Self-check practice generator (NIM-seeded, see assets/practice.js) ---------- */
+.practice-widget {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  padding: 18px 20px 20px;
+  margin: 18px 0 26px;
+}
+.practice-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.practice-form label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.practice-nrp-input {
+  font: inherit;
+  font-family: var(--font-mono);
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  min-width: 170px;
+}
+.practice-generate-btn {
+  font: inherit;
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: none;
+  border-radius: var(--radius);
+  padding: 9px 18px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.practice-generate-btn:hover { filter: brightness(1.06); }
+.practice-error-msg {
+  color: var(--err-ink);
+  font-size: 13.5px;
+  margin: 8px 0 0;
+  min-height: 1em;
+}
+.practice-questions { margin-top: 10px; display: grid; gap: 14px; }
+.practice-card {
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  background: var(--code-bg);
+}
+.practice-qnum {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 6px;
+}
+.practice-card pre {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin: 8px 0;
+  font-size: 14px;
+}
+.practice-reveal-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 0 0;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+.practice-reveal-btn::before { content: "▸ "; }
+.practice-reveal-btn[aria-expanded="true"]::before { content: "▾ "; }
+.practice-answer { margin-top: 4px; }
+.practice-answer pre { background: var(--ok-bg); border-color: var(--ok-border); }
+
 @media print {
-  header.site-header, .sidenav, .theme-toggle { display: none; }
+  header.site-header, .sidenav, .theme-toggle, .practice-widget { display: none; }
   body { background: #fff; color: #000; }
   main { max-width: none; padding: 0 16px; }
   .cols { display: block; }
