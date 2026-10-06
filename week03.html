@@ -1,8 +1,17 @@
 <!--
   week03.html
-  Version: 2.1
-  Date: 2026-09-28
-  Changes: v2.1 reduces em-dash usage in prose per Flo's request (24 of 29 em-dashes replaced with commas, periods, colons, semicolons, parentheses, or connector words as natural substitutes); no changes to code, reveal-output text, or HTML structure/classes; re-validated with check_pages.py (0 mismatches) and a tag-balance check (no mismatches).
+  Version: 2.2
+  Date: 2026-10-05
+  Changes: v2.2 adds a "Self-check practice (random per NIM)" section at
+  the end of the page: a self-check widget (assets/practice.js) where a
+  student types their NIM and gets five short questions generated from it
+  as a random seed -- same NIM always regenerates the same questions,
+  different NIM gets different ones (including which key is missing, for
+  the KeyError question). Self-check only (answers reveal locally,
+  nothing is submitted); does not replace the real assignment above it.
+  Adds one new table-of-contents entry and one new script tag
+  (assets/practice.js); no other content changed.
+  v2.1 reduces em-dash usage in prose per Flo's request (24 of 29 em-dashes replaced with commas, periods, colons, semicolons, parentheses, or connector words as natural substitutes); no changes to code, reveal-output text, or HTML structure/classes; re-validated with check_pages.py (0 mismatches) and a tag-balance check (no mismatches).
   v2.0 applies the site's redesign: wraps the existing table
   of contents in a sticky left section rail ("aside class=sidenav")
   inside a new two-column ".cols"/".content" grid, matching the new
@@ -73,6 +82,7 @@
       <li><a href="#metode">Methods</a></li>
       <li><a href="#urut">Sorting a dictionary</a></li>
       <li><a href="#vs-list">Dictionary vs. list</a></li>
+      <li><a href="#latihan-mandiri">Self-check practice (random per NIM)</a></li>
     </ol>
   </nav>
   </aside>
@@ -567,6 +577,18 @@ print(dict(sorted(people.items(), key=lambda item: item[1])))</code></pre>
     <p>Tugas 03: Toko ABC Inventory (dictionaries: building a catalog, updating and removing entries, safe lookups with <code>.get()</code>, and sorting) is shared via MORNING, with different starting data for every NIM. Submit before the Week 4 class (October 6 or 7, 2026).</p>
   </div>
 
+  <h2 id="latihan-mandiri">Self-check practice (random per NIM)</h2>
+  <p>Five short questions, generated automatically using your NIM as the random seed: the same NIM always regenerates the exact same questions (so you can retry any time), a different NIM gets different ones. This is purely for checking your own understanding &mdash; nothing here is submitted anywhere, and it doesn't replace the real assignment above.</p>
+  <div class="practice-widget" data-topic="dicts" data-q-label="Question" data-reveal-label="Show answer" data-empty-msg="Enter your NIM first.">
+    <div class="practice-form">
+      <label for="nrp-input-dicts">NIM</label>
+      <input type="text" id="nrp-input-dicts" class="practice-nrp-input" inputmode="numeric" placeholder="e.g. 5025123456" autocomplete="off">
+      <button type="button" class="practice-generate-btn">Generate questions</button>
+    </div>
+    <p class="practice-error-msg" role="alert"></p>
+    <div class="practice-questions"></div>
+  </div>
+
   <div class="prevnext">
     <a href="week02.html"><span class="dir">Previous</span>&larr; Week 2: Lists &amp; Tuples</a>
     <a href="week04.html"><span class="dir">Next</span>Week 4: Sets &rarr;</a>
@@ -578,10 +600,11 @@ print(dict(sorted(people.items(), key=lambda item: item[1])))</code></pre>
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Page v2.1 &middot; September 28, 2026</span>
+    <span>Page v2.2 &middot; October 5, 2026</span>
   </div>
 </footer>
 
 <script src="assets/script.js"></script>
+<script src="assets/practice.js"></script>
 </body>
 </html>
