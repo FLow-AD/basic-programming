@@ -1,8 +1,13 @@
 <!--
   week02.html
-  Version: 2.2
-  Date: 2026-10-05
-  Changes: v2.2 adds a "Latihan mandiri (acak per NIM)" section at the end
+  Version: 2.3
+  Date: 2026-10-11
+  Changes: v2.3 replaces "NIM" with "NRP" everywhere it is shown to the student (the practice
+  section title and table-of-contents entry, the input label and its empty-input
+  message, the practice intro paragraph, and the "Tugas" callout); no other content,
+  code, ids, or class names changed. Earlier entries below keep the old wording
+  as history.
+  v2.2 adds a "Latihan mandiri (acak per NIM)" section at the end
   of the page: a self-check practice widget (assets/practice.js) where a
   student types their NIM and gets five short questions generated from it
   as a random seed -- same NIM always regenerates the same questions,
@@ -86,7 +91,7 @@
       <li><a href="#metode">Metode list</a></li>
       <li><a href="#tuple">Tuple</a></li>
       <li><a href="#packing">Packing &amp; unpacking</a></li>
-      <li><a href="#latihan-mandiri">Latihan mandiri (acak per NIM)</a></li>
+      <li><a href="#latihan-mandiri">Latihan mandiri (acak per NRP)</a></li>
     </ol>
   </nav>
   </aside>
@@ -427,14 +432,14 @@ s1, s2, s3, s4, s5 = t</code></pre>
 
   <div class="callout">
     <p class="callout-title">Tugas minggu ini</p>
-    <p>Tugas Lini Perakitan Mini (list bersarang dan tuple pada kasus sederhana keseimbangan lini) dibagikan lewat MORNING, dengan data yang berbeda untuk tiap NIM. Kumpulkan sebelum pertemuan Minggu 3.</p>
+    <p>Tugas Lini Perakitan Mini (list bersarang dan tuple pada kasus sederhana keseimbangan lini) dibagikan lewat MORNING, dengan data yang berbeda untuk tiap NRP. Kumpulkan sebelum pertemuan Minggu 3.</p>
   </div>
 
-  <h2 id="latihan-mandiri">Latihan mandiri (acak per NIM)</h2>
-  <p>Lima soal singkat dibuat otomatis memakai NIM kamu sebagai kunci acak: NIM yang sama akan selalu mendapat soal yang sama persis (jadi bisa dicoba ulang kapan saja), sementara NIM yang berbeda mendapat soal yang berbeda. Ini murni untuk mengecek pemahaman sendiri &mdash; tidak dikumpulkan ke mana pun dan tidak menggantikan Tugas resmi di atas.</p>
-  <div class="practice-widget" data-topic="lists" data-q-label="Soal" data-reveal-label="Tampilkan jawaban" data-empty-msg="Masukkan NIM dulu, ya.">
+  <h2 id="latihan-mandiri">Latihan mandiri (acak per NRP)</h2>
+  <p>Lima soal singkat dibuat otomatis memakai NRP kamu sebagai kunci acak: NRP yang sama akan selalu mendapat soal yang sama persis (jadi bisa dicoba ulang kapan saja), sementara NRP yang berbeda mendapat soal yang berbeda. Ini murni untuk mengecek pemahaman sendiri &mdash; tidak dikumpulkan ke mana pun dan tidak menggantikan Tugas resmi di atas.</p>
+  <div class="practice-widget" data-topic="lists" data-q-label="Soal" data-reveal-label="Tampilkan jawaban" data-empty-msg="Masukkan NRP dulu, ya.">
     <div class="practice-form">
-      <label for="nrp-input-lists">NIM</label>
+      <label for="nrp-input-lists">NRP</label>
       <input type="text" id="nrp-input-lists" class="practice-nrp-input" inputmode="numeric" placeholder="mis. 5025123456" autocomplete="off">
       <button type="button" class="practice-generate-btn">Buat soal</button>
     </div>
@@ -453,7 +458,7 @@ s1, s2, s3, s4, s5 = t</code></pre>
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Halaman v2.2 &middot; 5 Oktober 2026</span>
+    <span>Halaman v2.3 &middot; 11 Oktober 2026</span>
   </div>
 </footer>
 

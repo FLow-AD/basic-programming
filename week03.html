@@ -1,8 +1,25 @@
 <!--
   week03.html
-  Version: 2.2
-  Date: 2026-10-05
-  Changes: v2.2 adds a "Self-check practice (random per NIM)" section at
+  Version: 3.1
+  Date: 2026-10-11
+  Changes: v3.1 replaces "NIM" with "NRP" everywhere it is shown to the student (the practice
+  section title and table-of-contents entry, the input label and its empty-input
+  message, the practice intro paragraph, and the "Tugas" callout); no other content,
+  code, ids, or class names changed. Earlier entries below keep the old wording
+  as history.
+  v3.0 translates the whole page from English to Indonesian so
+  Week 2 and Week 3 are consistent with the rest of the site (request
+  from Flo). Translated: page title/description, skip link, nav labels,
+  table of contents, all headings, prose, snippet labels, "Show result"
+  buttons, tag labels, reveal notes, the reference table, comparison
+  table, assignment callout, practice section (incl. widget labels) and
+  footer; <html lang> switched from "en" to "id". Technical terms
+  (dictionary, key, value, list, tuple, mutable, hashable, ...) are kept
+  in English, matching week02.html. Code, printed output, ids, and class
+  names are unchanged, and the dictionary-comment lines inside two code
+  snippets were translated (comments only, no behavior change);
+  re-validated with check_pages.py and the tag-balance check.
+  v2.2 adds a "Self-check practice (random per NIM)" section at
   the end of the page: a self-check widget (assets/practice.js) where a
   student types their NIM and gets five short questions generated from it
   as a random seed -- same NIM always regenerates the same questions,
@@ -21,7 +38,7 @@
   v1.1: adds Week 4-7 links to the top nav and wires up the
   "Next" prevnext link to week04.html (no other content changes).
   v1.0: First version. Covers the Dictionaries deck, in English per
-  request. Preserves the deck's own pink/green/yellow example coding
+  request (superseded by v3.0, which is Indonesian). Preserves the deck's own pink/green/yellow example coding
   (pink = wrong technique or a "watch out" gotcha, green = correct and
   succeeds, amber/yellow = correct syntax but an edge case or informative
   exception) using a new .compare-col.warn CSS variant. All ~40 code
@@ -29,16 +46,16 @@
   automatically against this file before publishing.
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 3: Dictionaries &middot; Pemrograman Komputer</title>
-<meta name="description" content="What a dictionary is, how it differs from a list, keys vs. indices, dictionary methods, sorting, and safe lookups with .get().">
+<title>Minggu 3: Dictionaries &middot; Pemrograman Komputer</title>
+<meta name="description" content="Apa itu dictionary, bedanya dengan list, key vs. indeks, metode dictionary, pengurutan, dan pencarian aman dengan .get().">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<a class="skip-link" href="#konten">Skip to content</a>
+<a class="skip-link" href="#konten">Langsung ke konten</a>
 
 <header class="site-header">
   <div class="header-inner">
@@ -46,58 +63,58 @@
       <span class="course-code">IEC304202223</span>
       <a href="index.html">Pemrograman Komputer</a>
     </div>
-    <nav class="top-nav" aria-label="Main navigation">
-      <a href="index.html">Syllabus</a>
-      <a href="week01.html">Week 1</a>
-      <a href="week02.html">Week 2</a>
-      <a href="week03.html" aria-current="page">Week 3</a>
-      <a href="week04.html">Week 4</a>
-      <a href="week05.html">Week 5</a>
-      <a href="week06.html">Week 6</a>
-      <a href="week07.html">Week 7</a>
+    <nav class="top-nav" aria-label="Navigasi utama">
+      <a href="index.html">Silabus</a>
+      <a href="week01.html">Minggu 1</a>
+      <a href="week02.html">Minggu 2</a>
+      <a href="week03.html" aria-current="page">Minggu 3</a>
+      <a href="week04.html">Minggu 4</a>
+      <a href="week05.html">Minggu 5</a>
+      <a href="week06.html">Minggu 6</a>
+      <a href="week07.html">Minggu 7</a>
     </nav>
-    <button class="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+    <button class="theme-toggle" type="button" aria-pressed="false">Mode gelap</button>
   </div>
 </header>
 
 <main id="konten">
   <div class="page-head">
-    <p class="eyebrow">Week 3 &middot; September 29 &amp; 30, 2026</p>
+    <p class="eyebrow">Minggu 3 &middot; 29 &amp; 30 September 2026</p>
     <h1>Data Dinamis: Dictionaries</h1>
-    <p class="subtitle">A structure that maps <strong>keys</strong> to <strong>values</strong> instead of positions to items, so you look things up by name, not by counting slots.</p>
+    <p class="subtitle">Struktur yang memetakan <strong>key</strong> ke <strong>value</strong>, bukan posisi ke item, jadi kamu mencari data lewat namanya, bukan dengan menghitung slot.</p>
   </div>
 
   <div class="cols">
   <aside class="sidenav">
-  <nav class="toc" aria-label="Table of contents">
-    <p class="toc-title">On this page</p>
+  <nav class="toc" aria-label="Daftar isi">
+    <p class="toc-title">Daftar isi</p>
     <ol>
-      <li><a href="#apa-itu">What is a dictionary?</a></li>
-      <li><a href="#membuat">Creating a dictionary</a></li>
-      <li><a href="#akses">Accessing contents: keys, not indices</a></li>
-      <li><a href="#ubah">Adding, updating, deleting</a></li>
-      <li><a href="#batasan">Constraints</a></li>
-      <li><a href="#bertahap">Building one step by step</a></li>
-      <li><a href="#operator">Operators: in, not in, len</a></li>
-      <li><a href="#metode">Methods</a></li>
-      <li><a href="#urut">Sorting a dictionary</a></li>
+      <li><a href="#apa-itu">Apa itu dictionary?</a></li>
+      <li><a href="#membuat">Membuat dictionary</a></li>
+      <li><a href="#akses">Mengakses isi: key, bukan indeks</a></li>
+      <li><a href="#ubah">Menambah, mengubah, menghapus</a></li>
+      <li><a href="#batasan">Batasan</a></li>
+      <li><a href="#bertahap">Membangun langkah demi langkah</a></li>
+      <li><a href="#operator">Operator: in, not in, len</a></li>
+      <li><a href="#metode">Metode</a></li>
+      <li><a href="#urut">Mengurutkan dictionary</a></li>
       <li><a href="#vs-list">Dictionary vs. list</a></li>
-      <li><a href="#latihan-mandiri">Self-check practice (random per NIM)</a></li>
+      <li><a href="#latihan-mandiri">Latihan mandiri (acak per NRP)</a></li>
     </ol>
   </nav>
   </aside>
   <div class="content">
 
-  <h2 id="apa-itu">What is a dictionary?</h2>
-  <p>A dictionary is one of Python's composite data types, like a list, it can hold a collection of data. It is also known as an <em>associative array</em>: a set of <strong>key&ndash;value</strong> pairs written inside curly braces <code>{ }</code>.</p>
+  <h2 id="apa-itu">Apa itu dictionary?</h2>
+  <p>Dictionary adalah salah satu tipe data komposit Python; seperti list, ia dapat menyimpan koleksi data. Dictionary juga dikenal sebagai <em>associative array</em>: kumpulan pasangan <strong>key&ndash;value</strong> yang ditulis di dalam kurung kurawal <code>{ }</code>.</p>
   <pre><code>d = {
     &lt;key&gt;: &lt;value&gt;,
     &lt;key&gt;: &lt;value&gt;,
     ...
     &lt;key&gt;: &lt;value&gt;
 }</code></pre>
-  <div class="fixed-note"><strong>Note:</strong> this is notation, not runnable code: <code>&lt;key&gt;</code> and <code>&lt;value&gt;</code> are placeholders.</div>
-  <p>A dictionary mapping a Major League Baseball city to its team, used throughout this page:</p>
+  <div class="fixed-note"><strong>Catatan:</strong> ini hanya notasi, bukan kode yang bisa dijalankan: <code>&lt;key&gt;</code> dan <code>&lt;value&gt;</code> adalah placeholder.</div>
+  <p>Dictionary yang memetakan kota Major League Baseball ke timnya, dipakai di seluruh halaman ini:</p>
   <div class="snippet">
     <pre><code>MLB_team = {
     'Colorado' : 'Rockies',
@@ -108,13 +125,13 @@
 }</code></pre>
   </div>
 
-  <h3>Dictionary vs. list, at a glance</h3>
-  <p>Both are <em>mutable</em>, both are dynamic in size, and both can nest, meaning a list can hold a sub-list and a dictionary can hold another dictionary; they are also interchangeable, a dictionary can hold a list and a list can hold a dictionary. The real difference is <strong>how you reach an element</strong>: a list uses an <strong>index</strong> that marks a position, a dictionary uses a <strong>key</strong> that marks an association. The rest of this page is mostly about the consequences of that one difference.</p>
+  <h3>Dictionary vs. list, sekilas</h3>
+  <p>Keduanya <em>mutable</em>, ukurannya dinamis, dan keduanya bisa bersarang: list bisa berisi sub-list dan dictionary bisa berisi dictionary lain; keduanya juga bisa saling menampung, dictionary bisa berisi list dan list bisa berisi dictionary. Perbedaan sebenarnya ada pada <strong>cara mengakses elemen</strong>: list memakai <strong>indeks</strong> yang menandai posisi, dictionary memakai <strong>key</strong> yang menandai asosiasi. Sisa halaman ini sebagian besar membahas akibat dari satu perbedaan itu.</p>
 
-  <h2 id="membuat">Creating a dictionary</h2>
-  <p>Besides writing the literal directly, <code>dict()</code> builds one from a sequence of key&ndash;value pairs:</p>
+  <h2 id="membuat">Membuat dictionary</h2>
+  <p>Selain menulis literal langsung, <code>dict()</code> membuat dictionary dari urutan pasangan key&ndash;value:</p>
   <div class="snippet">
-    <p class="snippet-label">From a list of tuples</p>
+    <p class="snippet-label">Dari list berisi tuple</p>
     <pre><code>MLB_team = dict([
     ('Colorado', 'Rockies'),
     ('Boston', 'Red Sox'),
@@ -124,12 +141,12 @@
 ])
 print(MLB_team)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{'Colorado': 'Rockies', 'Boston': 'Red Sox', 'Minnesota': 'Twins', 'Milwaukee': 'Brewers', 'Seattle': 'Mariners'}</code></pre></div>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">With keyword arguments (only works when every key is a plain identifier-like string)</p>
+    <p class="snippet-label">Dengan keyword argument (hanya bisa kalau setiap key berupa string yang bentuknya seperti identifier biasa)</p>
     <pre><code>MLB_team = dict(
     Colorado='Rockies',
     Boston='Red Sox',
@@ -139,165 +156,165 @@ print(MLB_team)</code></pre>
 )
 print(type(MLB_team))</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>&lt;class 'dict'&gt;</code></pre></div>
     </details>
   </div>
 
-  <h2 id="akses">Accessing contents: keys, not indices</h2>
-  <p>Entries appear in the order you wrote them (dictionaries have kept insertion order since Python 3.7), but you still cannot reach an item using a positional index the way you would with a list:</p>
+  <h2 id="akses">Mengakses isi: key, bukan indeks</h2>
+  <p>Entri muncul sesuai urutan penulisannya (dictionary menyimpan urutan penyisipan sejak Python 3.7), tetapi kamu tetap tidak bisa mengakses item lewat indeks posisi seperti pada list:</p>
   <div class="compare-grid cols-3">
     <div class="compare-col no">
-      <span class="tag">Wrong &mdash; treated like a list</span>
+      <span class="tag">Salah &mdash; diperlakukan seperti list</span>
       <pre><code>&gt;&gt;&gt; MLB_team[1]</code></pre>
-      <p class="reveal-note"><code>KeyError: 1</code>. There is no key <code>1</code> in this dictionary.</p>
+      <p class="reveal-note"><code>KeyError: 1</code>. Tidak ada key <code>1</code> di dictionary ini.</p>
     </div>
     <div class="compare-col yes">
-      <span class="tag">Correct &mdash; existing keys</span>
+      <span class="tag">Benar &mdash; key yang ada</span>
       <pre><code>&gt;&gt;&gt; MLB_team['Minnesota']
 'Twins'
 &gt;&gt;&gt; MLB_team['Colorado']
 'Rockies'</code></pre>
     </div>
     <div class="compare-col warn">
-      <span class="tag">Correct syntax, undefined key</span>
+      <span class="tag">Sintaks benar, key tidak terdefinisi</span>
       <pre><code>&gt;&gt;&gt; MLB_team['Toronto']</code></pre>
-      <p class="reveal-note"><code>KeyError: 'Toronto'</code>. Right technique, this key just does not exist.</p>
+      <p class="reveal-note"><code>KeyError: 'Toronto'</code>. Caranya sudah benar, hanya saja key ini memang tidak ada.</p>
     </div>
   </div>
-  <p>Both the pink and amber boxes raise a <code>KeyError</code>, but for different reasons: the pink example uses the wrong approach entirely (indexing like a list), while the amber example uses the right approach on a key that is simply not there: a distinction worth keeping straight, since the fix is different each time (use a key, vs. check the key exists first).</p>
+  <p>Kotak pink dan kotak amber sama-sama memunculkan <code>KeyError</code>, tetapi dengan alasan berbeda: contoh pink memakai pendekatan yang salah sama sekali (mengindeks seperti list), sedangkan contoh amber memakai pendekatan yang benar pada key yang memang tidak ada. Perbedaan ini penting dipegang karena perbaikannya berbeda tiap kali (pakai key, atau periksa dulu bahwa key itu ada).</p>
 
-  <h2 id="ubah">Adding, updating, deleting</h2>
-  <p>Assign to a new key to add an entry, assign to an existing key to update it:</p>
+  <h2 id="ubah">Menambah, mengubah, menghapus</h2>
+  <p>Isi key baru untuk menambah entri, isi key yang sudah ada untuk mengubahnya:</p>
   <div class="snippet">
     <pre><code>MLB_team['Kansas City'] = 'Royals'
 print(MLB_team)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{'Colorado': 'Rockies', 'Boston': 'Red Sox', 'Minnesota': 'Twins', 'Milwaukee': 'Brewers', 'Seattle': 'Mariners', 'Kansas City': 'Royals'}</code></pre></div>
-      <p class="reveal-note">A new key is appended at the end, in insertion order.</p>
+      <p class="reveal-note">Key baru ditambahkan di bagian akhir, sesuai urutan penyisipan.</p>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label">Same syntax, but the key already exists</p>
+    <p class="snippet-label">Sintaks sama, tapi key-nya sudah ada</p>
     <pre><code>MLB_team['Seattle'] = 'Seahawks'
 print(MLB_team)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{'Colorado': 'Rockies', 'Boston': 'Red Sox', 'Minnesota': 'Twins', 'Milwaukee': 'Brewers', 'Seattle': 'Seahawks', 'Kansas City': 'Royals'}</code></pre></div>
-      <p class="reveal-note">'Seattle' keeps its original position; only its value changed.</p>
+      <p class="reveal-note">'Seattle' tetap di posisi semula; hanya value-nya yang berubah.</p>
     </details>
   </div>
-  <p>Delete an entry with <code>del</code> and its key:</p>
+  <p>Hapus entri dengan <code>del</code> dan key-nya:</p>
   <div class="snippet">
     <pre><code>del MLB_team['Seattle']
 print(MLB_team)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{'Colorado': 'Rockies', 'Boston': 'Red Sox', 'Minnesota': 'Twins', 'Milwaukee': 'Brewers', 'Kansas City': 'Royals'}</code></pre></div>
     </details>
   </div>
 
-  <h2 id="batasan">Constraints</h2>
-  <p>A dictionary's values can be of any type and any type may repeat; the picture is different for keys.</p>
+  <h2 id="batasan">Batasan</h2>
+  <p>Value pada dictionary boleh bertipe apa saja dan boleh berulang; untuk key, ceritanya berbeda.</p>
 
-  <h3>1. A key can only appear once</h3>
-  <p>These two boxes do not crash, but instead demonstrate the same gotcha two different ways: writing the same key again never creates a second entry, it silently overwrites the first.</p>
+  <h3>1. Sebuah key hanya boleh muncul sekali</h3>
+  <p>Kedua kotak ini tidak menyebabkan crash, tetapi memperlihatkan jebakan yang sama dengan dua cara: menulis key yang sama lagi tidak pernah membuat entri kedua, melainkan diam-diam menimpa yang pertama.</p>
   <div class="compare-grid">
     <div class="compare-col no">
-      <span class="tag">Watch out &mdash; reassigning after the fact</span>
+      <span class="tag">Hati-hati &mdash; menimpa setelah dibuat</span>
       <pre><code>MLB_team = {'Colorado': 'Rockies', 'Boston': 'Red Sox',
             'Minnesota': 'Twins', 'Milwaukee': 'Brewers',
             'Seattle': 'Mariners'}
 MLB_team['Minnesota'] = 'Timberwolves'
 MLB_team</code></pre>
-      <p class="reveal-note"><code>'Minnesota'</code> now maps to <code>'Timberwolves'</code>, still one entry.</p>
+      <p class="reveal-note"><code>'Minnesota'</code> kini dipetakan ke <code>'Timberwolves'</code>, tetap satu entri.</p>
     </div>
     <div class="compare-col no">
-      <span class="tag">Watch out &mdash; duplicated inside one literal</span>
+      <span class="tag">Hati-hati &mdash; terduplikasi di dalam satu literal</span>
       <pre><code>MLB_team = {'Colorado': 'Rockies', 'Boston': 'Red Sox',
             'Minnesota': 'Twins', 'Milwaukee': 'Brewers',
             'Seattle': 'Mariners', 'Minnesota': 'Twins'}
 MLB_team</code></pre>
-      <p class="reveal-note">Python keeps only the last <code>'Minnesota'</code>: still 5 keys, not 6.</p>
+      <p class="reveal-note">Python hanya menyimpan <code>'Minnesota'</code> yang terakhir: tetap 5 key, bukan 6.</p>
     </div>
   </div>
 
-  <h3>2. A key should be an immutable (hashable) type</h3>
-  <p>Integers, floats, strings, booleans and tuples work as keys. Lists do not, because lists are mutable.</p>
+  <h3>2. Key sebaiknya bertipe immutable (hashable)</h3>
+  <p>Integer, float, string, boolean, dan tuple bisa dipakai sebagai key. List tidak bisa, karena list itu mutable.</p>
   <div class="compare-grid">
     <div class="compare-col warn">
-      <span class="tag">Tuple keys work</span>
+      <span class="tag">Key tuple bisa</span>
       <pre><code>d = {(1, 1): 'a', (1, 2): 'b', (2, 1): 'c', (2, 2): 'd'}
 d[(1,1)]
 d[(2,1)]</code></pre>
-      <p class="reveal-note">Results: <code>'a'</code>, then <code>'c'</code>.</p>
+      <p class="reveal-note">Hasilnya: <code>'a'</code>, lalu <code>'c'</code>.</p>
     </div>
     <div class="compare-col no">
-      <span class="tag">List keys don't</span>
+      <span class="tag">Key list tidak bisa</span>
       <pre><code>d = {[1, 1]: 'a', [1, 2]: 'b', [2, 1]: 'c', [2, 2]: 'd'}</code></pre>
       <p class="reveal-note"><code>TypeError: unhashable type: 'list'</code></p>
     </div>
   </div>
 
-  <h3>3. Values may repeat freely</h3>
+  <h3>3. Value boleh berulang bebas</h3>
   <div class="snippet">
     <pre><code>d = {0: 'a', 1: 'a', 2: 'a', 3: 'a'}
 print(d)
 print(d[0] == d[1] == d[2])</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{0: 'a', 1: 'a', 2: 'a', 3: 'a'}
 True</code></pre></div>
     </details>
   </div>
 
-  <h3>Keys that happen to be integers are still keys, not positions</h3>
+  <h3>Key yang kebetulan berupa integer tetaplah key, bukan posisi</h3>
   <div class="compare-grid">
     <div class="compare-col no">
-      <span class="tag">Wrong &mdash; treated like a list</span>
+      <span class="tag">Salah &mdash; diperlakukan seperti list</span>
       <pre><code>MLB_team['Toronto']
 MLB_team[1]</code></pre>
-      <p class="reveal-note">Both raise <code>KeyError</code>: undefined key, and numerical index respectively.</p>
+      <p class="reveal-note">Keduanya memunculkan <code>KeyError</code>: masing-masing karena key tidak terdefinisi dan karena indeks numerik.</p>
     </div>
     <div class="compare-col warn">
-      <span class="tag">These 0, 1, 2, 3 are keys, not indices</span>
+      <span class="tag">0, 1, 2, 3 ini adalah key, bukan indeks</span>
       <pre><code>d = {0: 'a', 1: 'b', 2: 'c', 3: 'd'}
 d
 d[0]
 d[2]</code></pre>
-      <p class="reveal-note">Works, but only because <code>0</code> and <code>2</code> are genuinely keys in <code>d</code>.</p>
+      <p class="reveal-note">Bisa jalan, tapi hanya karena <code>0</code> dan <code>2</code> memang benar-benar key di <code>d</code>.</p>
     </div>
   </div>
-  <p>Reversing the order the pairs were written makes no difference to a lookup; a key's position never matters, only its value:</p>
+  <p>Membalik urutan penulisan pasangan tidak mengubah hasil pencarian; posisi sebuah key tidak pernah menentukan, hanya pasangan key&ndash;value-nya:</p>
   <div class="snippet">
     <pre><code>d = {3: 'd', 2: 'c', 1: 'b', 0: 'a'}
 print(d)
 print(d[0])
 print(d[2])</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{3: 'd', 2: 'c', 1: 'b', 0: 'a'}
 a
 c</code></pre></div>
-      <p class="reveal-note">Same answers as before, even though the pairs were listed in the opposite order.</p>
+      <p class="reveal-note">Jawabannya sama seperti sebelumnya, walaupun urutan pasangannya dibalik.</p>
     </details>
   </div>
 
-  <h3>A dictionary is not a list</h3>
-  <p>Even though the syntax looks related, a dictionary shares none of a list's positional operations:</p>
+  <h3>Dictionary bukan list</h3>
+  <p>Meski sintaksnya tampak mirip, dictionary tidak punya satu pun operasi posisional milik list:</p>
   <div class="compare-col no" style="margin: 14px 0 20px;">
-    <span class="tag">All three fail</span>
+    <span class="tag">Ketiganya gagal</span>
     <pre><code>d = {3: 'd', 2: 'c', 1: 'b', 0: 'a'}
 type(d)
 d[-1]
 d[0:2]
 d.append('e')</code></pre>
-    <p class="reveal-note"><code>type(d)</code> is <code>&lt;class 'dict'&gt;</code>. Then: <code>d[-1]</code> &rarr; <code>KeyError: -1</code> (no key <code>-1</code> here, negative indexing is a list/string idea); <code>d[0:2]</code> &rarr; <code>TypeError: unhashable type: 'slice'</code> (slicing needs positions, a dict has none); <code>d.append('e')</code> &rarr; <code>AttributeError: 'dict' object has no attribute 'append'</code> (dictionaries grow through keys, not <code>append</code>).</p>
+    <p class="reveal-note"><code>type(d)</code> adalah <code>&lt;class 'dict'&gt;</code>. Lalu: <code>d[-1]</code> &rarr; <code>KeyError: -1</code> (tidak ada key <code>-1</code> di sini; indeks negatif adalah konsep list/string); <code>d[0:2]</code> &rarr; <code>TypeError: unhashable type: 'slice'</code> (slicing butuh posisi, sedangkan dictionary tidak punya); <code>d.append('e')</code> &rarr; <code>AttributeError: 'dict' object has no attribute 'append'</code> (dictionary bertambah lewat key, bukan <code>append</code>).</p>
   </div>
 
-  <h2 id="bertahap">Building one step by step</h2>
-  <p>Start from an empty dictionary and fill it in one key at a time, useful when the data does not all arrive at once:</p>
+  <h2 id="bertahap">Membangun langkah demi langkah</h2>
+  <p>Mulai dari dictionary kosong dan isi satu key demi satu key, berguna kalau datanya tidak datang sekaligus:</p>
   <div class="snippet">
     <pre><code>person = {}
 print(type(person))
@@ -310,25 +327,25 @@ person['children'] = ['Ralph', 'Betty', 'Joey']
 person['pets'] = {'dog': 'Fido', 'cat': 'Sox'}
 print(person)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>&lt;class 'dict'&gt;
 {'fname': 'Joe', 'lname': 'Fonebone', 'age': 51, 'spouse': 'Edna', 'children': ['Ralph', 'Betty', 'Joey'], 'pets': {'dog': 'Fido', 'cat': 'Sox'}}</code></pre></div>
-      <p class="reveal-note">A value can be a list, or even another dictionary, since dictionaries nest just like lists.</p>
+      <p class="reveal-note">Value bisa berupa list, bahkan dictionary lain, karena dictionary bisa bersarang seperti list.</p>
     </details>
   </div>
-  <p>Reach into a nested value by chaining another index or key on the end:</p>
+  <p>Masuk ke value bersarang dengan menambahkan indeks atau key lain di ujungnya:</p>
   <div class="snippet">
     <pre><code>print(person['children'][-1])
 print(person['pets']['cat'])</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>Joey
 Sox</code></pre></div>
-      <p class="reveal-note"><code>person['children']</code> is a list, so <code>[-1]</code> is a list index on it; <code>person['pets']</code> is a dict, so <code>['cat']</code> is a key on it.</p>
+      <p class="reveal-note"><code>person['children']</code> adalah list, jadi <code>[-1]</code> adalah indeks list; <code>person['pets']</code> adalah dictionary, jadi <code>['cat']</code> adalah key-nya.</p>
     </details>
   </div>
 
-  <h3>Values and keys can mix types freely</h3>
+  <h3>Key dan value boleh bercampur tipe</h3>
   <div class="snippet">
     <pre><code>foo = {42: 'aaa', 2.78: 'bbb', True: 'ccc'}
 print(foo)
@@ -336,15 +353,15 @@ print(foo[42])
 print(foo[2.78])
 print(foo[True])</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{42: 'aaa', 2.78: 'bbb', True: 'ccc'}
 aaa
 bbb
 ccc</code></pre></div>
-      <p class="reveal-note">One dictionary, three different key types (<code>int</code>, <code>float</code>, <code>bool</code>) and one value per key, all legal because all three types are hashable.</p>
+      <p class="reveal-note">Satu dictionary, tiga tipe key berbeda (<code>int</code>, <code>float</code>, <code>bool</code>) dan satu value per key, semuanya sah karena ketiga tipe itu hashable.</p>
     </details>
   </div>
-  <p>Even a type object or a built-in function can be a key, since they are hashable too:</p>
+  <p>Bahkan objek tipe atau fungsi bawaan bisa jadi key, karena keduanya juga hashable:</p>
   <div class="snippet">
     <pre><code>d = {int: 1, float: 2, bool: 3}
 print(d)
@@ -353,7 +370,7 @@ print(d[float])
 d = {bin: 1, hex: 2, oct: 3}
 print(d[oct])</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{&lt;class 'int'&gt;: 1, &lt;class 'float'&gt;: 2, &lt;class 'bool'&gt;: 3}
 2
 3</code></pre></div>
@@ -361,7 +378,7 @@ print(d[oct])</code></pre>
   </div>
 
   <h2 id="operator">Operators: in, not in, len</h2>
-  <p>The membership and sizing operators that already work on strings, lists and tuples work on dictionaries too, specifically on their <strong>keys</strong>:</p>
+  <p>Operator keanggotaan dan ukuran yang sudah dikenal pada string, list, dan tuple juga bekerja pada dictionary, tepatnya pada <strong>key</strong>-nya:</p>
   <div class="snippet">
     <pre><code>MLB_team = {'Colorado': 'Rockies', 'Boston': 'Red Sox',
             'Minnesota': 'Twins', 'Milwaukee': 'Brewers',
@@ -370,40 +387,40 @@ print('Milwaukee' in MLB_team)
 print('Toronto' in MLB_team)
 print('Toronto' not in MLB_team)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>True
 False
 True</code></pre></div>
     </details>
   </div>
   <div class="compare-col yes" style="margin: 14px 0 20px;">
-    <span class="tag">A safe pattern worth adopting</span>
+    <span class="tag">Pola aman yang layak dipakai</span>
     <pre><code>'Toronto' in MLB_team and MLB_team['Toronto']</code></pre>
-    <p class="reveal-note">Evaluates to <code>False</code>, not an error: <code>and</code> short-circuits, so <code>MLB_team['Toronto']</code> is never actually reached once the membership check fails. This is the same idea the assignment's Part C and D lean on, just spelled with <code>in</code> instead of <code>.get()</code>.</p>
+    <p class="reveal-note">Hasilnya <code>False</code>, bukan error: <code>and</code> berhenti lebih awal (short-circuit), jadi <code>MLB_team['Toronto']</code> tidak pernah dijalankan begitu pemeriksaan keanggotaan gagal. Ini ide yang sama dengan Bagian C dan D pada tugas, hanya ditulis dengan <code>in</code> alih-alih <code>.get()</code>.</p>
   </div>
   <div class="snippet">
     <pre><code>print(len(MLB_team))</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>5</code></pre></div>
     </details>
   </div>
 
-  <h2 id="metode">Methods</h2>
+  <h2 id="metode">Metode</h2>
   <details class="ref-block">
-    <summary>Reference: the 8 dictionary methods on this page</summary>
+    <summary>Referensi: 8 metode dictionary di halaman ini</summary>
     <div class="ref-body">
       <table>
-        <thead><tr><th>Method</th><th>Purpose</th></tr></thead>
+        <thead><tr><th>Metode</th><th>Fungsi</th></tr></thead>
         <tbody>
-          <tr><td><code>d.clear()</code></td><td>Removes every entry from <code>d</code>.</td></tr>
-          <tr><td><code>d.get(key[, default])</code></td><td>Returns the value for <code>key</code>, or <code>default</code> (or <code>None</code>) if it is missing; never raises.</td></tr>
-          <tr><td><code>d.items()</code></td><td>A view of <code>(key, value)</code> tuples.</td></tr>
-          <tr><td><code>d.keys()</code></td><td>A view of the keys.</td></tr>
-          <tr><td><code>d.values()</code></td><td>A view of the values.</td></tr>
-          <tr><td><code>d.pop(key[, default])</code></td><td>Removes <code>key</code> and returns its value; raises <code>KeyError</code> unless a <code>default</code> is given.</td></tr>
-          <tr><td><code>d.popitem()</code></td><td>Removes and returns the last inserted pair.</td></tr>
-          <tr><td><code>d.update(other)</code></td><td>Merges <code>other</code> into <code>d</code> (a dict, a list of pairs, or keyword args).</td></tr>
+          <tr><td><code>d.clear()</code></td><td>Menghapus seluruh entri dari <code>d</code>.</td></tr>
+          <tr><td><code>d.get(key[, default])</code></td><td>Mengembalikan value untuk <code>key</code>, atau <code>default</code> (atau <code>None</code>) kalau key tidak ada; tidak pernah error.</td></tr>
+          <tr><td><code>d.items()</code></td><td>View berisi tuple <code>(key, value)</code>.</td></tr>
+          <tr><td><code>d.keys()</code></td><td>View berisi key.</td></tr>
+          <tr><td><code>d.values()</code></td><td>View berisi value.</td></tr>
+          <tr><td><code>d.pop(key[, default])</code></td><td>Menghapus <code>key</code> dan mengembalikan value-nya; memunculkan <code>KeyError</code> kecuali <code>default</code> diberikan.</td></tr>
+          <tr><td><code>d.popitem()</code></td><td>Menghapus dan mengembalikan pasangan yang terakhir disisipkan.</td></tr>
+          <tr><td><code>d.update(other)</code></td><td>Menggabungkan <code>other</code> ke dalam <code>d</code> (berupa dictionary, list berisi pasangan, atau keyword argument).</td></tr>
         </tbody>
       </table>
     </div>
@@ -416,53 +433,53 @@ print(d)
 d.clear()
 print(d)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{'a': 10, 'b': 20, 'c': 30}
 {}</code></pre></div>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.get()</code>: the safe way to read a value that might not be there</p>
+    <p class="snippet-label"><code>d.get()</code>: cara aman membaca value yang mungkin tidak ada</p>
     <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 print(d.get('b'))
 print(d.get('z'))
 print(d.get('z', -1))</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>20
 None
 -1</code></pre></div>
-      <p class="reveal-note">Compare with <code>d['z']</code>, which would raise <code>KeyError</code> instead of returning <code>None</code>.</p>
+      <p class="reveal-note">Bandingkan dengan <code>d['z']</code>, yang memunculkan <code>KeyError</code> alih-alih mengembalikan <code>None</code>.</p>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.items()</code> and <code>d.keys()</code></p>
+    <p class="snippet-label"><code>d.items()</code> dan <code>d.keys()</code></p>
     <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 print(list(d.items()))
 print(list(d.items())[1][0])
 print(list(d.items())[1][1])
 print(list(d.keys()))</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>[('a', 10), ('b', 20), ('c', 30)]
 b
 20
 ['a', 'b', 'c']</code></pre></div>
-      <p class="reveal-note">Each item is a <code>(key, value)</code> tuple, so <code>[1][0]</code> is the second pair's key and <code>[1][1]</code> is its value.</p>
+      <p class="reveal-note">Tiap item adalah tuple <code>(key, value)</code>, jadi <code>[1][0]</code> adalah key pasangan kedua dan <code>[1][1]</code> adalah value-nya.</p>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.values()</code>: not deduplicated</p>
+    <p class="snippet-label"><code>d.values()</code>: tidak dihapus duplikatnya</p>
     <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 print(list(d.values()))
 
 d = {'a': 10, 'b': 10, 'c': 10}
 print(list(d.values()))</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>[10, 20, 30]
 [10, 10, 10]</code></pre></div>
-      <p class="reveal-note">Repeated values stay repeated; unlike keys, values are not required to be unique (Constraint 3 above).</p>
+      <p class="reveal-note">Value yang berulang tetap berulang; tidak seperti key, value tidak harus unik (Batasan 3 di atas).</p>
     </details>
   </div>
   <div class="snippet">
@@ -471,28 +488,28 @@ print(list(d.values()))</code></pre>
 print(d.pop('b'))
 print(d)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>20
 {'a': 10, 'c': 30}</code></pre></div>
-      <p class="reveal-note"><code>pop()</code> returns the removed value, not the whole dictionary.</p>
+      <p class="reveal-note"><code>pop()</code> mengembalikan value yang dihapus, bukan seluruh dictionary.</p>
     </details>
   </div>
   <div class="compare-grid">
     <div class="compare-col no">
-      <span class="tag">Missing key, no default</span>
+      <span class="tag">Key tidak ada, tanpa default</span>
       <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 d.pop('z')</code></pre>
       <p class="reveal-note"><code>KeyError: 'z'</code></p>
     </div>
     <div class="compare-col yes">
-      <span class="tag">Missing key, with a default</span>
+      <span class="tag">Key tidak ada, dengan default</span>
       <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 d.pop('z', -1)</code></pre>
-      <p class="reveal-note">Returns <code>-1</code>, no crash, same idea as <code>.get()</code>.</p>
+      <p class="reveal-note">Mengembalikan <code>-1</code>, tanpa crash, ide yang sama dengan <code>.get()</code>.</p>
     </div>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.popitem()</code>: always removes the most recently added pair</p>
+    <p class="snippet-label"><code>d.popitem()</code>: selalu menghapus pasangan yang paling baru ditambahkan</p>
     <pre><code>d = {'a': 10, 'b': 20, 'c': 30}
 print(d.popitem())
 print(d)
@@ -501,27 +518,27 @@ print(d)
 print(d.popitem())
 print(d)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>('c', 30)
 {'a': 10, 'b': 20}
 ('b', 20)
 {'a': 10}
 ('a', 10)
 {}</code></pre></div>
-      <p class="reveal-note">Each call peels off one pair from the end, most-recently-inserted first.</p>
+      <p class="reveal-note">Tiap pemanggilan mengambil satu pasangan dari ujung, yang paling baru disisipkan lebih dulu.</p>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.popitem()</code> on an already-empty dictionary</p>
+    <p class="snippet-label"><code>d.popitem()</code> pada dictionary yang sudah kosong</p>
     <pre><code>d = {}
 d.popitem()</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output is-error"><pre><code>KeyError: 'popitem(): dictionary is empty'</code></pre></div>
     </details>
   </div>
   <div class="snippet">
-    <p class="snippet-label"><code>d.update()</code>: three equivalent ways to merge in <code>{'b': 200, 'd': 400}</code></p>
+    <p class="snippet-label"><code>d.update()</code>: tiga cara setara untuk menggabungkan <code>{'b': 200, 'd': 400}</code></p>
     <pre><code>d1 = {'a': 10, 'b': 20, 'c': 30}
 d2 = {'b': 200, 'd': 400}
 d1.update(d2)
@@ -535,29 +552,29 @@ d1 = {'a': 10, 'b': 20, 'c': 30}
 d1.update(b=200, d=400)
 print(d1)</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{'a': 10, 'b': 200, 'c': 30, 'd': 400}
 {'a': 10, 'b': 200, 'c': 30, 'd': 400}
 {'a': 10, 'b': 200, 'c': 30, 'd': 400}</code></pre></div>
-      <p class="reveal-note">All three calls produce the exact same result: existing keys (<code>'b'</code>) get overwritten, new keys (<code>'d'</code>) get added.</p>
+      <p class="reveal-note">Ketiga pemanggilan menghasilkan hasil yang persis sama: key yang sudah ada (<code>'b'</code>) ditimpa, key baru (<code>'d'</code>) ditambahkan.</p>
     </details>
   </div>
 
-  <h2 id="urut">Sorting a dictionary</h2>
-  <p>Dictionaries have no built-in order to rearrange. Instead, sort the <code>.items()</code> and rebuild a dictionary from the result. Sorting by key is the default; sorting by value needs a <code>key=lambda</code>, exactly as with lists:</p>
+  <h2 id="urut">Mengurutkan dictionary</h2>
+  <p>Dictionary tidak punya urutan bawaan yang bisa disusun ulang. Sebagai gantinya, urutkan <code>.items()</code> lalu bangun dictionary baru dari hasilnya. Mengurutkan berdasarkan key adalah perilaku bawaan; berdasarkan value perlu <code>key=lambda</code>, persis seperti pada list:</p>
   <div class="snippet">
     <pre><code>people = {3: 'Jim', 2: 'Jack', 4: 'Jane', 1: 'Jill'}
 
-# Sorting by key
+# Urutkan berdasarkan key
 print(dict(sorted(people.items())))
 
-# Sorting by value
+# Urutkan berdasarkan value
 print(dict(sorted(people.items(), key=lambda item: item[1])))</code></pre>
     <details class="reveal">
-      <summary class="reveal-btn">Show result</summary>
+      <summary class="reveal-btn">Lihat hasil</summary>
       <div class="reveal-output"><pre><code>{1: 'Jill', 2: 'Jack', 3: 'Jim', 4: 'Jane'}
 {2: 'Jack', 4: 'Jane', 1: 'Jill', 3: 'Jim'}</code></pre></div>
-      <p class="reveal-note"><code>item</code> is a <code>(key, value)</code> tuple, so <code>item[1]</code> sorts by value; <code>[0][0]</code> or <code>[-1][0]</code> on the sorted list then gives the smallest- or largest-value key without building the whole sorted dict, which is exactly the trick the assignment's <code>cheapest_product</code>/<code>priciest_product</code> use.</p>
+      <p class="reveal-note"><code>item</code> adalah tuple <code>(key, value)</code>, jadi <code>item[1]</code> mengurutkan berdasarkan value; <code>[0][0]</code> atau <code>[-1][0]</code> pada list hasil urutan lalu memberi key dengan value terkecil atau terbesar tanpa membangun seluruh dictionary terurut, persis trik yang dipakai <code>cheapest_product</code>/<code>priciest_product</code> pada tugas.</p>
     </details>
   </div>
 
@@ -565,33 +582,33 @@ print(dict(sorted(people.items(), key=lambda item: item[1])))</code></pre>
   <table>
     <thead><tr><th>List</th><th>Dictionary</th></tr></thead>
     <tbody>
-      <tr><td>Has an order (ordered)</td><td>Insertion order is kept (Python 3.7+), but there is no positional order to index into</td></tr>
-      <tr><td>Stores data linearly, each item gets a numeric index</td><td>Stores data as key&ndash;value pairs, each key maps to a value</td></tr>
-      <tr><td>Access and modify using an index</td><td>Access using a key</td></tr>
-      <tr><td>Faster to access an item by index</td><td>Faster to look an item up by its matching key</td></tr>
+      <tr><td>Punya urutan (ordered)</td><td>Urutan penyisipan tetap terjaga (Python 3.7+), tetapi tidak ada urutan posisional untuk diindeks</td></tr>
+      <tr><td>Menyimpan data secara linear, tiap item mendapat indeks numerik</td><td>Menyimpan data sebagai pasangan key&ndash;value, tiap key dipetakan ke satu value</td></tr>
+      <tr><td>Akses dan ubah lewat indeks</td><td>Akses lewat key</td></tr>
+      <tr><td>Lebih cepat mengakses item lewat indeks</td><td>Lebih cepat mencari item lewat key yang cocok</td></tr>
     </tbody>
   </table>
 
   <div class="callout">
-    <p class="callout-title">This week's assignment</p>
-    <p>Tugas 03: Toko ABC Inventory (dictionaries: building a catalog, updating and removing entries, safe lookups with <code>.get()</code>, and sorting) is shared via MORNING, with different starting data for every NIM. Submit before the Week 4 class (October 6 or 7, 2026).</p>
+    <p class="callout-title">Tugas minggu ini</p>
+    <p>Tugas 03: Inventaris Toko ABC (dictionary: membangun katalog, memperbarui dan menghapus entri, pencarian aman dengan <code>.get()</code>, dan pengurutan) dibagikan lewat MORNING, dengan data awal yang berbeda untuk tiap NRP. Kumpulkan sebelum pertemuan Minggu 4 (6 atau 7 Oktober 2026).</p>
   </div>
 
-  <h2 id="latihan-mandiri">Self-check practice (random per NIM)</h2>
-  <p>Five short questions, generated automatically using your NIM as the random seed: the same NIM always regenerates the exact same questions (so you can retry any time), a different NIM gets different ones. This is purely for checking your own understanding &mdash; nothing here is submitted anywhere, and it doesn't replace the real assignment above.</p>
-  <div class="practice-widget" data-topic="dicts" data-q-label="Question" data-reveal-label="Show answer" data-empty-msg="Enter your NIM first.">
+  <h2 id="latihan-mandiri">Latihan mandiri (acak per NRP)</h2>
+  <p>Lima soal singkat dibuat otomatis memakai NRP kamu sebagai kunci acak: NRP yang sama akan selalu mendapat soal yang sama persis (jadi bisa dicoba ulang kapan saja), sementara NRP yang berbeda mendapat soal yang berbeda. Ini murni untuk mengecek pemahaman sendiri: tidak ada yang dikumpulkan ke mana pun dan ini tidak menggantikan Tugas resmi di atas.</p>
+  <div class="practice-widget" data-topic="dicts" data-q-label="Soal" data-reveal-label="Tampilkan jawaban" data-empty-msg="Masukkan NRP dulu, ya.">
     <div class="practice-form">
-      <label for="nrp-input-dicts">NIM</label>
-      <input type="text" id="nrp-input-dicts" class="practice-nrp-input" inputmode="numeric" placeholder="e.g. 5025123456" autocomplete="off">
-      <button type="button" class="practice-generate-btn">Generate questions</button>
+      <label for="nrp-input-dicts">NRP</label>
+      <input type="text" id="nrp-input-dicts" class="practice-nrp-input" inputmode="numeric" placeholder="mis. 5025123456" autocomplete="off">
+      <button type="button" class="practice-generate-btn">Buat soal</button>
     </div>
     <p class="practice-error-msg" role="alert"></p>
     <div class="practice-questions"></div>
   </div>
 
   <div class="prevnext">
-    <a href="week02.html"><span class="dir">Previous</span>&larr; Week 2: Lists &amp; Tuples</a>
-    <a href="week04.html"><span class="dir">Next</span>Week 4: Sets &rarr;</a>
+    <a href="week02.html"><span class="dir">Sebelumnya</span>&larr; Minggu 2: List &amp; Tuple</a>
+    <a href="week04.html"><span class="dir">Berikutnya</span>Minggu 4: Sets &rarr;</a>
   </div>
   </div>
   </div>
@@ -600,7 +617,7 @@ print(dict(sorted(people.items(), key=lambda item: item[1])))</code></pre>
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Page v2.2 &middot; October 5, 2026</span>
+    <span>Halaman v3.1 &middot; 11 Oktober 2026</span>
   </div>
 </footer>
 

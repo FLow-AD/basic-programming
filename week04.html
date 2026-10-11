@@ -1,8 +1,13 @@
 <!--
   week04.html
-  Version: 2.2
-  Date: 2026-10-05
-  Changes: v2.2 adds a "Latihan mandiri (acak per NIM)" section before
+  Version: 2.3
+  Date: 2026-10-11
+  Changes: v2.3 replaces "NIM" with "NRP" everywhere it is shown to the student (the practice
+  section title and table-of-contents entry, the input label and its empty-input
+  message, the practice intro paragraph, and the "Tugas" callout); no other content,
+  code, ids, or class names changed. Earlier entries below keep the old wording
+  as history.
+  v2.2 adds a "Latihan mandiri (acak per NIM)" section before
   the closing "Lanjut ke mana?" callout: a self-check practice widget
   (assets/practice.js) where a student types their NIM and gets five
   short questions generated from it as a random seed -- same NIM always
@@ -93,7 +98,7 @@
       <li><a href="#relasi">Memeriksa relasi antar set</a></li>
       <li><a href="#modifikasi">Memodifikasi set</a></li>
       <li><a href="#frozenset">Frozenset</a></li>
-      <li><a href="#latihan-mandiri">Latihan mandiri (acak per NIM)</a></li>
+      <li><a href="#latihan-mandiri">Latihan mandiri (acak per NRP)</a></li>
     </ol>
   </nav>
   </aside>
@@ -729,11 +734,11 @@ print(d)</code></pre>
     </div>
   </div>
 
-  <h2 id="latihan-mandiri">Latihan mandiri (acak per NIM)</h2>
-  <p>Lima soal singkat dibuat otomatis memakai NIM kamu sebagai kunci acak: NIM yang sama akan selalu mendapat soal yang sama persis (jadi bisa dicoba ulang kapan saja), sementara NIM yang berbeda mendapat soal yang berbeda. Ini murni untuk mengecek pemahaman sendiri &mdash; tidak dikumpulkan ke mana pun, dan Minggu 4 belum punya Tugas resmi yang dikumpulkan.</p>
-  <div class="practice-widget" data-topic="sets" data-q-label="Soal" data-reveal-label="Tampilkan jawaban" data-empty-msg="Masukkan NIM dulu, ya.">
+  <h2 id="latihan-mandiri">Latihan mandiri (acak per NRP)</h2>
+  <p>Lima soal singkat dibuat otomatis memakai NRP kamu sebagai kunci acak: NRP yang sama akan selalu mendapat soal yang sama persis (jadi bisa dicoba ulang kapan saja), sementara NRP yang berbeda mendapat soal yang berbeda. Ini murni untuk mengecek pemahaman sendiri &mdash; tidak dikumpulkan ke mana pun, dan Minggu 4 belum punya Tugas resmi yang dikumpulkan.</p>
+  <div class="practice-widget" data-topic="sets" data-q-label="Soal" data-reveal-label="Tampilkan jawaban" data-empty-msg="Masukkan NRP dulu, ya.">
     <div class="practice-form">
-      <label for="nrp-input-sets">NIM</label>
+      <label for="nrp-input-sets">NRP</label>
       <input type="text" id="nrp-input-sets" class="practice-nrp-input" inputmode="numeric" placeholder="mis. 5025123456" autocomplete="off">
       <button type="button" class="practice-generate-btn">Buat soal</button>
     </div>
@@ -757,7 +762,7 @@ print(d)</code></pre>
 <footer class="page-footer">
   <div class="footer-inner">
     <span>IEC304202223 Pemrograman Komputer &middot; Florence Leony</span>
-    <span>Halaman v2.2 &middot; 5 Oktober 2026</span>
+    <span>Halaman v2.3 &middot; 11 Oktober 2026</span>
   </div>
 </footer>
 
